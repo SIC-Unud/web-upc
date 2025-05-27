@@ -22,3 +22,17 @@
     --font-koulen: "Koulen", sans-serif;
     --font-sans-lao: "Noto Sans Lao", sans-serif;
 }
+
+@keyframes marquee {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee .marquee-group {
+    animation: marquee 10s linear infinite;
+}
+
+.marquee .marquee-group:hover {
+    animation-play-state: paused;
+}

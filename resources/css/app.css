@@ -5,7 +5,12 @@
 
 @font-face {
     font-family: "Lao";
-    src: url("~font/LaoMuangDon-Regular.ttf");
+    src: url("~font/LaoMuangDon-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Novaria";
+    src: url("~font/Novaria Vista.ttf") format("truetype");
 }
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -19,6 +24,7 @@
         "Noto Color Emoji";
     --font-julius: "Julius Sans One", sans-serif;
     --font-lao: "Lao", sans-serif;
+    --font-novaria: "Novaria", sans-serif;
     --font-koulen: "Koulen", sans-serif;
     --font-sans-lao: "Noto Sans Lao", sans-serif;
 }

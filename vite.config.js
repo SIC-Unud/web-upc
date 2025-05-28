@@ -17,7 +17,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            "~font": path.resolve(__dirname, "resources/public/assets/fonts/"),
+            "~font": path.resolve(__dirname, "public/assets/fonts"),
         },
     },
 });

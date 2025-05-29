@@ -14,14 +14,32 @@ return [
 
     'schedules' => [
         'wave_1' => [
-            'start' => '',
-            'end' => ''
+            'name' => 'Pendaftaran Gelombang I',
+            'start' => '2025-06-22 00:00:00',
+            'end' => '2025-07-25 23:59:59'
         ],
         'wave_2' => [
+            'name' => 'Pendaftaran Gelombang II',
             'start' => '',
             'end' => ''
         ],
         'wave_3' => [
+            'name' => 'Pendaftaran Gelombang II',
+            'start' => '',
+            'end' => ''
+        ],
+        'technical_meeting' => [
+            'name' => 'Technical Meeting',
+            'start' => '',
+            'end' => ''
+        ],
+        'preliminary_round' => [
+            'name' => 'Babak Penyisihan',
+            'start' => '',
+            'end' => ''
+        ],
+        'main_event' => [
+            'name' => 'Puncak Acara (Semi Final & Final)',
             'start' => '',
             'end' => ''
         ]

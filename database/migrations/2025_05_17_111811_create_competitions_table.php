@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('slug', 50)->unique();
+            $table->string('code', 6);
             $table->string('icon_competition');
             $table->string('degree', 25);
             $table->double('wave_1_price');

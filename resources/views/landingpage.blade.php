@@ -13,9 +13,9 @@
       ];
    @endphp
    <div class="bg-black flex justify-between relative overflow-visible px-4">
-      <img src="/assets/Logolayout.png" alt="" class="w-11 py-4 md:w-28 md:pl-[30px] md:py-[19px]">
+      <img src="/assets/landing/Logolayout.png" alt="" class="w-11 py-4 md:w-28 md:pl-[30px] md:py-[19px]">
       <button class="tombolMenu cursor-pointer">
-         <img src="/assets/garis3.png" alt="" class="w-5 py-4 md:w-18 md:py-[19px] md:pr-[30px]">
+         <img src="/assets/landing/garis3.png" alt="" class="w-5 py-4 md:w-18 md:py-[19px] md:pr-[30px]">
       </button>
       <div
          class="h-1 bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
@@ -52,20 +52,20 @@
       </div>
    </div>
 
-   <div class="bg-[url(../../public/assets/image-9.png)] bg-black bg-cover overflow-hidden relative">
+   <div class="bg-[url(../../public/assets/landing/image-9.png)] bg-black bg-cover overflow-hidden relative">
       <div class="flex items-center justify-center">
-         <img class="hidden md:block md:w-90" src="/assets/PurpleCat.png" alt="">
+         <img class="hidden md:block md:w-90" src="/assets/landing/PurpleCat.png" alt="">
          <div class="mt-7">
             <h1 class="text-white text-[13px] text-center font-julius md:flex md:text-2xl md:mb-5 md:justify-center">
                UDAYANA PHYSICS CHAMPIONSHIP</h1>
             <div class="flex justify-center">
-               <img class="flex mt-3 w-[246px] md:w-[450px]" src="/assets/Logo.png" alt="">
+               <img class="flex mt-3 w-[246px] md:w-[450px]" src="/assets/landing/Logo.png" alt="">
             </div>
          </div>
-         <img class="hidden md:block md:w-94" src="/assets/YellowCat.png" alt="">
+         <img class="hidden md:block md:w-94" src="/assets/landing/YellowCat.png" alt="">
       </div>
       <div class="flex justify-center items-center w-full">
-         <img class="w-[80px] relative z-10 md:hidden" src="/assets/PurpleCat.png" alt="">
+         <img class="w-[80px] relative z-10 md:hidden" src="/assets/landing/PurpleCat.png" alt="">
          <a href="/register"
             class="mx-5 cursor-pointer relative z-10 flex w-fit justify-center items-center py-4 px-[12px] backdrop-blur-sm bg-white/10 md:py-[30px] md:px-[30px] md:mt-5">
             <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
@@ -79,44 +79,44 @@
                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
          </a>
-         <img class="w-[80px] relative z-10 md:hidden" src="/assets/YellowCat.png" alt="">
+         <img class="w-[80px] relative z-10 md:hidden" src="/assets/landing/YellowCat.png" alt="">
       </div>
       <div
          class="w-full z-0 absolute bg-gradient-to-b from-transparent via-black to-transparent h-30 -bottom-15 from-0% via-60% to-95% md:h-30">
       </div>
    </div>
 
-   <div class="bg-[url(../../public/assets/latar2.png)] bg-black bg-cover">
+   <div class="bg-[url(../../public/assets/landing/latar2.png)] bg-black bg-cover">
       <div class="px-4 overflow-x-auto md:px-18 md:pt-[10px]">
          <div class="flex gap-2 w-fit snap-x md:w-auto md:gap-[29px]">
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto1.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto1.png"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto2.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto2.png"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto3.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto3.png"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto4.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto4.png"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto5.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto5.png"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/foto6.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/foto6.png"
                   alt="">
             </div>
          </div>
@@ -125,7 +125,7 @@
       <div class="flex items-center ml-10 mt-12 md:ml-35 md:mt-22">
          <div class="w-full">
             <div class="md:pb-12 pb-3 relative flex justify-center">
-               <img class="w-17 md:w-90" src="/assets/LogoDesc.png" alt="">
+               <img class="w-17 md:w-90" src="/assets/landing/LogoDesc.png" alt="">
                <div
                   class="h-0.5 md:h-1 bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
                </div>
@@ -152,7 +152,7 @@
                Esai dan Poster Digital (untuk siswa SMA/SMK/MA dan mahasiswa se-Indonesia).</h1>
          </div>
          <div class="overflow-hidden">
-            <img class="relative object-cover -right-8 w-60 md:w-auto md:static" src="/assets/siapa ya.png" alt="">
+            <img class="relative object-cover -right-8 w-60 md:w-auto md:static" src="/assets/landing/siapa ya.png" alt="">
          </div>
       </div>
 
@@ -174,31 +174,31 @@
          <div
             class="mt-5 justify-evenly items-center text-[8px] flex font-lao md:w-full md:flex-wrap lg:flex-nowrap md:mt-10 md:gap-9 md:text-xl">
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/SD.png" alt="">
+               <img class="" src="/assets/landing/SD.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Cerdas Cermat SD</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/SMP.png" alt="">
+               <img class="" src="/assets/landing/SMP.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Fisika SMP</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/SMA.png" alt="">
+               <img class="" src="/assets/landing/SMA.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Fisika SMA</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/kebumian.png" alt="">
+               <img class="" src="/assets/landing/kebumian.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Kebumian</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/astronomi.png" alt="">
+               <img class="" src="/assets/landing/astronomi.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Astronomi</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/essai.png" alt="">
+               <img class="" src="/assets/landing/essai.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Essai</h1>
             </div>
             <div class="w-16 md:w-32">
-               <img class="" src="/assets/poster_ilmiah.png" alt="">
+               <img class="" src="/assets/landing/poster_ilmiah.png" alt="">
                <h1 class="text-wrap text-center text-white mt-2.5">Kompetisi Poster Ilmiah</h1>
             </div>
          </div>
@@ -223,7 +223,7 @@
                            <h3 class="font-medium text-xs md:text-lg">{{ $item['title'] }}</h3>
                            <div class="text-[8px] md:text-base">{{ $item['date'] }}</div>
                         </div>
-                        <img src="/assets/star.png" alt="" class="size-6">
+                        <img src="/assets/landing/star.png" alt="" class="size-6">
                      </div>
                   </div>
                @elseif (!$loop->last)
@@ -233,7 +233,7 @@
                   @endif
                   <div>
                      <div @class(['item', 'reverse' => $loop->odd])>
-                        <img src="/assets/star.png" alt="" class="size-6">
+                        <img src="/assets/landing/star.png" alt="" class="size-6">
                         <div>
                            <h3 class="font-medium text-xs md:text-lg">{{ $item['title'] }}</h3>
                            <div class="text-[8px] md:text-base">{{ $item['date'] }}</div>
@@ -248,7 +248,7 @@
                   <div class="col-span-3">
                      <div
                         class="flex items-center justify-center gap-6 w-fit max-w-1/2 mx-auto translate-x-[calc(50%-12px)]">
-                        <img src="/assets/star.png" alt="" class="size-6">
+                        <img src="/assets/landing/star.png" alt="" class="size-6">
                         <div class="w-full">
                            <h3 class="font-medium text-xs text-wrap break-words whitespace-normal md:text-lg">
                               {{ $item['title'] }}</h3>
@@ -278,17 +278,17 @@
 
       <div class="flex items-center mr-10 mt-12 md:mr-35 md:mt-43">
          <div class="overflow-hidden w-70 md:w-100">
-            <img class="relative -left-1 md:static" src="/assets/cat-purple.png" alt="">
+            <img class="relative -left-1 md:static" src="/assets/landing/cat-purple.png" alt="">
          </div>
          <div
             class="relative flex-grow bg-[#D9D9D9]/14 backdrop-blur-sm p-3 border border-white md:px-[55px] md:py-[51px] md:w-[962px]">
-            <img class="w-8 absolute -top-[2px] -left-[2px] md:-top-2.5 md:w-auto md:-left-2.5" src="/assets/bazel1.png"
+            <img class="w-8 absolute -top-[2px] -left-[2px] md:-top-2.5 md:w-auto md:-left-2.5" src="/assets/landing/bazel1.png"
                alt="">
             <img class="w-8 absolute -bottom-[2px] -right-[2px] md:-bottom-2.5 md:w-auto md:-right-2.5"
-               src="/assets/bazel2.png" alt="">
+               src="/assets/landing/bazel2.png" alt="">
             <div class="flex border-b border-white mb-2 pb-2 md:pb-8 md:mb-9">
                <div class="mr-2 md:mr-16 h-fit bg-[#5ACEF2] rounded-full shrink-0">
-                  <img class="w-8 md:w-27" src="/assets/profil.png" alt="">
+                  <img class="w-8 md:w-27" src="/assets/landing/profil.png" alt="">
                </div>
                <div class="text-white">
                   <h1 class="text-[7px] md:text-2xl font-koulen">Ni Kadek Belinda Maheswari Prahsini </h1>
@@ -301,7 +301,7 @@
             </div>
             <div class="flex border-b border-white mb-2 pb-2 md:pb-8 md:mb-9">
                <div class="mr-2 md:mr-16 h-fit bg-[#5ACEF2] rounded-full shrink-0">
-                  <img class="w-8 md:w-27" src="/assets/profil.png" alt="">
+                  <img class="w-8 md:w-27" src="/assets/landing/profil.png" alt="">
                </div>
                <div class="text-white">
                   <h1 class="text-[7px] md:text-2xl font-koulen">Wilson Sidarta Putra Lohanata</h1>
@@ -314,7 +314,7 @@
             </div>
             <div class="flex">
                <div class="mr-2 md:mr-16 h-fit bg-[#5ACEF2] rounded-full shrink-0">
-                  <img class="w-8 md:w-27" src="/assets/profil.png" alt="">
+                  <img class="w-8 md:w-27" src="/assets/landing/profil.png" alt="">
                </div>
                <div class="text-white">
                   <h1 class="text-[10px] md:text-2xl font-koulen">Putu Devika Raisa Nayuri</h1>
@@ -350,10 +350,10 @@
                </div>
                <div class="marquee-group flex gap-10 w-max pl-10">
                   @for ($i = 0; $i < 2; $i++)
-                     <img src="/assets/fokus-event.png" alt="" class="h-20 sm:h-50 item">
-                     <img src="/assets/gudang-lomba.png" alt="" class="h-20 sm:h-50 item">
-                     <img src="/assets/info-lomba.png" alt="" class="h-20 sm:h-50 item">
-                     <img src="/assets/lomba-SMA.png" alt="" class="h-20 sm:h-50 item">
+                     <img src="/assets/landing/fokus-event.png" alt="" class="h-20 sm:h-50 item">
+                     <img src="/assets/landing/gudang-lomba.png" alt="" class="h-20 sm:h-50 item">
+                     <img src="/assets/landing/info-lomba.png" alt="" class="h-20 sm:h-50 item">
+                     <img src="/assets/landing/lomba-SMA.png" alt="" class="h-20 sm:h-50 item">
                   @endfor
                </div>
             </div>

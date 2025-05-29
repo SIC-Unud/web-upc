@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('competition_id');
             $table->text('question');
             $table->string('question_image')->nullable();
-            $table->char('question_answer_key');
+            $table->foreignId('question_answer_key');
             $table->integer('question_score');
             $table->timestamps();
         });

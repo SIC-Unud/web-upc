@@ -42,3 +42,45 @@
 .marquee .marquee-group:hover {
     animation-play-state: paused;
 }
+
+#timeline .item {
+    @apply flex items-center gap-6;
+}
+
+#timeline .item.reverse {
+    @apply flex-row-reverse;
+}
+
+#timeline .item.end {
+    @apply justify-end;
+}
+
+#timeline .line {
+    @apply h-40;
+}
+
+#timeline .line>div {
+    background: linear-gradient(to top right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) calc(50% - 0.8px),
+            rgba(255, 255, 255, 1) 50%,
+            rgba(255, 255, 255, 0) calc(50% + 0.8px),
+            rgba(255, 255, 255, 0) 100%);
+}
+
+#timeline .line.right>div {
+    background: linear-gradient(to top left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) calc(50% - 0.8px),
+            rgba(255, 255, 255, 1) 50%,
+            rgba(255, 255, 255, 0) calc(50% + 0.8px),
+            rgba(255, 255, 255, 0) 100%);
+}
+
+#timeline .line.first {
+    @apply w-1/2 ml-auto;
+}
+
+#timeline .line.last {
+    @apply w-1/2 me-auto;
+}

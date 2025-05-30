@@ -54,7 +54,7 @@
 
    <div class="bg-[url(../../public/assets/landing/image-9.png)] bg-black bg-cover overflow-hidden relative">
       <div class="flex items-center justify-center">
-         <img class="hidden md:block md:w-90" src="/assets/landing/PurpleCat.png" alt="">
+         <img class="hidden md:block md:w-80" src="/assets/landing/PurpleCat.png" alt="">
          <div class="mt-7">
             <h1 class="text-white text-[13px] text-center font-julius md:flex md:text-2xl md:mb-5 md:justify-center">
                UDAYANA PHYSICS CHAMPIONSHIP</h1>
@@ -62,12 +62,12 @@
                <img class="flex mt-3 w-[246px] md:w-[450px]" src="/assets/landing/Logo.png" alt="">
             </div>
          </div>
-         <img class="hidden md:block md:w-94" src="/assets/landing/YellowCat.png" alt="">
+         <img class="hidden md:block md:w-84" src="/assets/landing/YellowCat.png" alt="">
       </div>
       <div class="flex justify-center items-center w-full">
          <img class="w-[80px] relative z-10 md:hidden" src="/assets/landing/PurpleCat.png" alt="">
          <a href="/register"
-            class="mx-5 cursor-pointer relative z-10 flex w-fit justify-center items-center py-4 px-[12px] backdrop-blur-sm bg-white/10 md:py-[30px] md:px-[30px] md:mt-5">
+            class="mx-5 cursor-pointer relative z-10 flex w-fit justify-center items-center py-4 px-[12px] backdrop-blur-sm bg-white/10 md:py-[30px] md:px-[30px]">
             <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
             <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
             <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>

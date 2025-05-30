@@ -11,7 +11,8 @@ class Member extends Model
         'name',
         'student_id',
         'date_of_birth',
-        'no_wa'
+        'no_wa',
+        'email'
     ];
 
     public function participant()

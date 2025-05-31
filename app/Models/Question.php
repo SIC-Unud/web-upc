@@ -8,6 +8,7 @@ class Question extends Model
 {
     protected $fillable = [
         'competition_id',
+        'is_simulation',
         'question',
         'question_image',
         'question_answer_key',

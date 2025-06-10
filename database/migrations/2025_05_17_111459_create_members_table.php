@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('student_id', 50);
             $table->date('date_of_birth');
             $table->string('no_wa', 20);
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

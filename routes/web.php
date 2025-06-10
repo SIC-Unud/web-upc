@@ -42,12 +42,12 @@ Route::get('/coba', function () {
         ->download('invoice-' . $data->no_registration . '.pdf');
 });
 
-Route::get('/invoice/download/{no_registration}', function ($no_registration) {
+Route::get('/invoice/{no_registration}', function ($no_registration) {
     return generateInvoice($no_registration);
 })->name('invoice.download');
 
 Route::get('/coba2', function() {
-    return view('pdf.invoice.team');
+    return view('pdf.invoice.individual');
 });
 
 Route::get('/coba3', function() {

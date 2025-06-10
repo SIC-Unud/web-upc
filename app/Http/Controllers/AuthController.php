@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Log;
 
 class AuthController extends Controller
 {
@@ -111,7 +112,6 @@ class AuthController extends Controller
         if (!isset($validated['total'])) {
             $validated['total'] = $validated['subtotal'];
         }
-
         
         DB::beginTransaction();
         try {
@@ -139,15 +139,19 @@ class AuthController extends Controller
     
             Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration));
             
-            return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
+            // return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
 
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Data berhasil disimpan.',
-            //     'data' => $validated
-            // ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan.',
+                'data' => $validated
+            ], 201);
         } catch (\Throwable $e) {
             DB::rollBack();
+            Log::error('Gagal menyimpan peserta', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
 
             return response()->json([
                 'success' => false,

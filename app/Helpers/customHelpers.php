@@ -24,7 +24,7 @@ if (!function_exists('generateRegistrationCode')) {
 
 if (!function_exists('generateInvoice')) {
     function generateInvoice($no_registration) {
-        $data = Participant::with('user','competition', 'members')->where('no_registration',$no_registration );
+        $data = Participant::with('user','competition', 'members')->where('no_registration',$no_registration)->first();
     
         $view = '';
 

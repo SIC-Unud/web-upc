@@ -19,7 +19,7 @@
             <div class="flex items-center justify-center w-[30%] border-r-[1px] border-gray-800">
                 <img src="{{ public_path('storage/' . $data->pass_photo) }}" alt="Avatar" class="w-[160px] h-[200px] object-cover rounded-md border">
             </div>
-            <div class="ml-6 grid grid-cols-[30%,70%] text-[12px] w-[70%] my-2">
+            {{-- <div class="ml-6 grid grid-cols-[30%,70%] text-[12px] w-[70%] my-2">
                 <div class="font-bold">No. Registrasi</div><div>: {{ $data->no_registration }} </div>
                 <div class="font-bold">Waktu Registrasi</div><div>: {{ $data->created_at }}</div>
                 <div class="font-bold">Nama Lengkap</div><div>: {{ $data->leader_name }}</div>
@@ -31,6 +31,19 @@
                 <div class="font-bold">Asal Sekolah</div><div>: {{ $data->institution }}</div>
                 <div class="font-bold">Provinsi</div><div>: {{ $data->institution_province }}</div>
                 <div class="font-bold">Kabupaten / Kota</div><div>: {{ $data->institution_city }}</div>
+            </div> --}}
+            <div class="ml-6 grid grid-cols-[30%,2%,68%] text-[12px] w-[70%] my-2">
+                <div class="font-bold">No. Registrasi</div><div>:</div><div>{{ $data->no_registration }}</div>
+                <div class="font-bold">Waktu Registrasi</div><div>:</div><div>{{ $data->created_at }}</div>
+                <div class="font-bold">Nama Lengkap</div><div>:</div><div>{{ $data->leader_name }}</div>
+                <div class="font-bold">NISN / NIM</div><div>:</div><div>{{ $data->leader_student_id }}</div>
+                <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->leader_date_of_birth }}</div>
+                <div class="font-bold">Jenis Kelamin</div><div>:</div><div>{{ $data->leader_gender }}</div>
+                <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->leader_no_wa }}</div>
+                <div class="font-bold">Email</div><div>:</div><div>{{ $data->user->email }}</div>
+                <div class="font-bold">Asal Sekolah</div><div>:</div><div>{{ $data->institution }}</div>
+                <div class="font-bold">Provinsi</div><div>:</div><div>{{ $data->institution_province }}</div>
+                <div class="font-bold">Kabupaten / Kota</div><div>:</div><div>{{ $data->institution_city }}</div>
             </div>
         </div>
 
@@ -66,7 +79,7 @@
         
 
         <!-- Catatan -->
-        <p class="text-xs text-justify leading-relaxed border border-gray-800 p-2 mt-[210px]">
+        <p class="text-xs text-justify leading-relaxed border border-gray-800 p-2 mt-[180px]">
             Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-semibold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilakan untuk menghubungi CP Humas UPC 2025 yang tertera pada bagian header formulir.
         </p>
     </div>

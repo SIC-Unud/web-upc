@@ -19,7 +19,7 @@
             <div class="flex items-center justify-center w-[30%] border-r-[1px] border-gray-800">
                 <img src="{{ public_path('storage/' . $data->pass_photo) }}" alt="Avatar" class="w-[160px] h-[200px] object-cover rounded-md border">
             </div>
-            <div class="ml-6 grid grid-cols-[30%,70%] text-[12px] w-[70%] my-2">
+            {{-- <div class="ml-6 grid grid-cols-[30%,70%] text-[12px] w-[70%] my-2">
                 <div class="font-bold">No. Registrasi</div><div>: {{ $data->no_registration }} </div>
                 <div class="font-bold">Waktu Registrasi</div><div>: {{ $data->created_at }}</div>
                 <div class="font-bold">Nama Lengkap</div><div>: {{ $data->leader_name }}</div>
@@ -31,28 +31,55 @@
                 <div class="font-bold">Asal Sekolah</div><div>: {{ $data->institution }}</div>
                 <div class="font-bold">Provinsi</div><div>: {{ $data->institution_province }}</div>
                 <div class="font-bold">Kabupaten / Kota</div><div>: {{ $data->institution_city }}</div>
+            </div> --}}
+            <div class="ml-6 grid grid-cols-[38%,2%,60%] text-[12px] w-[70%] my-2">
+                <div class="font-bold">No. Registrasi</div><div>:</div><div>{{ $data->no_registration }}</div>
+                <div class="font-bold">Waktu Registrasi</div><div>:</div><div>{{ $data->created_at }}</div>
+                <div class="font-bold">Nama Lengkap</div><div>:</div><div>{{ $data->leader_name }}</div>
+                <div class="font-bold">NISN / NIM</div><div>:</div><div>{{ $data->leader_student_id }}</div>
+                <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->leader_date_of_birth }}</div>
+                <div class="font-bold">Jenis Kelamin</div><div>:</div><div>{{ $data->leader_gender }}</div>
+                <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->leader_no_wa }}</div>
+                <div class="font-bold">Email</div><div>:</div><div>{{ $data->user->email }}</div>
+                <div class="font-bold">Asal Sekolah</div><div>:</div><div>{{ $data->institution }}</div>
+                <div class="font-bold">Provinsi</div><div>:</div><div>{{ $data->institution_province }}</div>
+                <div class="font-bold">Kabupaten / Kota</div><div>:</div><div>{{ $data->institution_city }}</div>
             </div>
         </div>
 
         <div class="flex justify-between gap-2 mb-2">
             <div class="flex flex-col border border-gray-800 w-[50%]">
                 <p class="text-[20px] font-bold mt-2.5 text-center">Anggota 1</p>
-                <div class="ml-6 grid grid-cols-[40%,60%] text-[12px] w-[70%] my-2">
+                {{-- <div class="ml-6 grid grid-cols-[40%,60%] text-[12px] w-[70%] my-2">
                     <div class="font-bold">Nama Lengkap</div><div>: {{ $data->members[0]->name }}</div>
                     <div class="font-bold">NISN / NIM</div><div>: {{ $data->members[0]->participant_id }}</div>
                     <div class="font-bold">Tanggal Lahir</div><div>: {{ $data->members[0]->date_of_birth }}</div>
                     <div class="font-bold">No. Handphone</div><div>: {{ $data->members[0]->no_wa }}</div>
                     <div class="font-bold">Email</div><div>: {{ $data->members[0]->email }}</div>
+                </div> --}}
+                <div class="ml-6 grid grid-cols-[38%,2%,60%] text-[12px] w-[90%] my-2">
+                    <div class="font-bold">Nama Lengkap</div><div>:</div><div>{{ $data->members[0]->name }}</div>
+                    <div class="font-bold">NISN / NIM</div><div>:</div><div>{{ $data->members[0]->participant_id }}</div>
+                    <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->members[0]->date_of_birth }}</div>
+                    <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->members[0]->no_wa }}</div>
+                    <div class="font-bold">Email</div><div>:</div><div>{{ $data->members[0]->email }}</div>
                 </div>
             </div>
             <div class="flex flex-col border border-gray-800 w-[50%]">
                 <p class="text-[20px] font-bold mt-2.5 text-center">Anggota 2</p>
-                <div class="ml-6 grid grid-cols-[40%,60%] text-[12px] w-[70%] my-2">
+                {{-- <div class="ml-6 grid grid-cols-[40%,60%] text-[12px] w-[70%] my-2">
                     <div class="font-bold">Nama Lengkap</div><div>: {{ $data->members[1]->name }}</div>
                     <div class="font-bold">NISN / NIM</div><div>: {{ $data->members[1]->participant_id }}</div>
                     <div class="font-bold">Tanggal Lahir</div><div>: {{ $data->members[1]->date_of_birth }}</div>
                     <div class="font-bold">No. Handphone</div><div>: {{ $data->members[1]->no_wa }}</div>
                     <div class="font-bold">Email</div><div>: {{ $data->members[1]->email }}</div>
+                </div> --}}
+                <div class="ml-6 grid grid-cols-[38%,2%,60%] text-[12px] w-[90%] my-2">
+                    <div class="font-bold">Nama Lengkap</div><div>:</div><div>{{ $data->members[1]->name }}</div>
+                    <div class="font-bold">NISN / NIM</div><div>:</div><div>{{ $data->members[1]->participant_id }}</div>
+                    <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->members[1]->date_of_birth }}</div>
+                    <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->members[1]->no_wa }}</div>
+                    <div class="font-bold">Email</div><div>:</div><div>{{ $data->members[1]->email }}</div>
                 </div>
             </div>
         </div>
@@ -66,7 +93,7 @@
         </div>
 
         <!-- Rincian Pembayaran -->
-        <div class="border border-gray-800 mb-4">
+        <div class="border border-gray-800 mb-2.5">
             <div class="font-bold mb-2 border-b border-gray-800 p-2 text-xl ">Rincian Pembayaran:</div>
             <div class="flex justify-between pb-1 px-3">
                 <span>Biaya Pendaftaran kompetisi Fisika Astronomi</span>

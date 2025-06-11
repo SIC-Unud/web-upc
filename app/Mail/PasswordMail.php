@@ -13,13 +13,17 @@ class PasswordMail extends Mailable
     use Queueable, SerializesModels;
 
     public $password;
+    public $competition;
+    public $name;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($password)
+    public function __construct($password, $competition, $name)
     {
-        $this->password = $password; // simpan password ke properti
+        $this->password = $password;
+        $this->competition = $competition;
+        $this->name = $name;
     }
 
     /**
@@ -39,7 +43,11 @@ class PasswordMail extends Mailable
     {
         return new Content(
             view: 'mails.email',
-            with: ['password' => $this->password]
+            with: [
+                'password' => $this->password,
+                'competition' => $this->competition,
+                'name' => $this->name
+            ]
         );
     }
 

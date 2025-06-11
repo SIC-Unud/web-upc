@@ -13,7 +13,9 @@ class Participant extends Model
         'token',
         'competition_id',
         'source_of_information',
-        'motivation',
+        'reason',
+        'is_first_competition',
+        'special_needs',
         'leader_name',
         'leader_student_id',
         'leader_date_of_birth',
@@ -45,9 +47,24 @@ class Participant extends Model
         return $this->hasMany(Member::class, 'participant_id', 'id');
     }
 
-    public function competition_attempt()
+    public function simulation_attempt()
     {
-        return $this->hasOne(CompetitionAttempt::class, 'participant_id', 'id');
+        return $this->hasOne(CompetitionAttempt::class, 'participant_id', 'id')
+                    ->where('is_simulation', true);
+    }
+
+    public function real_attempt()
+    {
+        return $this->hasOne(CompetitionAttempt::class, 'participant_id', 'id')
+                    ->where('is_simulation', false);
+    }
+
+    public function getLimitedCompetitionAttemptsAttribute()
+    {
+        return collect([
+            $this->simulasi_attempt,
+            $this->real_attempt,
+        ])->filter();
     }
 
     public function competition()

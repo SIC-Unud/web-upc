@@ -9,7 +9,8 @@ class Competition extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description',
+        'code',
+        'icon_competition',
         'degree',
         'wave_1_price',
         'wave_2_price',

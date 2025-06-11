@@ -1,23 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Password Pendaftaran UPC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pendaftaran UPC 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
-<body style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px;">
-    <div style="max-width: 600px; margin: auto; background-color: #ffffff; border: 1px solid #ddd; padding: 30px; border-radius: 8px;">
-        <h2 style="color: #333;">Halo Peserta UPC,</h2>
-        <p>Terima kasih telah mendaftar dalam kegiatan lomba kami.</p>
+<body style="font-family: sans-serif; background-color: #212429; color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;">
 
-        <p>Berikut adalah <strong>password</strong> yang dapat digunakan untuk login atau keperluan selanjutnya:</p>
+    <div style="width: 100%; background-color: #212429; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 10px 15px rgba(0,0,0,0.3);">
 
-        <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; text-align: center; font-size: 18px; font-weight: bold;">
-            {{ $password }}
+        <!-- Header -->
+        <div style="background-color: #212429; padding: 1.5rem;">
+            <div style="margin-bottom: 1rem;">
+                <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="UPC 2025" style="width: 80px; height: 50px;">{{-- ganti saat hosting url {{ asset('assets/hero-100persen.png') }} --}}
+            </div>
+            <h1 style="font-size: 1.25rem; font-weight: 600; color: #d1d5db;">Halo, [Calon Jawara UPC 2025]!</h1>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem; color: #d1d5db;">
+                Terima Kasih karena telah mendaftarkan diri mu di kompetisi {{ $competition }} dalam kegiatan Udayana Physics Championship 🚀
+            </p>
         </div>
 
-        <p style="margin-top: 30px;">Jangan membagikan password ini kepada orang lain.</p>
+        <!-- Detail Box -->
+        <div style="background-color: white; color: black; padding: 20px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">Berikut merupakan detail pendaftaran anda:</p>
+            <div style="display: flex; flex-direction: row; width: 100%;">
+                <!-- Kolom 1: Label -->
+                <div style="width: 30%;">
+                    <p style="margin: 0; color: #000;">NO. Reg</p>
+                    <p style="margin: 0; color: #000">Nama</p>
+                </div>
 
-        <p>Salam, <br><strong>Panitia UPC</strong></p>
+                <!-- Kolom 2: Tanda Titik Dua -->
+                <div style="width: auto; margin: 0 0.5rem;">
+                    <p style="margin: 0; color: #000">:</p>
+                    <p style="margin: 0; color: #000">:</p>
+                </div>
+
+                <!-- Kolom 3: Data -->
+                <div style="flex: 1;">
+                    <p style="margin: 0; color: #000">{{ $password }}</p>
+                    <p style="margin: 0; color: #000">{{ $name }}</p>
+                </div>
+            </div>
+
+            <p style="font-size: 0.875rem; margin-bottom: 0.5rem; color: #000">Mohon simpan baik-baik nomor informasi di atas, karena akan digunakan sebagai:</p>
+            <ul style="font-size: 0.875rem; padding-left: 1.25rem; margin-bottom: 1rem; color: #000">
+                <li>Email Anda sebagai Email default untuk login ke akun Anda.</li>
+                <li>No Registrasi sebagai password default untuk login ke akun Anda.</li>
+            </ul>
+
+            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, di sini.</p>
+            <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
+        </div>
+
+        {{-- footer --}}
+        <div style="background-color: #212429; padding: 1rem;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td align="center" style="padding-bottom: 0.5rem;">
+                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tr>
+                                <td style="padding: 0 0.5rem;">
+                                    <a href="https://wa.me/yourwhatsapplink" target="_blank" style="display: block;">
+                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    </a>
+                                </td>
+                                <td style="padding: 0 0.5rem;">
+                                    <a href="https://www.instagram.com/yourinstagramlink" target="_blank" style="display: block;">
+                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    </a>
+                                </td>
+                                <td style="padding: 0 0.5rem;">
+                                    <a href="https://www.tiktok.com/@yourtiktoklink" target="_blank" style="display: block;">
+                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="TikTok" style="height: 24px; display: block;">
+                                    </a>
+                                </td>
+                                <td style="padding: 0 0.5rem;">
+                                    <a href="https://www.youtube.com/youryoutubelink" target="_blank" style="display: block;">
+                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-top: 16px;">
+                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="UPC 2025" style="width: 40px; opacity: 0.7; display: block;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="background-color: #212429; text-align: center; padding: 6px;">
+            <p style="font-size: 0.75rem; color: #9ca3af;">© 2025 UDAYANAPHYSICSCHAMPIONSHIP. All Rights Reserved</p>
+        </div>
     </div>
+
 </body>
 </html>
+
+

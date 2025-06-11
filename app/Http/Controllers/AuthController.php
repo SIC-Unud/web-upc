@@ -42,14 +42,16 @@ class AuthController extends Controller
         ]);
 
         $validated = $request->validate([
-            'source_of_information' => 'required|string|max:100',
-            'motivation'            => 'required|string',
+            'source_of_information' => 'required|string|max:50',
+            'reason'                => 'required|string|max:50',
             'competition_id'        => 'required|exists:competitions,id',
+            'is_first_competition'  => 'required|integer|min:0|max:1',
+            'special_needs'         => 'required|string|',
 
             'leader_name'           => 'required|string|max:100',
             'leader_student_id'     => 'required|string|max:50',
             'leader_date_of_birth'  => 'required|date',
-            'leader_gender'         => 'required|in:L,P',
+            'leader_gender'         => 'required|string|max:255',
             'leader_no_wa'          => 'required|string|max:20',
 
             'institution'           => 'required|string|max:100',
@@ -137,7 +139,7 @@ class AuthController extends Controller
 
             DB::commit();
     
-            Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration));
+            Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
             
             // return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
 

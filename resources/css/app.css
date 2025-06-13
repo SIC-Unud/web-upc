@@ -27,6 +27,7 @@
     --font-novaria: "Novaria", sans-serif;
     --font-koulen: "Koulen", sans-serif;
     --font-sans-lao: "Noto Sans Lao", sans-serif;
+    --font-jakarta: 'Plus Jakarta Sans', sans-serif
 }
 
 @keyframes marquee {

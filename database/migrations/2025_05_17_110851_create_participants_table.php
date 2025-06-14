@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('source_of_information', 50);
             $table->string('reason', 50);
             $table->boolean('is_first_competition')->default(0);
-            $table->text('special_needs');
+            $table->text('special_needs')->nullable();
             $table->string('leader_name', 100);
             $table->string('leader_student_id', 50);
             $table->date('leader_date_of_birth');
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('transaction_proof');
             $table->boolean('is_accepted')->default(0);
             $table->text('reject_message')->nullable();
-            $table->double('is_rejected')->default(0);
+            $table->boolean('is_rejected')->default(0);
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@ class PasswordMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.email',
+            view: 'mails.accepted',
             with: [
                 'password' => $this->password,
                 'competition' => $this->competition,

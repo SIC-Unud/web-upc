@@ -34,11 +34,11 @@ if (!function_exists('generateInvoice')) {
             $view = 'pdf.invoice.individual';
         }
 
-        if ($data->leader_gender === 'L') {
-            $data->leader_gender = "Laki-laki";
-        } else {
-            $data->leader_gender = "Perempuan";
-        }
+        // if ($data->leader_gender === 'L') {
+        //     $data->leader_gender = "Laki-laki";
+        // } else {
+        //     $data->leader_gender = "Perempuan";
+        // }
 
         return Pdf::view($view, ['data' => $data])
             ->withBrowserShot(function (Browsershot $browsershot) {

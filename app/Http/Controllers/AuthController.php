@@ -78,6 +78,7 @@ class AuthController extends Controller
                 'members.*.student_id' => 'required|string|max:50',
                 'members.*.date_of_birth' => 'required|date',
                 'members.*.no_wa' => 'required|string|max:20',
+                'members.*.gender' => 'required|string|max:255',
             ]);
 
             $valMembers = $validatedData['members'];
@@ -134,6 +135,7 @@ class AuthController extends Controller
                     'student_id' => $member['student_id'],
                     'date_of_birth' => $member['date_of_birth'],
                     'no_wa' => $member['no_wa'],
+                    'gender' => $member['gender']
                 ]);
             }
 
@@ -174,22 +176,19 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $data = User::with(['participant:user_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
-                        'participant.competition:id, name'])
+            $data = User::with(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
+                        'participant.competition:id,name'])
                         ->where('email', $credentials['email'])
                         ->first();
 
             if ($data->participant->is_rejected === true) {
-                //data
-                //link update
-                return redirect()->route('login.form')->with([
+                return redirect()->route('loginform')->with([
                     'status' => 'Sedang divalidasi',
                     'data' => $data
                 ]);
-            } else if ($data->participant->is_accepted === false) {
-                //data
-                // $request->session()->regenerate(); apakah dalam update perlu login atau tidak
-                return redirect()->route('login.form')->with([
+            } else if ($data->participant->is_accepted !== true) {
+                $request->session()->regenerate();
+                return redirect()->route('loginform')->with([
                     'success' => 'Gagal divalidasi',
                     'data' => $data
                 ]);

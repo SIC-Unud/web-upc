@@ -63,6 +63,7 @@
                     <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->members[0]->date_of_birth }}</div>
                     <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->members[0]->no_wa }}</div>
                     <div class="font-bold">Email</div><div>:</div><div>{{ $data->members[0]->email }}</div>
+                    <div class="font-bold">Gender</div><div>:</div><div>{{ $data->members[0]->gender }}</div>
                 </div>
             </div>
             <div class="flex flex-col border border-gray-800 w-[50%]">
@@ -80,6 +81,7 @@
                     <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->members[1]->date_of_birth }}</div>
                     <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->members[1]->no_wa }}</div>
                     <div class="font-bold">Email</div><div>:</div><div>{{ $data->members[1]->email }}</div>
+                    <div class="font-bold">Gender</div><div>:</div><div>{{ $data->members[0]->gender }}</div>
                 </div>
             </div>
         </div>

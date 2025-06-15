@@ -61,10 +61,10 @@
                             </div>
                             <div class="mb-6 md:mb-12">
                                 <label for="competition" class="md:block text-xs md:text-xl text-wrap text-white">Kategori kompetisi apa yang ingin Anda ikuti?  <span class="text-red-500">*</span></label>
-                                <select wire:model="competition" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="competition" id="competition">
+                                <select wire:model="competition" wire:model="registerFee" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="competition" id="competition">
                                     <option class="" value="">Pilih...</option>
                                     @foreach ($competitions as $key => $competition)
-                                        <option value="{{ $key }}">{{ $competition['name'] }}</option>
+                                        <option value="{{ $competition->id }}">{{ $competition->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('competition') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -150,6 +150,9 @@
                                         <input wire:model="pass_photo" id="file-input-img" name="pass_photo" accept=".jpg, .png" class="hidden" type="file"> 
                                         <div class="flex flex-col gap-2 items-end">
                                             <label for="file-input-img" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-3 md:px-5 bg-[#12B1EB] text-white text-center w-max">UPLOAD</label>
+                                            <div wire:loading wire:target="pass_photo" class="text-white text-xs">
+                                                    Uploading...
+                                            </div>
                                             @if($pass_photo)
                                                 <span class="text-white text-xs">
                                                     {{ \Illuminate\Support\Str::limit($pass_photo->getClientOriginalName(), 25) }}
@@ -341,9 +344,12 @@
                                         @error('pass_photo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="">
-                                        <input wire:model="pass_photo" id="file-input-img" name="pass_photo" accept=".jpg, .png" class="hidden" type="file"> 
+                                        <input wire:model="pass_photo" id="file-input-img" name="pass_photo" accept="image/jpg, image/png" class="blok" type="file"> 
                                         <div class="flex flex-col gap-2 items-end">
                                             <label for="file-input-img" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-3 md:px-5 bg-[#12B1EB] text-white text-center w-max">UPLOAD</label>
+                                            {{-- <div wire:loading wire:target="pass_photo" class="text-white text-xs">
+                                                    Uploading...
+                                            </div> --}}
                                             @if($pass_photo)
                                                 <span class="text-white text-xs">
                                                     {{ \Illuminate\Support\Str::limit($pass_photo->getClientOriginalName(), 25) }}
@@ -361,6 +367,9 @@
                                         <input wire:model="student_proof" id="file-input-pdf" accept=".pdf" name="student_proof" class="hidden" type="file"> 
                                         <div class="flex flex-col gap-2 items-end">
                                             <label for="file-input-pdf" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-3 md:px-5 bg-[#12B1EB] text-white text-center w-max">UPLOAD</label>
+                                            {{-- <div wire:loading wire:target="student_proof" class="text-white text-xs">
+                                                    Uploading...
+                                            </div> --}}
                                             @if($student_proof)
                                                 <span class="text-white text-xs">
                                                     {{ \Illuminate\Support\Str::limit($student_proof->getClientOriginalName(), 25) }}

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('question_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id');
-            $table->char('key');
             $table->string('answer_value');
             $table->timestamps();
         });

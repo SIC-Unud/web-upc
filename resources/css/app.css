@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Koulen&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -12,8 +13,6 @@
     font-family: "Novaria";
     src: url("~font/Novaria Vista.ttf") format("truetype");
 }
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-@import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -29,7 +28,7 @@
     --font-novaria: "Novaria", sans-serif;
     --font-koulen: "Koulen", sans-serif;
     --font-sans-lao: "Noto Sans Lao", sans-serif;
-    --font-jakarta: 'Plus Jakarta Sans', sans-serif
+    --font-jakarta: "Plus Jakarta Sans", sans-serif;
 }
 
 @keyframes marquee {

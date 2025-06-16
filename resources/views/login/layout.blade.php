@@ -9,7 +9,7 @@
 </head>
 <body>
    <div>
-      <img src="/public/assets/landing/Logolayout.png" alt="">
+      <img src="/public/assets/Logolayout.png" alt="">
    </div>
 </body>
 </html>

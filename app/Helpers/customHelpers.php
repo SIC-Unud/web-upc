@@ -1,8 +1,7 @@
 <?php
 
 use App\Models\Participant;
-use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\Browsershot\Browsershot;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -50,12 +49,10 @@ if (!function_exists('generateInvoice')) {
         //     $data->leader_gender = "Perempuan";
         // }
 
-        return Pdf::view($view, ['data' => $data])
-            ->withBrowserShot(function (Browsershot $browsershot) {
-                    $browsershot->transparentBackground();
-            })
-            ->margins(0, 0, 0, 0)
-            ->download('invoice-' . $data->no_registration . '.pdf');
+        return Pdf::loadView($view, ['data' => $data])
+                ->setPaper('a4', 'portrait')
+                ->setWarnings(false)
+                ->download('invoice-' . $data->no_registration . '.pdf');
     }
 }
 

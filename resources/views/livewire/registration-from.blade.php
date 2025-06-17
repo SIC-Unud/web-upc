@@ -1,4 +1,4 @@
-<div class="bg-[url(../../../public/assets/register/bg.png)] font-jakarta h-full pt-18">
+<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full pt-18">
     <div
         wire:loading
         wire:target="firstStepSubmit, secondStepSubmit, submitForm"

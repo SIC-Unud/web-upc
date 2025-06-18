@@ -1,95 +1,152 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulir Pendaftaran UPC</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Formulir Pendaftaran UPC</title>
+  <style>
+    @page {
+        margin: 180px 0 0 0;
+    }
+    @font-face {
+        font-family: 'PlusJakartaSans';
+        font-style: normal;
+        font-weight: 400;
+        src: url('{{ public_path('assets/fonts/PlusJakartaSans-Regular.ttf') }}') format('truetype');
+    }
+    @font-face {
+        font-family: 'PlusJakartaSans';
+        font-style: normal;
+        font-weight: bold;
+        src: url('{{ public_path('assets/fonts/PlusJakartaSans-Bold.ttf') }}') format('truetype');
+    }
+    body {
+        font-family: 'PlusJakartaSans', sans-serif;
+        font-size: 10px;
+        margin: 0;
+        padding: 0;
+    }
+    header, footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: -1;
+    }
+    header {
+        top: -180px;
+        height: 130px;
+    }
+    footer {
+        bottom: 0;
+        height: 90px;
+    }
+    .header-img, .footer-img {
+        width: 100%;
+        height: auto;
+    }
+    .container {
+        padding: 0 40px 120px 40px;
+    }
+    .border{
+        border: 1px solid #000;
+    }
+    .border-l{
+        border-left: 1px solid #000;
+    }
+    .border-b{
+        border-bottom: 1px solid #000;
+    }
+    .anggota-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .font-bold{
+        font-weight: bold;
+    }
+    .title{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .bg-img{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: .2;
+        z-index: 0;
+        width: 60%;
+    }
+  </style>
 </head>
-<body class="bg-white text-sm font-['Plus_Jakarta_Sans'] relative h-screen">
+<body>
     <header>
-        <img src="{{ public_path('assets/invoice/header.png') }}" alt="">
+        <img src="{{ public_path('assets/invoice/header.png') }}" class="header-img">
     </header>
-    <div class="py-2 mt-2 px-12 w-[100%] mx-auto ">
-    <!-- Header -->
-        <div class="flex border-b mb-2 w-[100%] border border-gray-800">
-            <div class="flex items-center justify-center w-[30%] border-r-[1px] border-gray-800">
-                <img src="{{ public_path('storage/' . $data->pass_photo) }}" alt="Avatar" class="w-[160px] h-[200px] object-cover rounded-md border">
-            </div>
-            {{-- <div class="ml-6 grid grid-cols-[30%,70%] text-[12px] w-[70%] my-2">
-                <div class="font-bold">No. Registrasi</div><div>: {{ $data->no_registration }} </div>
-                <div class="font-bold">Waktu Registrasi</div><div>: {{ $data->created_at }}</div>
-                <div class="font-bold">Nama Lengkap</div><div>: {{ $data->leader_name }}</div>
-                <div class="font-bold">NISN / NIM</div><div>: {{ $data->leader_student_id }}</div>
-                <div class="font-bold">Tanggal Lahir</div><div>: {{ $data->leader_date_of_birth }}</div>
-                <div class="font-bold">Jenis Kelamin</div><div>: {{ $data->leader_gender }}</div>
-                <div class="font-bold">No. Handphone</div><div>: {{ $data->leader_no_wa }}</div>
-                <div class="font-bold">Email</div><div>: {{ $data->user->email }}</div>
-                <div class="font-bold">Asal Sekolah</div><div>: {{ $data->institution }}</div>
-                <div class="font-bold">Provinsi</div><div>: {{ $data->institution_province }}</div>
-                <div class="font-bold">Kabupaten / Kota</div><div>: {{ $data->institution_city }}</div>
-            </div> --}}
-            <div class="ml-6 grid grid-cols-[30%,2%,68%] text-[12px] w-[70%] my-2">
-                <div class="font-bold">No. Registrasi</div><div>:</div><div>{{ $data->no_registration }}</div>
-                <div class="font-bold">Waktu Registrasi</div><div>:</div><div>{{ $data->created_at }}</div>
-                <div class="font-bold">Nama Lengkap</div><div>:</div><div>{{ $data->leader_name }}</div>
-                <div class="font-bold">NISN / NIM</div><div>:</div><div>{{ $data->leader_student_id }}</div>
-                <div class="font-bold">Tanggal Lahir</div><div>:</div><div>{{ $data->leader_date_of_birth }}</div>
-                <div class="font-bold">Jenis Kelamin</div><div>:</div><div>{{ $data->leader_gender == 'l' ? 'Laki - laki' : 'Perempuan' }}</div>
-                <div class="font-bold">No. Handphone</div><div>:</div><div>{{ $data->leader_no_wa }}</div>
-                <div class="font-bold">Email</div><div>:</div><div>{{ $data->user->email }}</div>
-                <div class="font-bold">Asal Sekolah</div><div>:</div><div>{{ $data->institution }}</div>
-                <div class="font-bold">Provinsi</div><div>:</div><div>{{ $data->institution_province }}</div>
-                <div class="font-bold">Kabupaten / Kota</div><div>:</div><div>{{ $data->institution_city }}</div>
-            </div>
-        </div>
 
-        <!-- Kategori Kompetisi -->
-        <div class="border border-gray-800 px-3 py-1.5 mb-2 flex w-[100%]">
-            <div class="font-bold text-xl w-[50%]">Kategori Kompetisi</div>
-            <div class="text-xl font-semibold text-blue-800 flex items-center w-[50%]">
-                : {{ $data->competition->name }}
-            </div>
-        </div>
-
-        <!-- Rincian Pembayaran -->
-        <div class="border border-gray-800 mb-4">
-            <div class="font-bold mb-2 border-b border-gray-800 p-2 text-xl ">Rincian Pembayaran:</div>
-            <div class="flex justify-between pb-1 px-3">
-                <span>Biaya Pendaftaran kompetisi Fisika Astronomi</span>
-                <span>{{ rupiah($data->subtotal) }}</span>
-            </div>
-            <div class="flex justify-between pb-1 px-3">
-                <span>Biaya Aplikasi</span>
-                <span>Rp. 1.000</span>
-            </div>
-            <div class="flex justify-between pb-1 px-3">
-                <span>Potongan Kupon</span>
-                <span>{{ rupiah($data->subtotal - $data->total) }}</span>
-            </div>
-            <div class="flex justify-between font-bold pt-2 text-lg px-3">
-                <span>Total</span>
-                <span>{{ rupiah($data->total) }}</span>
-            </div>
-        </div>
-
-        
-
-        <!-- Catatan -->
-        <p class="text-xs text-justify leading-relaxed border border-gray-800 p-2 mt-[180px]">
-            Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-semibold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilakan untuk menghubungi CP Humas UPC 2025 yang tertera pada bagian header formulir.
-        </p>
-    </div>
-
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-40">
-        <img src="{{ public_path('assets/invoice/hero.png') }}" alt="">
-    </div>
-
-    <footer class="absolute bottom-0">
-        <img src="{{ public_path('assets/invoice/footer.png') }}" alt="">
+    <footer>
+        <img src="{{ public_path('assets/invoice/footer.png') }}" class="footer-img">
     </footer>
+
+    <img src="{{ public_path('assets/logo-with-name.png') }}" class="bg-img">
+
+    <div class="container">
+        <table class="border" style="width: 100%; margin-bottom: 10px;">
+            <tr>
+                <td style="width: 150px; padding:10px;">
+                    <div style="width:100%; display:flex; align-items:center; justify-content:center;">
+                        <img src="{{ public_path('storage/' . $data->pass_photo) }}" style="width: 130px; height: 180px; object-fit: cover;">
+                    </div>
+                </td>
+                <td style="padding: 10px;" class="border-l">
+                    <table style="width: 100%;">
+                        <tr><td class="font-bold">No. Registrasi</td><td>:</td><td>{{ $data->no_registration }}</td></tr>
+                        <tr><td class="font-bold">Waktu Registrasi</td><td>:</td><td>{{ $data->created_at }}</td></tr>
+                        <tr><td class="font-bold">Nama Lengkap</td><td>:</td><td>{{ $data->leader_name }}</td></tr>
+                        <tr><td class="font-bold">NISN / NIM</td><td>:</td><td>{{ $data->leader_student_id }}</td></tr>
+                        <tr><td class="font-bold">Tanggal Lahir</td><td>:</td><td>{{ $data->leader_date_of_birth }}</td></tr>
+                        <tr><td class="font-bold">Jenis Kelamin</td><td>:</td><td>{{ $data->leader_gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</td></tr>
+                        <tr><td class="font-bold">No. Handphone</td><td>:</td><td>{{ $data->leader_no_wa }}</td></tr>
+                        <tr><td class="font-bold">Email</td><td>:</td><td>{{ $data->user->email }}</td></tr>
+                        <tr><td class="font-bold">Asal Sekolah</td><td>:</td><td>{{ $data->institution }}</td></tr>
+                        <tr><td class="font-bold">Provinsi</td><td>:</td><td>{{ $data->institution_province }}</td></tr>
+                        <tr><td class="font-bold">Kabupaten/Kota</td><td>:</td><td>{{ $data->institution_city }}</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div class="border title" style="padding: 10px; margin-bottom: 10px;">
+            Kategori Kompetisi : {{ $data->competition->name }}
+        </div>
+
+        <table class="border" style="width:100%; padding: 10px; margin-bottom: 10px;">
+            <tr class="border-b">
+                <td colspan="2" class="title">Rincian Pembayaran:</td>
+            </tr>
+            <tr>
+                <td>Biaya Pendaftaran Kompetisi {{ $data->competition->name }}</td>
+                <td style="text-align: right;">{{ rupiah($data->subtotal) }}</td>
+            </tr>
+            <tr>
+                <td>Biaya Admin</td>
+                <td style="text-align: right;">{{ rupiah(1000) }}</td>
+            </tr>
+            <tr>
+                <td>Potongan Kupon</td>
+                <td style="text-align: right;">{{ rupiah($data->subtotal - $data->total) }}</td>
+            </tr>
+            <tr class="font-bold" style="font-size: 18px;">
+                <td>Total</td>
+                <td style="text-align: right;">{{ rupiah($data->total) }}</td>
+            </tr>
+        </table>
+
+        <table class="border" style="padding:10px;">
+            <tr>
+                <td>Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-bold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilahkan untuk menghubungi CP Humas UPC 2025 yang tertera pada bagian header formulir ini.</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

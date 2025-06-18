@@ -594,7 +594,7 @@
                                     </div>
                                     <div class="mb-4 md:mb-8">
                                         <h3 class="text-white md:text-base text-xs">Upload Bukti Transfer <span class="text-red-500">*</span></h3>
-                                        <input wire:model="transaction_proof" class="w-full md:py-2 md:px-1 p-1 border md:mt-2 mt-1 text-xs md:text-lg bg-gray-300" type="file" name="transaction_proof" id="transaction_proof" required>
+                                        <input wire:model="transaction_proof" class="w-full md:py-2 md:px-1 p-1 border md:mt-2 mt-1 text-xs md:text-lg bg-gray-300" type="file" name="transaction_proof" id="transaction_proof" accept=".jpg, .png" required>
                                         @error('transaction_proof') <span class="text-red-500 text-xs block">{{ $message }}</span> @enderror
                                     </div>
                                 </div>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('competition_id');
+            $table->boolean('is_simulation')->default(0);
             $table->text('question');
             $table->string('question_image')->nullable();
             $table->foreignId('question_answer_key');

@@ -18,13 +18,15 @@ return new class extends Migration
             $table->string('no_participant', 25)->unique()->nullable();
             $table->integer('token')->unique()->nullable();
             $table->foreignId('competition_id');
-            $table->string('source_of_information', 100);
-            $table->text('motivation');
+            $table->string('source_of_information', 50);
+            $table->string('reason', 50);
+            $table->boolean('is_first_competition')->default(0);
+            $table->text('special_needs')->nullable();
             $table->string('leader_name', 100);
             $table->string('leader_student_id', 50);
             $table->date('leader_date_of_birth');
             $table->char('leader_gender');
-            $table->string('leader_no_wa', 20);
+            $table->string('leader_no_wa', 20)->unique();
             $table->string('institution', 50);
             $table->string('institution_address');
             $table->string('institution_province', 50);
@@ -38,7 +40,7 @@ return new class extends Migration
             $table->string('transaction_proof');
             $table->boolean('is_accepted')->default(0);
             $table->text('reject_message')->nullable();
-            $table->double('is_rejected')->default(0);
+            $table->boolean('is_rejected')->default(0);
             $table->timestamps();
         });
     }

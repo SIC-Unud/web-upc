@@ -1,26 +1,13 @@
 <?php
 
-
-use App\Models\Participant;
-use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\Browsershot\Browsershot;
-use Spatie\LaravelPdf\Enums\Format;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/login', function () {
-    return view('login.login');
-})->name('loginform');
-
-Route::post('/login', [AuthController::class, 'login'])->name('loginpost');
-
-Route::get('/registration', [AuthController::class, 'show']);
-
-Route::get('/', function () {
-    return view('landingpage');
-});
-
-Route::get('/register', function () {
-    return view('register');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+// Route::get('/registration', [AuthController::class, 'show']);
+Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');

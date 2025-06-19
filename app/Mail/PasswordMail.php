@@ -32,7 +32,7 @@ class PasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email UPC NI BOSS',
+            subject: 'UPC 2025 || Pendaftaran Berhasil',
         );
     }
 
@@ -42,7 +42,7 @@ class PasswordMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.accepted',
+            view: 'mails.registration-success',
             with: [
                 'password' => $this->password,
                 'competition' => $this->competition,

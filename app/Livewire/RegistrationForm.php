@@ -68,12 +68,9 @@ class RegistrationForm extends Component
     public $subtotal;
     public $total;
 
-    public $cabangId;
-    public $registrationFee = 0;
     public $appFee = 1000;
     public $discount = 0;
     public $competitions;
-
 
     protected $rules = [
     //    rulesnya
@@ -116,9 +113,18 @@ class RegistrationForm extends Component
         $this->competitions = Competition::all();
     }
 
+    public function updated($propertyName)
+    {
+        $this->resetErrorBag();
+    }
+
     public function render()
     {
-        return view('livewire.register-form2');
+        if ($this->getErrorBag()->isNotEmpty()) {
+            $this->dispatch('validation-errors');
+        }
+
+        return view('livewire.registration-from');
     }
 
     public function firstStepSubmit()
@@ -160,7 +166,7 @@ class RegistrationForm extends Component
     public function secondStepSubmit()
     {
         $commonRules = [
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
             'institution' => 'required|string|max:255',
             'institution_address' => 'required|string|max:500',
             'institution_province' => 'required|string|max:255',
@@ -177,7 +183,7 @@ class RegistrationForm extends Component
             'leader_student_id' => 'required|string|max:50',
             'leader_date_of_birth' => 'required|date',
             'leader_gender' => 'required',
-            'leader_no_wa' => 'required|string|max:20',
+            'leader_no_wa' => 'required|string|max:20|unique:participants,leader_no_wa',
         ];
 
         $memberRules = [
@@ -185,24 +191,34 @@ class RegistrationForm extends Component
             'member1_student_id' => 'required_if:is_team_competition,true|string|max:50',
             'member1_date_of_birth' => 'required_if:is_team_competition,true|date',
             'member1_gender' => 'required_if:is_team_competition,true',
-            'member1_no_wa' => 'required|string|max:20',
-            'member1_email' => 'required_if:is_team_competition,true|email|max:255',
+            'member1_no_wa' => 'required|string|max:20|unique:members,no_wa',
+            'member1_email' => 'required_if:is_team_competition,true|email|max:255|unique:members,email',
             
             'member2_name' => 'required_if:is_team_competition,true|string|max:255',
             'member2_student_id' => 'required_if:is_team_competition,true|string|max:50',
             'member2_date_of_birth' => 'required_if:is_team_competition,true|date',
             'member2_gender' => 'required_if:is_team_competition,true',
-            'member2_no_wa' => 'required|string|max:20',
-            'member2_email' => 'required_if:is_team_competition,true|email|max:255',
+            'member2_no_wa' => 'required|string|max:20|unique:members,no_wa',
+            'member2_email' => 'required_if:is_team_competition,true|email|max:255|unique:members,email',
         ];
 
         if ($this->is_team_competition) {
             $this->validate(array_merge($commonRules, $leaderRules, $memberRules));
+            if ($this->member1_email == $this->member2_email) {
+                $this->addError('member2_email', 'Email anggota 1 dan 2 tidak boleh sama.');
+            }
+            if ($this->member1_no_wa == $this->member2_no_wa) {
+                $this->addError('member2_no_wa', 'No. WhatsApp anggota 1 dan 2 tidak boleh sama.');
+            }
+
+            if ($this->getErrorBag()->isNotEmpty()) {
+                return;
+            }
         } else {
             $this->validate(array_merge($commonRules, $leaderRules));
         }
         
-        $this->total = $this->subtotal + 1000;
+        $this->total = $this->subtotal + $this->appFee;
         $this->currentStep = 3;
         $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
     }
@@ -233,7 +249,7 @@ class RegistrationForm extends Component
     
             $dataParticipant = Participant::create([
                 'user_id' => $dataUser->id,
-                'no_registration' => now()->format('YmdHis') . rand(100, 999),
+                'no_registration' => $this->no_registration,
                 'competition_id' => $this->competition,
                 'source_of_information' => $this->source_of_information,
                 'reason' => $this->reason,
@@ -285,32 +301,18 @@ class RegistrationForm extends Component
 
             DB::commit();
     
-            Mail::to($this->email)->send(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
-            
-            // return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
-
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Data berhasil disimpan.',
-            //     'data' => $validated
-            // ], 201);
+            Mail::to($this->email)->queue(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
 
             $this->success = true;
             $this->currentStep = 4;
+            $this->downloadInvoice();
             $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
         } catch (\Throwable $e) {
-            //ini kurang tau mau diisi apa
-            // DB::rollBack();
-            // Log::error('Gagal menyimpan peserta', [
-            //     'message' => $e->getMessage(),
-            //     'trace' => $e->getTraceAsString()
-            // ]);
-
-            // return response()->json([
-            //     'success' => false,
-            //     'message' => 'Terjadi kesalahan saat menyimpan data.',
-            //     'error'   => $e->getMessage()
-            // ], 500);
+            fileDelete($passPhotoPath);
+            fileDelete($studentProofPath);
+            fileDelete($transactionProofPath);
+            DB::rollBack();
+            session()->flash('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
     }
 
@@ -321,67 +323,22 @@ class RegistrationForm extends Component
 
     public function applyCoupon()
     {
-        // if ($this->coupon_code === 'UPC99') {
-        //     $this->total = $this->total - 10000;
-        //     $this->resetErrorBag('coupon_code');
-        // } else {
-        //     $this->addError('coupon_code', 'Maaf kode kupon anda tidak valid');
-        // }
-        $valid = false;
-        foreach (config('const.promo_codes') as $promo) {
-            if ($promo['code'] === $this->coupon_code) {
-                $this->discount = $this->registrationFee * $promo['discount'] / 100;
-                $this->total = $this->total - $this->discount;
-                $this->resetErrorBag('coupon_code');
-                $valid = true;
-                break;
-            }
-        }
+        $promoCodes = config('const.promo_codes');
+        $validPromo = collect($promoCodes)->firstWhere('code', $this->coupon_code);
 
-        if (!$valid) {
+        if ($validPromo) {
+            $this->discount = ($this->subtotal * $validPromo['discount']) / 100;
+            $this->total = $this->subtotal + $this->appFee - $this->discount;
+            $this->resetErrorBag('coupon_code');
+        } else {
             $this->discount = 0;
-            $this->addError('coupon_code', 'Maaf kode kupon anda tidak valid');
+            $this->total = $this->subtotal + $this->appFee;
+            $this->addError('coupon_code', 'Maaf, kode kupon tidak valid.');
         }
     }
 
-    // public function updateDiscount()
-    // {   
-    //     $valid = false;
-    //     foreach (config('const.promo_codes') as $promo) {
-    //         if ($promo['code'] === $this->couponCode) {
-    //             $this->discount = $this->registrationFee * $promo['discount'] / 100;
-    //             $this->errorMessage = '';
-    //             $valid = true;
-    //             break;
-    //         }
-    //     }
-
-    //     if (!$valid) {
-    //         $this->discount = 0;
-    //         $this->errorMessage = 'Maaf kode kupon anda tidak valid';
-    //     }
-    // }
-
-    // public function updatedRegisterFee($value)
-    // {
-    //     $selected = $this->listCabang->firstWhere('id', $value);
-    //     for ($i = 1; $i <= 3; $i++) {
-    //         if (
-    //             now()->between(
-    //             Carbon::parse(config('const.schedules.wave_' . $i . '.start')),
-    //             Carbon::parse(config('const.schedules.wave_' . $i . '.end')))
-    //         ) {
-    //             $name = 'wave_' . $i . '_price';
-    //             $this->registrationFee = $selected->$name;
-    //             break;
-    //         }
-    //     }
-    // }
-
-    public function total()
+    public function downloadInvoice()
     {
-        $this->total = max(0, $this->registrationFee + $this->appFee - $this->discount);
+        $this->dispatch('download-invoice', no_registration: $this->no_registration);
     }
-
-
 }

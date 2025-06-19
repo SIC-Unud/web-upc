@@ -1,4 +1,17 @@
-<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full">
+<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full pt-18">
+    <div
+        wire:loading
+        wire:target="firstStepSubmit, secondStepSubmit, submitForm"
+        class="fixed min-h-screen inset-0 bg-black/70 flex items-center justify-center z-50"
+    >
+        <div class="flex flex-col items-center justify-center text-white min-h-screen">
+            <svg class="animate-spin h-10 w-10 mb-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span class="text-sm md:text-lg font-light">Menyimpan data...</span>
+        </div>
+    </div>
     <div class="backdrop-blur-2xl bg-black/55">
         {{-- Heading --}}
         <div class="md:pt-12 pt-8 mx-auto text-white">
@@ -24,11 +37,9 @@
                                     <label for="source_of_information" class="md:block text-xs md:text-xl text-white">Dari mana Anda mengetahui kompetisi ini? <span class="text-red-500">*</span></label>
                                     <select wire:model="source_of_information" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="source_of_information" id="source_of_information" required>
                                         <option class="" value="">Pilih...</option>
-                                        <option value="Media sosial UPC 2025">Media sosial UPC 2025</option>
-                                        <option value="Media sosial informasi lomba">Media sosial informasi lomba</option>
-                                        <option value="Guru/Dosen">Guru/Dosen</option>
-                                        <option value="Teman/Keluarga">Teman/Keluarga</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        @foreach (config('const.source_of_informations') as $source)
+                                            <option value="{{ $source }}">{{ $source }}</option>
+                                        @endforeach
                                     </select>
                                     @error('source_of_information') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                 </div>
@@ -36,8 +47,8 @@
                                     <label for="is_first_competition" class="md:block text-xs md:text-xl text-wrap text-white">Apakah ini pertama kalinya Anda mengikuti kompetisi ini? <span class="text-red-500">*</span><label>
                                     <select wire:model="is_first_competition" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="is_first_competition" id="is_first_competition" required>
                                         <option value="">Pilih...</option>
-                                        <option value="Ya">Ya</option>
-                                        <option value="Tidak">Tidak</option>
+                                        <option value="1">Ya</option>
+                                        <option value="0">Tidak</option>
                                     </select>
                                     @error('is_first_competition') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                 </div>
@@ -45,11 +56,9 @@
                                     <label for="reason" class="md:block text-xs md:text-xl text-wrap text-white">Apa alasan utama Anda mengikuti kompetisi ini? <span class="text-red-500">*</span></label>
                                     <select wire:model="reason" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="reason" id="reason" required>
                                         <option class="" value="">Pilih...</option>
-                                        <option value="Meningkatkan kemampuan diri">Meningkatkan kemampuan diri</option>
-                                        <option value="Networking">Networking</option>
-                                        <option value="Hadiah/sertifikat penghargaan">Hadiah/sertifikat penghargaan</option>
-                                        <option value="Kebutuhan akademik">Kebutuhan akademik</option>
-                                        <option value="Lainnya">Lainnya</option>
+                                        @foreach (config('const.reasons') as $reason)
+                                            <option value="{{ $reason }}">{{ $reason }}</option>
+                                        @endforeach
                                     </select>
                                     @error('reason') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                 </div>
@@ -62,7 +71,7 @@
                                     <select wire:model="competition" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="competition" id="competition" required>
                                         <option class="" value="">Pilih...</option>
                                         @foreach ($competitions as $key => $competition)
-                                            <option value="{{ $key }}">{{ $competition['name'] }}</option>
+                                            <option value="{{ $competition->id }}">{{ $competition->name }} {{ ($competition->is_team_competition ? '(kelompok)' : '') }}</option>
                                         @endforeach
                                     </select>
                                     @error('competition') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -79,15 +88,19 @@
                                 <div class="w-25 h-8 md:w-30 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] rounded-full p-[1px]">
                                     <div class="w-full h-full bg-black rounded-full flex items-center justify-center">
                                         <div class="flex items-center">
+                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                            <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                             <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
                                                 <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
                                             </div>
                                             <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
-                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                            </div>
                                             <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
-                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
-                                            <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
-                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                            <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -140,14 +153,14 @@
                                                 <label for="leader_gender" class="md:block text-xs md:text-xl text-wrap text-white">Jenis Kelamin <span class="text-red-500">*</span></label>
                                                 <select wire:model="leader_gender" class="block w-full md:py-3 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_gender" id="leader_gender" required>
                                                     <option value="">Pilih...</option>
-                                                    <option value="Laki-laki">Laki-laki</option>
-                                                    <option value="Perempuan">Perempuan</option>
+                                                    <option value="l">Laki-laki</option>
+                                                    <option value="p">Perempuan</option>
                                                 </select>
                                                 @error('leader_gender') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>    
                                             <div class="flex flex-col justify-between">
-                                                <label for="leader_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp) </label>
-                                                <input wire:model="leader_no_wa" type="text" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_no_wa" id="leader_no_wa">
+                                                <label for="leader_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp)<span class="text-red-500">*</span> </label>
+                                                <input wire:model="leader_no_wa" type="text" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_no_wa" id="leader_no_wa" required>
                                                 @error('leader_no_wa') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="md:grid md:col-span-2">
@@ -250,15 +263,19 @@
                                         <div class="w-25 h-8 md:w-30 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] rounded-full p-[1px]">
                                             <div class="w-full h-full bg-black rounded-full flex items-center justify-center">
                                                 <div class="flex items-center">
-                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
-                                                    <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                     <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
                                                         <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
                                                     </div>
                                                     <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                     <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
                                                     <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
-                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                        <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                    </div>
+                                                    <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
+                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                        <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -309,14 +326,14 @@
                                                 <label for="leader_gender" class="md:block text-xs md:text-xl text-wrap text-white">Jenis Kelamin <span class="text-red-500">*</span></label>
                                                 <select wire:model="leader_gender" class="block w-full md:py-3 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_gender" id="leader_gender" required>
                                                     <option value="">Pilih...</option>
-                                                    <option value="Laki-laki">Laki-laki</option>
-                                                    <option value="Perempuan">Perempuan</option>
+                                                    <option value="l">Laki-laki</option>
+                                                    <option value="p">Perempuan</option>
                                                 </select>
                                                 @error('leader_gender') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>    
                                             <div class="flex flex-col justify-between">
-                                                <label for="leader_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp) </label>
-                                                <input wire:model="leader_no_wa" type="text" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_no_wa" id="leader_no_wa">
+                                                <label for="leader_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp)<span class="text-red-500">*</span> </label>
+                                                <input wire:model="leader_no_wa" type="text" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="leader_no_wa" id="leader_no_wa" required>
                                                 @error('leader_no_wa') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             <div class="md:grid md:col-span-2">
@@ -382,8 +399,8 @@
                                                     @error('member1_date_of_birth') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member1_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp) </label>
-                                                    <input type="text" wire:model="member1_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member1_no_wa" id="member1_no_wa">
+                                                    <label for="member1_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp)<span class="text-red-500">*</span> </label>
+                                                    <input type="text" wire:model="member1_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member1_no_wa" id="member1_no_wa" required>
                                                     @error('member1_no_wa') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
@@ -419,8 +436,8 @@
                                                     @error('member2_date_of_birth') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp) </label>
-                                                    <input type="text" wire:model="member2_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_no_wa" id="member2_no_wa">
+                                                    <label for="member2_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp)<span class="text-red-500">*</span> </label>
+                                                    <input type="text" wire:model="member2_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_no_wa" id="member2_no_wa" required>
                                                     @error('member2_no_wa') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
@@ -500,15 +517,19 @@
                                         <div class="w-25 h-8 md:w-30 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] rounded-full p-[1px]">
                                             <div class="w-full h-full bg-black rounded-full flex items-center justify-center">
                                                 <div class="flex items-center">
-                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
-                                                    <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                     <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
                                                         <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
                                                     </div>
                                                     <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                     <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
                                                     <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
-                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                        <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                    </div>
+                                                    <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
+                                                    <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                        <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -545,34 +566,35 @@
                                     <div class="border border-white w-full h-fit md:px-5 px-2 py-5 md:py-7 mb-4 md:mb-8">
                                         <div class="flex justify-between mb-1 md:mb-2">
                                             <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran kompetisi Fisika SMP</h4>
-                                            <p class="text-white text-xs md:text-base">Rp. {{ $subtotal }}</p>
+                                            <p class="text-white text-xs md:text-base">{{ rupiah($subtotal) }}</p>
                                         </div>
                                         <div class="flex justify-between mb-1 md:mb-2">
                                             <h4 class="text-white text-xs md:text-base font-extralight">Biaya aplikasi</h4>
                                             <p class="text-white text-xs md:text-base">Rp. 1.000</p>
                                         </div>
-                                        @if ($subtotal + 1000 != $total)
+                                        @if ($discount > 0)
                                             <div class="flex justify-between mb-3 md:mb-5">
                                                 <h4 class="text-white text-xs md:text-base font-extralight">Potongan kupon</h4>
-                                                <p class="text-white text-xs md:text-base">-Rp. {{ $subtotal + 1000 - $total }}</p>
+                                                <p class="text-white text-xs md:text-base">-{{ rupiah($discount) }}</p>
                                             </div>
                                         @endif
                                         <div class="flex justify-between">
                                             <h4 class="text-white text-xs md:text-base font-semibold md:font-bold">Total</h4>
-                                            <p class="text-white text-xs md:text-base font-semibold md:font-bold">Rp. {{ $total }}</p>
+                                            <p class="text-white text-xs md:text-base font-semibold md:font-bold">{{ rupiah($total) }}</p>
                                         </div>
                                     </div>
+
                                     <div class="mb-4 md:mb-8">
                                         <h3 class="text-white md:text-base text-xs mb-1 md:mb-2">Punya kode kupon?</h3>
                                         <div class="flex gap-x-1 md:gap-x-4 items-end">
                                             <input wire:model="coupon_code" placeholder="Ketik di sini..." class="grow md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" type="text">
-                                            <button wire:click.prevent="applyCoupon" type="button" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-2 md:px-5 bg-[#12B1EB] text-white text-center">Masukkan</button>
+                                            <button wire:click.prevent="applyCoupon" type="button" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-2 md:px-5 bg-[#12B1EB] text-white text-center cursor-pointer">Masukkan</button>
                                         </div>
                                         @error('coupon_code') <p class="text-red-500 mt-2">{{ $message }}</p> @enderror
                                     </div>
                                     <div class="mb-4 md:mb-8">
                                         <h3 class="text-white md:text-base text-xs">Upload Bukti Transfer <span class="text-red-500">*</span></h3>
-                                        <input wire:model="transaction_proof" class="w-full md:py-2 md:px-1 p-1 border md:mt-2 mt-1 text-xs md:text-lg bg-gray-300" type="file" name="transaction_proof" id="transaction_proof" required>
+                                        <input wire:model="transaction_proof" class="w-full md:py-2 md:px-1 p-1 border md:mt-2 mt-1 text-xs md:text-lg bg-gray-300" type="file" name="transaction_proof" id="transaction_proof" accept=".jpg, .png" required>
                                         @error('transaction_proof') <span class="text-red-500 text-xs block">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
@@ -596,15 +618,19 @@
                                     <div class="w-25 h-8 md:w-30 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] rounded-full p-[1px]">
                                         <div class="w-full h-full bg-black rounded-full flex items-center justify-center">
                                             <div class="flex items-center">
-                                                <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
+                                                <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                    <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                </div>
+                                                <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
+                                                <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
+                                                    <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                                                </div>
                                                 <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                 <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
                                                 <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                                 <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white">
                                                     <div class="w-1.5 h-1.5 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
                                                 </div>
-                                                <div class="relative w-2 h-2 md:w-3 md:h-3 rounded-full flex items-center justify-center bg-white"></div>
-                                                <div class="h-[0.5px] w-2 md:w-3 bg-white"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -644,16 +670,16 @@
                         <h2 class="text-white text-base md:text-2xl text-center mb-6 md:mb-12">No. Registrasi anda: {{ $no_registration }}</h2>
                         <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Salinan Formulir registrasi anda akan terunduh secara otomatis, jika tidak terunduh maka klik tombol unduh di bawah untuk mengunduh salinan formulir registrasi anda secara manual.</p>
                         <div class="text-center">
-                            <button class="border border-[#12B1EB] rounded-md py-2 px-15 md:text-2xl text-xs md:py-2 md:px-20 mb-8 bg-[#12B1EB] text-white text-center">Unduh</button>
+                            <button wire:click.prevent="downloadInvoice" type="button" class="cursor-pointer border border-[#12B1EB] rounded-md py-2 px-15 md:text-2xl text-xs md:py-2 md:px-20 mb-8 bg-[#12B1EB] text-white text-center">Unduh</button>
                         </div>
-                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="" class="text-[#12B1EB] underline">di sini</a>.</p>
+                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="https://wa.me/" class="text-[#12B1EB] underline">di sini</a>.</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Terima kasih telah mendaftar!</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Sampai jumpa di rangkaian kegiatan UPC selanjutnya!</p>
                     </div>
                 </div>
                 <div class="py-14 flex justify-center items-center">
                     {{-- bawa ke login --}}
-                    <a href="" class=" w-35 h-8 md:w-55 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] p-[1px] grid justify-self-end ">
+                    <a href="{{ route('login') }}" class=" w-35 h-8 md:w-55 md:h-12 bg-gradient-to-r from-[#12B1EB] via-white to-[#FFD900] p-[1px] grid justify-self-end ">
                         <div class="w-full h-full bg-black flex items-center justify-center">
                             <h1 class="text-white md:text-lg">Selesai</h1>
                         </div>

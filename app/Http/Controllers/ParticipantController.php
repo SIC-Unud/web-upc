@@ -13,7 +13,7 @@ class ParticipantController extends Controller
         try { 
             $participant = Participant::where('no_registration', $no_registration)->firstOrFail();
             
-            \Log::info('All request data:', $request->all());
+            // \Log::info('All request data:', $request->all());
 
             $validatedParticipant = $request->validate([
                 'source_of_information' => 'sometimes|string|max:100',
@@ -95,10 +95,10 @@ class ParticipantController extends Controller
             $validatedParticipant['is_rejected'] = false;
             $validatedParticipant['reject_message'] = null;
 
-            \Log::info('Updating participant', [
-                'id' => $participant->id,
-                'validated' => $validatedParticipant
-            ]);
+            // \Log::info('Updating participant', [
+            //     'id' => $participant->id,
+            //     'validated' => $validatedParticipant
+            // ]);
 
             $updated = $participant->update($validatedParticipant);
 

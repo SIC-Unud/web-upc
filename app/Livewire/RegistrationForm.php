@@ -68,6 +68,7 @@ class RegistrationForm extends Component
     public $subtotal;
     public $total;
 
+    public $cabangId;
     public $registrationFee = 0;
     public $appFee = 1000;
     public $discount = 0;

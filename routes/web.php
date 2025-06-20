@@ -11,3 +11,6 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Route::get('/registration', [AuthController::class, 'show']);
 Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
+Route::get('/competitions', function () {
+   return view('competition');
+});

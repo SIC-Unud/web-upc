@@ -50,7 +50,7 @@
             </div>
          </header>
          {{-- Content --}}
-         <div id="mainContent" class="bg-gray-100 h-screen w-full px-9 py-18">
+         <div id="mainContent" class="bg-gray-100 min-h-screen w-full px-9 py-18">
             @yield('content')
          </div>
          {{-- Footer --}}

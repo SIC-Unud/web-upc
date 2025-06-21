@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-     <title>Document</title>
-     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-     <div class="bg-gray-100 w-full h-screen font-jakarta">
-          <div class="flex justify-between items-center mx-8 py-8">
+@extends('layouts.side-bar')
+@section('content')
+    <div class="bg-gray-100 w-full h-screen font-jakarta">
+          <div class="flex justify-between items-center mb-8">
                <h2 class="text-4xl font-bold text-[#4C4C4C]">Manajemen User</h2>
                <button class="flex items-center justify-between gap-2 bg-[#00C482] rounded-lg px-5 py-2 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="size-6">
@@ -18,8 +10,6 @@
                     <p class="text-white">Export</p>
                </button>
           </div>
-          
-
           {{-- <div class="flex bg-white rounded-md gap-4 items-center px-8 py-6 mx-8 mb-8 shadow-xl">
                <div class="grow relative">
                     <input class=" border rounded-md px-8 py-2 w-full" type="text" placeholder="Telusuri User">
@@ -41,15 +31,9 @@
                     <option value="">Kompetisi</option>
                </select>
           </div> --}}
-          <div class="flex bg-white rounded-md gap-4 items-center px-8 py-6 mx-8 mb-8 shadow-xl">
-          <!-- Input Pencarian -->
+          <div class="flex bg-white rounded-md gap-4 items-center px-8 py-6 mb-8 shadow-xl">
           <div class="grow relative">
-               <input 
-                    name="search"
-                    value="{{ request('search') }}"
-                    class="border rounded-md px-8 py-2 w-full" 
-                    type="text" 
-                    placeholder="Telusuri User...">
+               <input name="search" value="{{ request('search') }}" class="border rounded-md px-8 py-2 w-full"  type="text"  placeholder="Telusuri User...">
                <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
                     viewBox="0 0 24 24" stroke-width="1.5" 
                     stroke="currentColor" 
@@ -59,17 +43,6 @@
                           5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                </svg>
           </div>
-
-          <!-- Select Filter Status -->
-          <select name="status" class="text-white bg-[#00C482] rounded-lg px-5 py-3 cursor-pointer">
-               <option class="bg-white text-gray-300" value="">Pilih</option>
-               <option class="bg-white text-gray-300" value="Diterima" {{ request('status') == 'Diterima' ? 'selected' : '' }}>Diterima</option>
-               <option class="bg-white text-gray-300" value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
-               <option class="bg-white text-gray-300" value="Menunggu" {{ request('status') == 'Menunggu' ? 'selected' : '' }}>Menunggu</option>
-               <option class="bg-white text-gray-300" value="Kompetisi" {{ request('status') == 'Kompetisi' ? 'selected' : '' }}>Kompetisi</option>
-          </select>
-
-          <!-- Tombol Submit -->
           <button type="submit" class="flex items-center justify-between gap-2 bg-[#007BFF] rounded-lg px-5 py-3 cursor-pointer">
                <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
                     viewBox="0 0 24 24" stroke-width="1.5" 
@@ -81,7 +54,7 @@
           </button>
      </div>
 
-          <div class="overflow-x-auto mx-8 mb-8 rounded-md shadow-xl">
+          <div class="overflow-x-auto mb-8 rounded-md shadow-xl">
                <table class="min-w-full table-auto bg-[#D9D9D999]">
                     <thead class="border border-collapse border-b-3 border-gray-400">
                          <tr>
@@ -92,30 +65,34 @@
                     </thead>
                     <tbody class="bg-white">
                          @foreach ($users as $user)
-                              <tr class="
-                                   {{ $user['status'] === 'Menunggu' ? 'bg-yellow-100' : '' }}
-                                   {{ $user['status'] === 'Ditolak' ? 'bg-red-100' : '' }}
-                                   {{ $user['status'] === 'Diterima' ? 'bg-white' : '' }}
+                              <tr id="user-row-{{ $user['id'] }}" class="
+                                   {{ $user['status'] === 'Menunggu' ? 'bg-[#FFD9001A]' : '' }}
+                                   {{-- {{ $user['status'] === 'Ditolak' ? 'bg-[#FF00001A]' : '' }}
+                                   {{ $user['status'] === 'Diterima' ? 'bg-white' : '' }} --}}
                               ">
                                    <td class="text-center px-4 py-5">{{ $user['no_reg'] }}</td>
                                    <td class="px-4 py-5">{{ $user['nama'] }}</td>
                                    <td class="text-center px-4 py-5">{{ $user['nisn'] }}</td>
                                    <td class="text-center px-4 py-5">{{ $user['telepon'] }}</td>
                                    <td class="text-center px-4 py-5">{{ $user['waktu_registrasi'] }}</td>
-                                   <td class="text-center px-4 py-5">{{ $user['status'] }}</td>
+                                   <td class="text-center px-4 py-5">{{ $user['kompetisi'] }}</td>
+                                   <td id="user-status-{{ $user['id'] }}" class="text-center px-4 py-5">{{ $user['status'] }}</td>
                                    <td class="px-4 py-5 flex items-center justify-evenly">
-                              
-                                   <button class="cursor-pointer {{ $user['status'] === 'Ditolak' || $user['status'] === 'Diterima'  ? 'invisible' : '' }} ">
+
+                                   <button 
+                                        class="btn-accept cursor-pointer " 
+                                        data-user-id="{{ $user['id'] }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#029161" class="size-8">
                                              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
                                         </svg>
                                    </button>
-                                   <button class="cursor-pointer {{ $user['status'] === 'Ditolak' || $user['status'] === 'Diterima'  ? 'invisible' : '' }}">
+                                   <button 
+                                        class="btn-reject cursor-pointer {{ $user['status'] === 'Ditolak' || $user['status'] === 'Diterima'  ? 'invisible' : '' }}" 
+                                        data-user-id="{{ $user['id'] }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red" class="size-8">
                                              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                         </svg>
                                    </button>
-                                   
                                    <button class="cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#007BFF" class="size-10">
                                              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
@@ -131,5 +108,125 @@
 
 
      </div>
-</body>
-</html>
+     {{-- accept --}}
+     <div id="popup-confirm" class="fixed inset-0 flex items-center justify-center bg-black/50 hidden z-50">
+          <div class="bg-white p-6 rounded-lg shadow-xl w-96">
+               <h2 class="text-lg font-semibold mb-4">Konfirmasi Accept</h2>
+               <p class="mb-16">Anda yakin ingin memverifikasi data user ini?</p>
+               <div class="flex justify-end gap-4">
+                    <button onclick="closePopup()" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Batal</button>
+                    <button onclick="confirmAccept()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Ya</button>
+               </div>
+          </div>
+     </div>
+     {{-- reject --}}
+     <div id="popup-reject" class="fixed inset-0 flex items-center justify-center bg-black/50 hidden z-50">
+          <div class="bg-white p-6 rounded-lg shadow-xl w-96">
+               <h2 class="text-lg font-bold mb-4">Konfirmasi Reject</h2>
+               <p class="mb-4">Anda yakin ingin menolak data user ini?</p>
+               <textarea id="reject-note" class="w-full border rounded p-2 mb-6 resize-none" rows="5"  placeholder="Ketik catatan untuk user... *"></textarea>
+               <div class="flex justify-end gap-4">
+                    <button onclick="closeRejectPopup()" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Batal</button>
+                    <button onclick="confirmReject()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Ya</button>
+               </div>
+          </div>
+     </div>
+
+</div>
+
+<script>
+     let selectedUserId = null;
+     let actionType = null;
+
+     function showPopup(userId, type = 'accept') {
+          selectedUserId = userId;
+          actionType = type;
+          document.getElementById('popup-confirm').classList.remove('hidden');
+     }
+     function closePopup() {
+          selectedUserId = null;
+          document.getElementById('popup-confirm').classList.add('hidden');
+     }
+
+     function confirmAccept() {
+          if (!selectedUserId) return;
+          const row = document.getElementById(`user-row-${selectedUserId}`);
+          const statusCell = document.getElementById(`user-status-${selectedUserId}`);
+          if (row && statusCell) {
+               row.classList.remove('bg-[#FFD9001A]', 'bg-[#FF00001A]', 'bg-white');
+               if (actionType === 'accept') {
+                    row.classList.add('bg-white');
+                    statusCell.textContent = 'Diterima';
+               } else if (actionType === 'decline') {
+                    row.classList.add('bg-[#FF00001A]');
+                    statusCell.textContent = 'Ditolak';
+               }
+          }
+          toggleActionButtons(selectedUserId, true);
+          closePopup();
+     }
+
+     function showRejectPopup(userId) {
+          selectedUserId = userId;
+          document.getElementById('popup-reject').classList.remove('hidden');
+     }
+     function closeRejectPopup() {
+          selectedUserId = null;
+          document.getElementById('popup-reject').classList.add('hidden');
+          document.getElementById('reject-note').value = "";
+     }
+     function confirmReject() {
+          const note = document.getElementById('reject-note').value.trim();
+          if (!note) {
+               alert("Catatan tidak boleh kosong.");
+               return;
+          }
+          if (!selectedUserId) return;
+
+          const row = document.getElementById(`user-row-${selectedUserId}`);
+          const statusCell = document.getElementById(`user-status-${selectedUserId}`);
+          if (row && statusCell) {
+               row.classList.remove('bg-[#FFD9001A]', 'bg-white');
+               row.classList.add('bg-[#FF00001A]');
+               statusCell.textContent = 'Ditolak';
+          }
+          toggleActionButtons(selectedUserId, true);
+          console.log(`User ID ${selectedUserId} ditolak dengan catatan: "${note}"`);
+          closeRejectPopup();
+     }
+     
+     function toggleActionButtons(userId, hide = false) {
+          const acceptBtn = document.querySelector(`.btn-accept[data-user-id="${userId}"]`);
+          const rejectBtn = document.querySelector(`.btn-reject[data-user-id="${userId}"]`);
+          const declineBtn = document.querySelector(`.btn-decline[data-user-id="${userId}"]`);
+          if (acceptBtn) acceptBtn.classList.toggle('invisible', hide);
+          if (rejectBtn) rejectBtn.classList.toggle('invisible', hide);
+          if (declineBtn) declineBtn.classList.toggle('invisible', hide);
+     }
+
+     document.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('.btn-accept').forEach(btn => {
+               btn.addEventListener('click', () => {
+                    const userId = btn.getAttribute('data-user-id');
+                    showPopup(userId, 'accept');
+               });
+          });
+          document.querySelectorAll('.btn-decline').forEach(btn => {
+               btn.addEventListener('click', () => {
+                    const userId = btn.getAttribute('data-user-id');
+                    showPopup(userId, 'decline');
+               });
+          });
+          document.querySelectorAll('.btn-reject').forEach(btn => {
+               btn.addEventListener('click', () => {
+                    const userId = btn.getAttribute('data-user-id');
+                    showRejectPopup(userId);
+               });
+          });
+     });
+</script>
+
+
+
+
+@endsection

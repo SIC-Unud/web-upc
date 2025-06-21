@@ -76,10 +76,10 @@
                   <h1 class="font-bold mb-1 md:mb-3 text-sm md:text-lg">Konfirmasi Log Out</h1>
                   <p class="text-[10px] md:text-sm">Anda yakin ingin keluar dari akun? Pastikan semua perubahan telah disimpan.</p>
                </div>
-               <div class="flex justify-end text-white gap-3 md:gap-5">
-                  <x-button x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
-                  <x-button class="bg-[#FF0000]">Ya, Keluar</x-button>
-               </div>
+               <form method="POST" action="#" class="flex justify-end text-white gap-3 md:gap-5">
+                  <x-button type="button" x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
+                  <x-button type="submit" class="bg-[#FF0000]">Ya, Keluar</x-button>
+               </form>
             </div>
          </modal>
       </main>

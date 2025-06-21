@@ -33,7 +33,7 @@
             @include('partials.navbar-peserta')
          @endif
       </nav>
-      <main x-data="{ open: true }" id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
+      <main x-data="{ open: false }" id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
          {{-- Nav Bar --}}
          <header id="mainHeader"
             class="transition-all duration-300 fixed px-5 py-1 left-0 top-0 right-0 z-40 flex justify-between items-center bg-white ml-50 lg:ml-60">

@@ -33,7 +33,7 @@
             @include('partials.navbar-peserta')
          @endif
       </nav>
-      <main id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
+      <main x-data="{ open: true }" id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
          {{-- Nav Bar --}}
          <header id="mainHeader"
             class="transition-all duration-300 fixed px-5 py-1 left-0 top-0 right-0 z-40 flex justify-between items-center bg-white ml-50 lg:ml-60">
@@ -45,13 +45,13 @@
                      clip-rule="evenodd" />
                </svg>
             </button>
-            <a href="#">
+            <button @@click="open = true" class="cursor-pointer">
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 lg:size-9">
                   <path fill-rule="evenodd"
                      d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6ZM5.78 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 0 0 0 1.06l3 3a.75.75 0 0 0 1.06-1.06l-1.72-1.72H15a.75.75 0 0 0 0-1.5H4.06l1.72-1.72a.75.75 0 0 0 0-1.06Z"
                      clip-rule="evenodd" />
                </svg>
-            </a>
+            </button>
             <div class="absolute w-full h-[1px] bottom-0 left-0 flex">
                <div class="w-1/2 bg-gradient-to-r from-gray-100 via-[#12B1EB]/95 to-white from-0% via-5% to-40% "></div>
                <div class="w-1/2 bg-gradient-to-l from-gray-100 via-[#FFD900] to-white from-0% via-5% to-40% "></div>
@@ -67,11 +67,30 @@
             <h3 class="text-[#4C4C4C] mx-10 my-1 lg:my-4 text-[8px] lg:text-base font-light">&copy; 2025
                UDAYANAPHYSICSCHAMPIONSHIP. All rights reserved.</h3>
          </footer>
+
+         <modal x-show="open" @@click="open = false"
+            class="fixed inset-0 bg-black/60 backdrop-blur-lg z-50 flex justify-center items-center">
+            <div x-show="open" @@click="stop" x-transition.duration.300ms
+               class="md:w-115 w-50 bg-white p-4 md:p-8 rounded-lg">
+               <div class="mb-5 md:mb-10">
+                  <h1 class="font-bold mb-1 md:mb-3 text-sm md:text-lg">Konfirmasi Log Out</h1>
+                  <p class="text-[10px] md:text-sm">Anda yakin ingin keluar dari akun? Pastikan semua perubahan telah disimpan.</p>
+               </div>
+               <div class="flex justify-end text-white gap-3 md:gap-5">
+                  <x-button x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
+                  <x-button class="bg-[#FF0000]">Ya, Keluar</x-button>
+               </div>
+            </div>
+         </modal>
       </main>
    </div>
    {{-- Script --}}
    @yield('script')
    <script>
+      function stop(e) {
+         e.stopPropagation()
+      }
+
       const button = document.getElementById('sidebar-btn')
       const sidebarText = document.querySelectorAll('.sidebar-text')
       const icon = document.querySelectorAll('#icon')

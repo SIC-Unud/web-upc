@@ -11,7 +11,7 @@
 
 <body>
    @php
-      $isAdmin = false;
+      $isAdmin = true;
    @endphp
    <div class="flex font-jakarta">
       {{-- Side Bar --}}

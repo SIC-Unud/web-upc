@@ -36,23 +36,6 @@
             </div>
         @endforeach
 
-
-        <!-- Modal -->
-        <div class="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/10 z-50" x-show="modalOpen" x-transition>
-            <div class="bg-white w-[70%] md:w-[60%] h-[75%] p-6 rounded-xl shadow-xl overflow-hidden">
-                <div class="flex justify-between items-start mb-3">
-                    <h2 class="font-bold text-lg md:text-2xl text-black mb-3" x-text="modalTitle"></h2>
-                        <button class="text-gray-700 text-xl font-bold hover:text-red-600" @click="modalOpen = false">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 md:size-10">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-                        </button>
-                </div>
-                <div class="text-sm md:text-lg text-black text-justify overflow-y-auto max-h-full pr-5">
-                    <p class="mt-0" x-text="modalContent"></p>
-                </div>
-            </div>
-        </div>
-
         <!-- Form Modal (Tambah / Edit) -->
         <div class="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/10 z-50" x-show="formOpen" x-transition x-cloak>
             <div class="bg-white w-[90%] md:w-[60%] h-[75%] p-6 rounded-xl shadow-xl overflow-y-auto">
@@ -75,7 +58,7 @@
                     </div>
                     <div>
                         <textarea name="content" rows="4"
-                            class="mt-1 block w-full rounded-md text-sm md:text-lg text-black text-justify overflow-y-auto min-h-[210px] p-3 pr-5"
+                            class="mt-1 block w-full rounded-md  border-black shadow-sm text-sm md:text-lg text-black text-justify overflow-y-auto min-h-[210px] p-3 pr-5"
                             placeholder="Tulis isi informasi..."
                             x-model="modalContent"></textarea>
                     </div>

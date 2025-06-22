@@ -63,3 +63,56 @@ Route::get('/competitions', function () {
       ],
    ]]);
 });
+
+Route::get('/admin/competitions', function () {
+   return view('competition', ['lomba' => [
+      [
+         'title' => 'Simulasi Kompetisi',
+         'date' => '26 Oktober 2025',
+         'status' => 'Terlewati',
+         'isMissed' => true
+      ],
+      [
+         'title' => 'Penyisihan Astronomi',
+         'date' => '26 Oktober 2025',
+         'status' => '1 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+      [
+         'title' => 'Penyisihan SD',
+         'date' => '28 Oktober 2025',
+         'status' => '3 hari lagi',
+         'isMissed' => false
+      ],
+   ]]);
+});

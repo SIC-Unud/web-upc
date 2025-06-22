@@ -4,7 +4,7 @@
 
 @section('content')
    <div>
-      <x-header class="mb-5 lg:mb-9">Kompetisi</x-header>
+      <x-header>Kompetisi</x-header>
       <div class="grid w-fit gap-3 grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 lg:gap-5"> 
          @foreach ($lomba as $lom)
             <x-jadwal :isMissed="$lom['isMissed']">

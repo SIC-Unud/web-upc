@@ -63,3 +63,28 @@ Route::get('/competitions', function () {
       ],
    ]]);
 });
+
+Route::get('/admin', function () {
+   return view('dashboard', ['statistik'=> [
+      [
+         'jmlh' => '500',
+         'status' => 'Pendaftar',
+         'warna' => '#029161'
+      ],
+      [
+         'jmlh' => '120',
+         'status' => 'Menunggu',
+         'warna' => '#FFD900'
+      ],
+      [
+         'jmlh' => '500',
+         'status' => 'Gagal',
+         'warna' => '#FF0000'
+      ],
+      [
+         'jmlh' => '500',
+         'status' => 'Berhasil',
+         'warna' => '#029161'
+      ],
+   ]]);
+});

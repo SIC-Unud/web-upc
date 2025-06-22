@@ -14,6 +14,10 @@ Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->nam
 Route::get('/profil', function () {
     return view('profil');
 });
+Route::post('/profil', function () {
+    return redirect('/profil');
+});
+
 Route::get('/competitions', function () {
    return view('competition');
 });

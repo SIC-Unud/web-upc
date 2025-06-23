@@ -1,6 +1,6 @@
 @extends('layouts.side-bar')
 @section('content')
-    <div class="bg-gray-100 w-fit h-full font-jakarta">
+    <div class="bg-gray-100 w-full min-h-full flex flex-col font-jakarta">
           <div class="flex justify-between items-center mb-4 lg:mb-8">
                <x-header>Manajemen User</x-header>
                <button class="flex items-center justify-between gap-2 bg-[#00C482] hover:bg-[#16ad7a] rounded-lg px-3 py-1 lg:px-5 lg:py-2 cursor-pointer">
@@ -89,11 +89,14 @@
                          </tr>
                     </thead>
                     <tbody class="bg-white">
-                         @foreach ($users as $user)
+                         @foreach ($paginatedUsers as $user)
                               <x-tbody :user="$user"/>
                          @endforeach
                     </tbody>
                </table>
+               <div>
+                    {{ $paginatedUsers->links() }}
+               </div>
           </div>
      </div>
 @endsection

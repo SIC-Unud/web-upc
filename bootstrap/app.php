@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(EnsureUpdateParticipant::class);
+        // $middleware->append(EnsureUpdateParticipant::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -58,6 +58,7 @@ Route::get('/admin/manajemen-user', function() {
    ]];
       return view("manajemen-user", compact('headers', 'users'));
    });
+   
 Route::get('/competitions', function () {
    return view('competition', ['lomba' => [
       [

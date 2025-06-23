@@ -141,7 +141,7 @@ class AuthController extends Controller
 
     //         DB::commit();
     
-    //         Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
+    //         // Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
             
     //         // return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
 

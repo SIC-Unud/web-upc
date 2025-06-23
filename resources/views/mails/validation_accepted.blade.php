@@ -18,38 +18,30 @@
             </div>
             <h1 style="font-size: 1.25rem; font-weight: 600; color: #d1d5db;">Halo, [Calon Jawara UPC 2025]!</h1>
             <p style="font-size: 0.875rem; margin-top: 0.5rem; color: #d1d5db;">
-                Terima Kasih karena telah mendaftarkan diri mu di kompetisi {{ $competition }} dalam kegiatan Udayana Physics Championship 🚀
+                Kami senang menginformasikan bahwa pendaftaran Anda untuk {{ $competition }} telah berhasil divalidasi! 🎉
             </p>
         </div>
 
         <!-- Detail Box -->
         <div style="background-color: white; color: black; padding: 20px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
-            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">Berikut merupakan detail pendaftaran anda:</p>
-            <div style="display: flex; flex-direction: row; width: 100%;">
-                <!-- Kolom 1: Label -->
-                <div style="width: 30%;">
-                    <p style="margin: 0; color: #000;">NO. Reg</p>
-                    <p style="margin: 0; color: #000">Nama</p>
-                </div>
+            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">Langkah selanjutnya:</p>
+            <ol style="font-size: 0.875rem; font-weight: 500; padding-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                    Login ke akun anda menggunakan:
+                    <ul style="list-style-type: disc; padding-left: 20px; margin-top: 6px;">
+                        <li>Email: Email Anda</li>
+                        <li>Password: No Registrasi Anda</li>
+                    </ul>
+                </li>
+                <li>Cek jadwal kompetisi di Dashboard</li>
+            </ol>
 
-                <!-- Kolom 2: Tanda Titik Dua -->
-                <div style="width: auto; margin: 0 0.5rem;">
-                    <p style="margin: 0; color: #000">:</p>
-                    <p style="margin: 0; color: #000">:</p>
-                </div>
-
-                <!-- Kolom 3: Data -->
-                <div style="flex: 1;">
-                    <p style="margin: 0; color: #000">{{ $password }}</p>
-                    <p style="margin: 0; color: #000">{{ $name }}</p>
-                </div>
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="/login"
+                    style="display: inline-block; background-color: #d9d9d9; color: black; padding: 12px 24px; text-decoration: none; border-radius: 9999px; font-weight: 500; font-family: Arial, sans-serif;">
+                    LOGIN SEKARANG
+                </a>
             </div>
-
-            <p style="font-size: 0.875rem; margin-bottom: 0.5rem; color: #000">Mohon simpan baik-baik nomor informasi di atas, karena akan digunakan sebagai:</p>
-            <ul style="font-size: 0.875rem; padding-left: 1.25rem; margin-bottom: 1rem; color: #000">
-                <li>Email Anda sebagai Email default untuk login ke akun Anda.</li>
-                <li>No Registrasi sebagai password default untuk login ke akun Anda.</li>
-            </ul>
 
             <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, di sini.</p>
             <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
@@ -88,7 +80,7 @@
                 </tr>
                 <tr>
                     <td align="center" style="padding-top: 16px;">
-                        <img src="{{ asset('logo-with-name.png') }}" alt="UPC 2025" style="width: 40px; opacity: 0.7; display: block;">
+                        <img src="{{ asset('logo-with-name.png')}}" alt="UPC 2025" style="width: 40px; opacity: 0.7; display: block;">
                     </td>
                 </tr>
             </table>

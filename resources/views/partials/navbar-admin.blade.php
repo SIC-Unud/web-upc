@@ -1,5 +1,5 @@
 <div class="text-center mt-5 mx-6">
-   <x-nav-link id="icon" href="/admin/" :active="request()->is('ubah-password')">
+   <x-nav-link id="icon" href="/admin/" :active="request()->is('admin')">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
          <path
             d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
@@ -16,7 +16,7 @@
       </svg>
       <span class="sidebar-text">Manajemen User</span>
    </x-nav-link>
-   <x-nav-link id="icon" href="/admin/informasi" :active="request()->is('informasi')">
+   <x-nav-link id="icon" href="/admin/informasi" :active="request()->is('admin/informasi')">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
          stroke="currentColor" class="size-5">
          <path stroke-linecap="round" stroke-linejoin="round"
@@ -24,7 +24,7 @@
       </svg>
       <span class="sidebar-text">Informasi</span>
    </x-nav-link>
-   <x-nav-link id="icon" href="/admin/competitions" :active="request()->is('competitions')">
+   <x-nav-link id="icon" href="/admin/competitions" :active="request()->is('admin/competitions')">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
          stroke="currentColor" class="size-5">
          <path stroke-linecap="round" stroke-linejoin="round"

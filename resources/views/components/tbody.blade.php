@@ -7,7 +7,7 @@
      <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['kompetisi'] }}</td>
      <td id="user-status-{{ $user['id'] }}" class="text-center px-4 py-5 lg:text-base text-xs">{{ $user['status'] }}</td>
 
-     <td class="lg:px-4 lg:py-5 px-2 py-3">
+     <td class="lg:px-3 lg:py-4 px-2 py-3">
           <div x-data="{ showConfirm: false, showReject: false, note: '', showButton: true }" class="flex items-center justify-evenly relative">
                <button 
                     @@click="showConfirm = true" 

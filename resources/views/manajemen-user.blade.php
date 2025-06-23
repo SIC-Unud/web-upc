@@ -10,7 +10,7 @@
                     <p class="lg:text-base text-sm text-white">Export</p>
                </button>
           </div>
-          <div x-data="{filter: false}" class="relative flex bg-white rounded-lg lg:gap-4 gap-2 items-center lg:px-8 lg:py-6 lg:mb-8 px-4 py-3 mb-4 shadow-xl">
+          <div x-data="{filter: false}" class="relative flex bg-white rounded-lg gap-2 items-center lg:px-8 lg:py-6 lg:mb-8 px-4 py-3 mb-4 shadow-xl">
                <div class="grow relative">
                     <input class="border lg:text-base text-sm rounded-lg lg:px-8 lg:py-2 px-5 py-1 w-full" type="text"  placeholder="Telusuri User...">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
@@ -20,47 +20,66 @@
                          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
                </div>
-               <button @@click="filter = !filter" class="relative flex items-center justify-between gap-2 bg-[#007BFF] hover:bg-[#0062ff] rounded-lg lg:px-5 px-3 lg:py-3 py-1.5 cursor-pointer">
+               <button @@click="filter = !filter" class="relative flex items-center justify-between gap-2 bg-[#007BFF] hover:bg-[#0062ff] rounded-lg lg:px-5 px-3 lg:py-2.5 py-1.5 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
                          viewBox="0 0 24 24" stroke-width="1.5" 
                          stroke="white" class="size-4 lg:size-6">
                          <path stroke-linecap="round" stroke-linejoin="round" 
                               d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                     </svg>
-                    <p class="lg:text-base text-sm text-white">Filter</p>
+                    <p class="lg:text-base text-sm hidden lg:block text-white">Filter</p>
+               </button>
+               <button class="flex items-center justify-between gap-1 bg-[#00C482] hover:bg-[#16ad7a] rounded-lg lg:px-5 px-3 lg:py-2.5 py-1.5 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                         viewBox="0 0 24 24" stroke-width="1.5" 
+                         stroke="white" 
+                         class="lg:size-5 size-4">
+                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                    <p class="lg:text-base text-sm hidden lg:block text-white">Telusuri</p>
                </button>
                {{-- pop-up filter --}}
                <div x-show="filter"
-                    class="lg:w-80 w-60 lg:h-65 h-fit max-w-full bg-[#ebebeb] rounded-lg shadow-2xl absolute lg:top-20 top-12 lg:right-8 right-4 z-50">
-                    <div class="text-start lg:px-4 p-3 h-full w-full lg:py-3">
-                         <div class="grid gap-2 items-center">
-                              <div class="flex flex-col justify-between gap-2">
-                                   <label class="block lg:text-base text-xs" for="">Status</label>
-                                   <select class="lg:px-3 w-full p-1 lg:py-2 border bg-white border-white lg:text-base text-xs text-black" name="" id="">
-                                        <option class="lg:text-base text-xs" value="">Pilih...</option>
-                                        <option class="lg:text-base text-xs" value="">Diterima</option>
-                                        <option class="lg:text-base text-xs" value="">Ditolak</option>
-                                        <option class="lg:text-base text-xs" value="">Menunggu</option>
+                    x-cloak
+                    x-transition
+                    class="lg:w-80 w-64 max-w-full bg-[#ebebeb] rounded-lg shadow-2xl absolute lg:top-20 top-12 lg:right-40 right-16 z-50 overflow-hidden">
+                    <div class="text-start px-4 py-3 w-full">
+                         <div class="grid gap-4 w-full">
+                              <div class="flex flex-col gap-1 w-full">
+                                   <label class="text-xs lg:text-base">Status</label>
+                                   <select class="w-full p-2 bg-white text-black text-xs lg:text-base rounded">
+                                        <option value="">Pilih...</option>
+                                        <option>Diterima</option>
+                                        <option>Ditolak</option>
+                                        <option>Menunggu</option>
                                    </select>
                               </div>
-                              <div class="flex flex-col justify-between gap-2">
-                                   <label class="block lg:text-base text-xs" for="">Kompetisi</label>
-                                   <select class="lg:px-3 p-1 lg:py-2 border bg-white border-white text-black lg:text-base text-xs" name="" id="">
-                                        <option class="lg:text-base text-xs" value="">Pilih...</option>
-                                        <option value="">Cerdas cermat SD (kelompok)</option>
-                                        <option class="lg:text-base text-xs" value="">Fisika SMP</option>
-                                        <option class="lg:text-base text-xs" value="">Fisika SMA</option>
-                                        <option class="lg:text-base text-xs" value="">Kebumian</option>
-                                        <option class="lg:text-base text-xs" value="">Astronomi</option>
-                                        <option class="lg:text-base text-xs" value="">Esai (kelompok)</option>
-                                        <option class="lg:text-base text-xs" value="">Poster Ilmiah (kelompok)</option>
+                              <div class="flex flex-col gap-1 w-full">
+                                   <label class="text-xs lg:text-base">Kompetisi</label>
+                                   <select class="w-full p-2 bg-white text-black text-xs lg:text-base rounded">
+                                        <option value="">Pilih...</option>
+                                        <option>Cerdas cermat SD (kelompok)</option>
+                                        <option>Fisika SMP</option>
+                                        <option>Fisika SMA</option>
+                                        <option>Kebumian</option>
+                                        <option>Astronomi</option>
+                                        <option>Esai (kelompok)</option>
+                                        <option>Poster Ilmiah (kelompok)</option>
                                    </select>
                               </div>
-                              <div class="flex flex-col justify-between gap-2">
-                                   <label class="block lg:text-base text-xs" for="">Waktu Registrasi</label>
-                                   <input type="datetime-local" class="lg:text-base text-xs lg:px-3 p-1 lg:py-2 border bg-white border-white text-black" name="" id="">
+                              <div class="flex flex-col gap-1 w-full">
+                                   <label class="text-xs lg:text-base">Waktu Registrasi</label>
+                                   <input type="datetime-local"
+                                        class="w-full p-2 bg-white text-black text-xs lg:text-base rounded" />
                               </div>
-                         </div>    
+                              <div 
+                                   class="flex justify-center"
+                                   @@click="filter = false">
+                                   <button class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg">
+                                        Cari
+                                   </button>
+                              </div>
+                         </div>
                     </div>
                </div>
           </div>
@@ -70,7 +89,7 @@
                     <thead class="border border-collapse border-b-3 border-gray-400">
                          <tr>
                               @foreach ($headers as $header)
-                                   <th class="lg:py-3 lg:px-4 py-1 px-2 font-extralight lg:text-base text-sm">{{ $header }}</th>
+                                   <th class="lg:py-2 lg:px-3 p-1 font-extralight lg:text-base text-sm">{{ $header }}</th>
                               @endforeach
                          </tr>
                     </thead>

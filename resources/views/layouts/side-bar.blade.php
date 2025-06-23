@@ -58,7 +58,7 @@
             </div>
          </header>
          {{-- Content --}}
-         <div id="mainContent" class="bg-gray-100 w-full h-full px-5 lg:px-9 py-10 lg:py-18">
+         <div id="mainContent" class="bg-gray-100 w-full h-full min-h-screen px-5 lg:px-9 py-10 lg:py-18">
             @yield('content')
          </div>
          {{-- Footer --}}
@@ -68,7 +68,7 @@
                UDAYANAPHYSICSCHAMPIONSHIP. All rights reserved.</h3>
          </footer>
 
-         <modal x-show="open" @@click="open = false"
+         <div x-show="open" x-cloak @@click="open = false"
             class="fixed inset-0 bg-black/60 backdrop-blur-lg z-50 flex justify-center items-center">
             <div x-show="open" @@click="stop" x-transition.duration.300ms
                class="md:w-115 w-50 bg-white p-4 md:p-8 rounded-lg">
@@ -85,7 +85,7 @@
                   <x-button type="submit" class="bg-[#FF0000]">Ya, Keluar</x-button>
                </form>
             </div>
-         </modal>
+         </div>
       </main>
    </div>
    {{-- Script --}}

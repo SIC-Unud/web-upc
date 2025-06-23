@@ -1,6 +1,6 @@
 @extends('layouts.side-bar')
 @section('content')
-    <div class="bg-gray-100 w-full h-screen font-jakarta">
+    <div class="bg-gray-100 w-fit h-full font-jakarta">
           <div class="flex justify-between items-center mb-4 lg:mb-8">
                <x-header>Manajemen User</x-header>
                <button class="flex items-center justify-between gap-2 bg-[#00C482] hover:bg-[#16ad7a] rounded-lg px-3 py-1 lg:px-5 lg:py-2 cursor-pointer">
@@ -66,11 +66,6 @@
                                         <option>Esai (kelompok)</option>
                                         <option>Poster Ilmiah (kelompok)</option>
                                    </select>
-                              </div>
-                              <div class="flex flex-col gap-1 w-full">
-                                   <label class="text-xs lg:text-base">Waktu Registrasi</label>
-                                   <input type="datetime-local"
-                                        class="w-full p-2 bg-white text-black text-xs lg:text-base rounded" />
                               </div>
                               <div 
                                    class="flex justify-center"

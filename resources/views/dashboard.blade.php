@@ -74,8 +74,8 @@
 
 @section('script')
    <script type="module">
-      const ctx1 = document.getElementById('GrafikPersebaran');
-      const ctx2 = document.getElementById('TrendPendaftar');
+      const ctx1 = document.getElementById('GrafikPersebaran')
+      const ctx2 = document.getElementById('TrendPendaftar')
 
       new Chart(ctx1, {
          type: 'bar',

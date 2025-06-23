@@ -11,7 +11,7 @@
 
 <body>
    @php
-      $isAdmin = false;
+      $isAdmin = true;
    @endphp
    <div class="flex font-jakarta">
       {{-- Side Bar --}}
@@ -33,7 +33,7 @@
             @include('partials.navbar-peserta')
          @endif
       </nav>
-      <main x-data="{ open: true }" id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
+      <main x-data="{ open: false }" id="main" class="w-full min-h-screen transition-all duration-300 lg:ml-60">
          {{-- Nav Bar --}}
          <header id="mainHeader"
             class="transition-all duration-300 fixed px-5 py-1 left-0 top-0 right-0 z-40 flex justify-between items-center bg-white ml-50 lg:ml-60">
@@ -76,10 +76,10 @@
                   <h1 class="font-bold mb-1 md:mb-3 text-sm md:text-lg">Konfirmasi Log Out</h1>
                   <p class="text-[10px] md:text-sm">Anda yakin ingin keluar dari akun? Pastikan semua perubahan telah disimpan.</p>
                </div>
-               <div class="flex justify-end text-white gap-3 md:gap-5">
-                  <x-button x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
-                  <x-button class="bg-[#FF0000]">Ya, Keluar</x-button>
-               </div>
+               <form method="POST" action="/logout" class="flex justify-end text-white gap-3 md:gap-5">
+                  <x-button type="button" x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
+                  <x-button type="submit" class="bg-[#FF0000]">Ya, Keluar</x-button>
+               </form>
             </div>
          </modal>
       </main>
@@ -87,6 +87,7 @@
    {{-- Script --}}
    @yield('script')
    <script>
+      console.log(window.Alpine);
       function stop(e) {
          e.stopPropagation()
       }

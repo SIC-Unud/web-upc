@@ -11,7 +11,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Route::get('/registration', [AuthController::class, 'show']);
 Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
-Route::get('/admin/manajemen-peserta', function() {
+Route::get('/admin/manajemen-user', function() {
      $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
      $users = [
      [
@@ -44,7 +44,7 @@ Route::get('/admin/manajemen-peserta', function() {
           'kompetisi' => 'Cerdas cermat SD (kelompok)',
           'status' => 'Menunggu',
      ]];
-     return view("manajemen-peserta", compact('headers', 'users'));
+     return view("manajemen-user", compact('headers', 'users'));
    });
 Route::get('/competitions', function () {
    return view('competition', ['lomba' => [

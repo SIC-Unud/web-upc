@@ -1,6 +1,6 @@
 @extends('layouts.side-bar')
 @section('content')
-    <div class="bg-gray-100 w-full h-screen font-jakarta">
+    <div class="bg-gray-100 w-full min-h-full flex flex-col font-jakarta">
           <div class="flex justify-between items-center mb-4 lg:mb-8">
                <x-header>Manajemen User</x-header>
                <a href="{{ route('participants.export', request()->query()) }}" class="flex items-center justify-between gap-2 bg-[#00C482] hover:bg-[#16ad7a] rounded-lg px-3 py-1 lg:px-5 lg:py-2 cursor-pointer">
@@ -104,6 +104,10 @@
                               </div> --}}
                               <div class="flex justify-center">
                                    <button type="submit" class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg">
+                              {{-- <div 
+                                   class="flex justify-center"
+                                   @@click="filter = false"> --}}
+                                   {{-- <button class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg"> --}}
                                         Cari
                                    </button>
                               </div>
@@ -122,11 +126,14 @@
                          </tr>
                     </thead>
                     <tbody class="bg-white">
-                         @foreach ($users as $user)
+                         @foreach ($paginatedUsers as $user)
                               <x-tbody :user="$user"/>
                          @endforeach
                     </tbody>
                </table>
+               <div>
+                    {{ $paginatedUsers->links() }}
+               </div>
           </div>
      </div>
 @endsection

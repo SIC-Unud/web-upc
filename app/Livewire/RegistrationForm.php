@@ -68,7 +68,7 @@ class RegistrationForm extends Component
     public $subtotal;
     public $total;
 
-    public $appFee = 1000;
+    
     public $discount = 0;
     public $competitions;
 
@@ -218,7 +218,7 @@ class RegistrationForm extends Component
             $this->validate(array_merge($commonRules, $leaderRules));
         }
         
-        $this->total = $this->subtotal + $this->appFee;
+        $this->total = $this->subtotal;
         $this->currentStep = 3;
         $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
     }
@@ -326,13 +326,15 @@ class RegistrationForm extends Component
         $promoCodes = config('const.promo_codes');
         $validPromo = collect($promoCodes)->firstWhere('code', $this->coupon_code);
 
-        if ($validPromo) {
-            $this->discount = ($this->subtotal * $validPromo['discount']) / 100;
-            $this->total = $this->subtotal + $this->appFee - $this->discount;
+        if ($validPromo && now()->between(
+                        Carbon::parse($validPromo['start_date']),
+                        Carbon::parse($validPromo['end_date']))) {
+            $this->discount = $validPromo['value'];
+            $this->total = $this->subtotal - $this->discount;
             $this->resetErrorBag('coupon_code');
         } else {
             $this->discount = 0;
-            $this->total = $this->subtotal + $this->appFee;
+            $this->total = $this->subtotal;
             $this->addError('coupon_code', 'Maaf, kode kupon tidak valid.');
         }
     }

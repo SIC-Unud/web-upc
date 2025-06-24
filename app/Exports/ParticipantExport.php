@@ -11,29 +11,52 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 
 class ParticipantExport implements  FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
-    protected $competitionId;
+    protected $kompetisi;
     protected $status;
+    protected $search;
 
-    public function __construct($competitionId = null, $status = null)
+    public function __construct($kompetisi = null, $status = null, $search = null)
     {
-        $this->competitionId = $competitionId;
+        $this->kompetisi = $kompetisi;
         $this->status = $status;
+        $this->search = $search;
     }
 
+    // public function query()
+    // {
+    //     return Participant::with(['user', 'competition', 'members'])
+    //         ->when($this->competitionId, fn($q) => $q->where('competition_id', $this->competitionId))
+    //         ->when($this->status, function ($q) {
+    //             if ($this->status === 'accepted') {
+    //                 return $q->where('is_accepted', true);
+    //             } elseif ($this->status === 'rejected') {
+    //                 return $q->where('is_rejected', true);
+    //             } elseif ($this->status === 'pending') {
+    //                 return $q->where('is_accepted', false)->where('is_rejected', false);
+    //             }
+    //         });
+    // }
     public function query()
     {
         return Participant::with(['user', 'competition', 'members'])
-            ->when($this->competitionId, fn($q) => $q->where('competition_id', $this->competitionId))
-            ->when($this->status, function ($q) {
-                if ($this->status === 'accepted') {
-                    return $q->where('is_accepted', true);
-                } elseif ($this->status === 'rejected') {
-                    return $q->where('is_rejected', true);
-                } elseif ($this->status === 'pending') {
-                    return $q->where('is_accepted', false)->where('is_rejected', false);
+            ->when($this->search, function ($query, $search) {
+                $query->where('leader_name', 'like', '%' . $search . '%');
+            })
+            ->when($this->kompetisi, function ($query, $kompetisi) {
+                $query->where('competition_id', (int) $kompetisi);
+            })
+            ->when($this->status, function ($query, $status) {
+                if ($status === 'diterima') {
+                    return $query->where('is_accepted', true);
+                } elseif ($status === 'ditolak') {
+                    return $query->where('is_rejected', true);
+                } elseif ($status === 'menunggu') {
+                    return $query->where('is_accepted', false)
+                                ->where('is_rejected', false);
                 }
             });
     }
+
 
     public function map($participant): array
     {

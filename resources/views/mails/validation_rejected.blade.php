@@ -23,22 +23,52 @@
         </div>
 
         <!-- Detail Box -->
-        <div style="background-color: white; color: black; padding: 20px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+        {{-- <div style="background-color: white; color: black; padding: 20px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
             <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">Alasan gagal:</p>
             <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">"{{ $reject_message }}"</p>
 
             <p style="font-size: 0.875rem; margin-bottom: 0.5rem; color: #000">Namun jangan khawatir, anda masih bisa memperbaiki data dengan klik tombol di bawah ini:</p>
             <div style="text-align: center; margin: 20px 0;">
-                <a href="/blablabla/{{ $no_registration }}"
+                <a href="https://upcunud.com/login"
                     style="display: inline-block; background-color: #d9d9d9; color: black; padding: 12px 24px; text-decoration: none; border-radius: 9999px; font-weight: 500; font-family: Arial, sans-serif;">
                     Perbaiki Formulir
                 </a>
-                {{-- ini linknya belum ada ketentuan nama --}}
+                
             </div>
 
             <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, di sini.</p>
             <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
+        </div> --}}
+
+        <div style="background-color: white; color: black; padding: 20px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">Alasan gagal:</p>
+            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #000">"{{ $reject_message }}"</p>
+
+            <p style="font-size: 0.875rem; margin-bottom: 0.5rem; color: #000">
+                Namun jangan khawatir, Anda masih bisa memperbaiki data dengan mengikuti langkah-langkah berikut:
+            </p>
+
+            <ol style="font-size: 0.875rem; margin-bottom: 12px; padding-left: 1rem; color: #000">
+                <li style="margin-bottom: 0.5rem;">Login terlebih dahulu melalui halaman web: <a href="https://upcunud.com/login" style="color: #007BFF; text-decoration: underline;">https://upcunud.com/login</a></li>
+                <li style="margin-bottom: 0.5rem;">Setelah login, akan muncul pop-up notifikasi bahwa data Anda ditolak.</li>
+                <li style="margin-bottom: 0.5rem;">Klik tombol <strong>Perbaiki Formulir</strong> yang tersedia pada pop-up tersebut.</li>
+                <li>Perbaiki data yang diminta, kemudian simpan dan kirim ulang formulir Anda.</li>
+            </ol>
+
+            {{-- <div style="text-align: center; margin: 20px 0;">
+                <a href="https://upcunud.com/login"
+                    style="display: inline-block; background-color: #d9d9d9; color: black; padding: 12px 24px; text-decoration: none; border-radius: 9999px; font-weight: 500; font-family: Arial, sans-serif;">
+                    Perbaiki Formulir
+                </a>
+            </div> --}}
+
+            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">
+                Jika terdapat pertanyaan lainnya, dapat menghubungi kontak Humas UPC 2025 <a href="https://upcunud.com/kontak" style="color: #007BFF; text-decoration: underline;">di sini</a>.
+            </p>
+
+            <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
         </div>
+
 
         {{-- footer --}}
         <div style="background-color: #212429; padding: 1rem;">

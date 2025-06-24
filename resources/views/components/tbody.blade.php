@@ -1,32 +1,42 @@
 <tr id="user-row-{{ $user['id'] }}" class="bg-[#FFD9001A]">
-     <td class="text-center lg:px-4 px-2 py-3 lg:text-base text-xs lg:py-5">{{ $user['no_reg'] }}</td>
-     <td class="lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['nama'] }}</td>
-     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['nisn'] }}</td>
-     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['telepon'] }}</td>
-     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['waktu_registrasi'] }}</td>
-     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-base text-xs">{{ $user['kompetisi'] }}</td>
-     <td id="user-status-{{ $user['id'] }}" class="text-center px-4 py-5 lg:text-base text-xs">{{ $user['status'] }}</td>
+     <td class="text-center lg:px-4 px-2 py-3 lg:text-[12px] text-xs lg:py-5">{{ $user['no_registration'] }}</td>
+     <td class="lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user['leader_name'] }}</td>
+     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user['leader_student_id'] }}</td>
+     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user['leader_no_wa'] }}</td>
+     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ \Carbon\Carbon::parse($user['created_at'])->format('Y-m-d H:i:s') }}</td>
+     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user['competition']['name'] }}</td>
+     <td id="user-status-{{ $user['id'] }}" class="text-center px-4 py-5 lg:text-[12px] text-xs">
+          @if ($user['is_accepted'])
+               {{ "Diterima" }}
+          @elseif ($user['is_rejected'])
+               {{ "Ditolak" }}
+          @else
+               {{ "Menunggu" }}
+          @endif
+     </td>
 
      <td class="lg:px-3 lg:py-4 px-2 py-3">
           <div x-data="{ showConfirm: false, showReject: false, note: '', showButton: true }" class="flex items-center justify-evenly relative">
-               <button 
-                    @@click="showConfirm = true" 
-                    class="cursor-pointer" 
-                    :class="showButton ? '' : 'invisible'"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#029161" class="size-5 lg:size-8">
-                         <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                    </svg>
-               </button>
-               <button 
-                    @@click="showReject = true" 
-                    class="cursor-pointer" 
-                    :class="showButton ? 'cursor-pointer' : 'invisible cursor-pointer'"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red" class="size-5 lg:size-8">
-                         <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                    </svg>
-               </button>
+               @if (!$user['is_accepted'] && !$user['is_rejected'])
+                    <button 
+                         @@click="showConfirm = true" 
+                         class="cursor-pointer" 
+                         :class="showButton ? '' : 'invisible'"
+                         >
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#029161" class="size-5 lg:size-8">
+                              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                         </svg>
+                    </button>    
+                    <button 
+                         @@click="showReject = true" 
+                         class="cursor-pointer" 
+                         :class="showButton ? 'cursor-pointer' : 'invisible cursor-pointer'"
+                         >
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red" class="size-5 lg:size-8">
+                              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                         </svg>
+                    </button>     
+               @endif
                <button 
                     class="cursor-pointer"
                     >
@@ -55,7 +65,7 @@
                                    class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800">
                                    Batal
                               </button>
-                              <button 
+                              {{-- <button 
                                    @@click="
                                         document.getElementById('user-status-{{ $user['id'] }}').textContent = 'Diterima';
                                         document.getElementById('user-row-{{ $user['id'] }}').classList.remove('bg-[#FFD9001A]');
@@ -64,7 +74,18 @@
                                         showButton = false"
                                    class="bg-[#029161] hover:bg-green-700 text-white px-4 py-1 rounded">
                                    Ya
-                              </button>
+                              </button> --}}
+                              <form 
+                                   method="POST" 
+                                   action="{{ route('admin.manajemen-user.accpet', ['partisipant_id' => $user['id']]) }}"
+                                   onsubmit="showConfirm = false; showButton = false"
+                              >
+                                   @csrf
+                                   <button type="submit"
+                                        class="bg-[#029161] hover:bg-green-700 text-white px-4 py-1 rounded">
+                                        Ya
+                                   </button>
+                              </form>
                          </div>
                     </div>
                </div>
@@ -94,7 +115,7 @@
                                    class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800">
                                    Batal
                               </button>
-                              <button 
+                              {{-- <button 
                                    @@click="
                                         document.getElementById('user-status-{{ $user['id'] }}').textContent = 'Ditolak';
                                         document.getElementById('user-row-{{ $user['id'] }}').classList.remove('bg-[#FFD9001A]');
@@ -104,9 +125,22 @@
                                         showButton = false"
                                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
                                    Tolak
-                              </button>
+                              </button> --}}
+                              <form 
+                                   method="POST" 
+                                   action="{{ route('admin.manajemen-user.reject', ['partisipant_id' => $user['id']]) }}"
+                                   @submit="showReject = false; showButton = false"
+                                   >
+                                   @csrf
+                                   <input type="hidden" name="reject_message" :value="note">
+
+                                   <button type="submit" 
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+                                        Tolak
+                                   </button>
+                              </form>
                          </div>
                     </div>
-          </div>
+               </div>
      </td>
 </tr>

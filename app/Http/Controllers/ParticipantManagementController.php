@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Competition;
 use App\Models\Participant;
 use Illuminate\Http\Request;
@@ -23,13 +24,10 @@ class ParticipantManagementController extends Controller
     }
 
     public function accept($partisipant_id) {
-        $data = Participant::with('competition, user')->findOrFail($partisipant_id);
+        $data = Participant::with(['competition', 'user'])->findOrFail($partisipant_id);
 
         if ($data->is_accepted) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Peserta sudah diterima sebelumnya.',
-            ], 400);
+            abort(400, 'Peserta sudah diterima sebelumnya.');
         }
 
         $jumlahPartisipan = Participant::where('competition_id', $data->competition_id)
@@ -48,15 +46,20 @@ class ParticipantManagementController extends Controller
 
         Mail::to($data->user->email)->queue(new ValidationAcceptedMail( $data->competition->name));
         
-        return response()->json([
-                'success' => true,
-                'message' => 'Berhasil update (participan data accepted)',
-        ], 200);
+        return back()->with('success', 'User berhasil diverifikasi.');
     }
 
 
     public function reject($partisipant_id, Request $request) {
-        $data = Participant::with('competition, user')->findOrFail($partisipant_id);
+        $data = Participant::with(['competition', 'user'])->findOrFail($partisipant_id);
+
+        if ($data->is_accepted) {
+            abort(400, 'Peserta sudah diterima sebelumnya.');
+        }
+
+        if ($data->is_rejected) {
+            abort(400, 'Peserta sudah ditolak sebelumnya.');
+        }
 
         $validatedData = $request->validate([
             'reject_message' => ['required', 'string'],
@@ -66,29 +69,26 @@ class ParticipantManagementController extends Controller
         $data->reject_message = $validatedData['reject_message'];
         $data->save();
 
-        Mail::to($data->user->email)->queue(new ValidationAcceptedMail( $data->competition->name));
+        Mail::to($data->user->email)->queue(new ValidationRejectedMail( $data->competition->name, $data->no_registration, $data->reject_message));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Partisipan berhasil ditolak dan email telah dikirim.'
-        ]);
+        return back()->with('success', 'User berhasil ditolak.');
     }
 
     public function show(Request $request) {
 
         $participants = Participant::with('competition')
             ->when($request->search, function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->where('leader_name', 'like', '%' . $search . '%');
             })
-            ->when($request->competition_id, function ($query, $competition_id) {
-                $query->where('competition_id', $competition_id);
+            ->when($request->kompetisi, function ($query, $kompetisi) {
+                $query->where('competition_id', $kompetisi);
             })
             ->when($request->status, function ($query, $status) {
-                if ($status == "accepted") {
+                if ($status == "diterima") {
                     $query->where('is_accepted', true);
-                } elseif ($status == "rejected") {
+                } elseif ($status == "ditolak") {
                     $query->where('is_rejected', true);
-                } elseif ($status == "pending") {
+                } elseif ($status == "menunggu") {
                     $query->where('is_accepted', false)
                         ->where('is_rejected', false);
                 }
@@ -96,8 +96,12 @@ class ParticipantManagementController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $competitions = Competition::all();
+        $users = $participants->toArray()['data'];
 
-        return view('participants.index', compact('participants', 'competitions'));
+        // $competitions = Competition::all();
+
+        $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
+
+        return view("manajemen-user", compact('headers', 'users'));
     }
 }

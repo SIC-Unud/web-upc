@@ -3,13 +3,65 @@
 return [
     'promo_codes' => [
         [
-            'code' => 'UPC9999',
-            'discount' => 15
+            'code' => 'OPREGIS',
+            'value' => 10000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-07-02 23:59:59'
         ],
         [
-            'code' => 'UPC99',
-            'discount' => 10
-        ]
+            'code' => 'MERDEKA',
+            'value' => 8000,
+            'start_date' => '2025-08-17 00:00:00',
+            'end_date' => '2025-08-18 23:59:59'
+        ],
+        [
+            'code' => 'SMKBISA',
+            'value' => 5000,
+            'start_date' => '2025-08-17 00:00:00',
+            'end_date' => '2025-08-18 23:59:59'
+        ],
+        [
+            'code' => 'LASTCHANCE',
+            'value' => 15000,
+            'start_date' => '2025-09-17 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'UPCGOESTOSCHOLL',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-08-25 23:59:59'
+        ],
+        [
+            'code' => 'SDCERDAS',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'SMPKEREN',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'SMAKREATIF',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'AMBISS',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'FISIKAHEBAT',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
     ],
 
     'schedules' => [

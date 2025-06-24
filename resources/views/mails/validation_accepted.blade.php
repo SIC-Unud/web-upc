@@ -37,13 +37,13 @@
             </ol>
 
             <div style="text-align: center; margin: 20px 0;">
-                <a href="/login"
+                <a href="https://upcunud.com/login"
                     style="display: inline-block; background-color: #d9d9d9; color: black; padding: 12px 24px; text-decoration: none; border-radius: 9999px; font-weight: 500; font-family: Arial, sans-serif;">
                     LOGIN SEKARANG
                 </a>
             </div>
 
-            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, di sini.</p>
+            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025 <a href="https://upcunud.com/kontak" style="color: #007BFF; text-decoration: underline;">di sini</a>.</p>
             <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
         </div>
 

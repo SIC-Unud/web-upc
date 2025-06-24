@@ -12,7 +12,7 @@ class ParticipantExportController extends Controller
     public function export(Request $request)
     {
         return Excel::download(
-            new ParticipantExport($request->competition_id, $request->status),
+            new ParticipantExport($request->kompetisi, $request->status, $request->search),
             'participants.csv',
             ExcelFormat::CSV
         );

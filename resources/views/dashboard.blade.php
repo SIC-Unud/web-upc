@@ -1,6 +1,6 @@
-@extends('layouts.side-bar');
+@extends('layouts.side-bar')
 
-@section('title', 'Dashboard');
+@section('title', 'Dashboard')
 
 @section('content')
    <div>

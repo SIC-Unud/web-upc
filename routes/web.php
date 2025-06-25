@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ParticipantManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
@@ -157,3 +158,5 @@ Route::get('/competitions', function () {
       ],
    ]]);
 });
+
+Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');

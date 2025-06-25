@@ -93,15 +93,16 @@ class ParticipantManagementController extends Controller
                         ->where('is_rejected', false);
                 }
             })
-            ->paginate(10)
+            ->paginate(1)
             ->withQueryString();
 
-        $users = $participants->toArray()['data'];
+        // $users = $participants->toArray()['data'];
 
         // $competitions = Competition::all();
 
         $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
 
-        return view("manajemen-user", compact('headers', 'users'));
+        // return view("manajemen-user", compact('headers', 'users'));
+        return view("manajemen-user", compact('headers', 'participants'));
     }
 }

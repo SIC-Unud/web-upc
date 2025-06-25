@@ -126,13 +126,15 @@
                          </tr>
                     </thead>
                     <tbody class="bg-white">
-                         @foreach ($paginatedUsers as $user)
+                         {{-- @foreach ($users as $user) --}}
+                         @foreach ($participants as $user)
                               <x-tbody :user="$user"/>
                          @endforeach
                     </tbody>
                </table>
                <div>
-                    {{ $paginatedUsers->links() }}
+                    {{-- {{ $users->links() }} --}}
+                    {{ $participants->links() }}
                </div>
           </div>
      </div>

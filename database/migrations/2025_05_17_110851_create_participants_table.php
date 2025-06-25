@@ -37,6 +37,7 @@ return new class extends Migration
             $table->text('twibbon_links');
             $table->double('subtotal');
             $table->double('total');
+            $table->string('coupon_code', 30)->nullable();
             $table->string('transaction_proof');
             $table->boolean('is_accepted')->default(0);
             $table->text('reject_message')->nullable();

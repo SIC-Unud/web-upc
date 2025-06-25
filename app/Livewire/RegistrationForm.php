@@ -270,6 +270,7 @@ class RegistrationForm extends Component
                 'twibbon_links' => $this->twibbon_links,
                 'subtotal' => $this->subtotal,
                 'total' => $this->total,
+                'coupon_code' => $this->coupon_code,
                 'transaction_proof' => $transactionProofPath,
                 'is_accepted' => false,
                 'is_rejected' => false,

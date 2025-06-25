@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'simulation'=> [
+        'title' =>'Simulasi Kompetisi',
+        'finish_at' => '2025-09-26 23:59:59'
+    ],
+
     'promo_codes' => [
         [
             'code' => 'UPC9999',

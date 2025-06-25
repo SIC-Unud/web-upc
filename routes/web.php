@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ParticipantDashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -12,9 +13,19 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Route::get('/registration', [AuthController::class, 'show']);
 Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
 
+Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(function () {
+
+    Route::get('/', fn() => redirect()->route('dashboard.kompetisi'));
+    Route::get('/kompetisi', [ParticipantDashboardController::class, 'kompetisi'])->name('kompetisi');
+    Route::get('/profil', [ParticipantDashboardController::class, 'profil'])->name('profil');
+    Route::get('/informasi', [ParticipantDashboardController::class, 'informasi'])->name('informasi');
+
+});
+
 Route::get('/profil', function () {
     return view('profil');
 });
+
 Route::post('/profil', function () {
     return redirect('/profil');
 });

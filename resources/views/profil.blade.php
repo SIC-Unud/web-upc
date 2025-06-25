@@ -10,7 +10,7 @@
     </h1>
     <div class="text-[10px] md:text-lg mb-6 bg-white w-full font-jakarta rounded-3xl mx-auto my-7 p-6 md:p-[52px] shadow-md shadow-gray-400">
         <div class="grid grid-cols-1 md:grid-cols-[max-content_auto] gap-x-15 gap-y-4">
-            <div class="md:w-full flex justify-center md:justify-start text-auto w-1/2">
+            <div class="md:w-full w-1/2 mx-auto">
                 <img src="/assets/profile-peserta.png" alt="">
             </div>
             <div class="grid break-all grid-cols-[max-content_1fr] md:grid-cols-[max-content_auto] gap-x-2 gap-y-4 max-w-full">

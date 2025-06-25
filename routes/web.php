@@ -117,23 +117,5 @@ Route::get('/competitions', function () {
          'status' => '3 hari lagi',
          'isMissed' => false
       ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
    ]]);
 });

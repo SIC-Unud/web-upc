@@ -7,6 +7,10 @@
     display: none !important;
 }
 
+[x-cloak] {
+   display: none !important;
+}
+
 @font-face {
     font-family: "Lao";
     src: url("~font/LaoMuangDon-Regular.ttf") format("truetype");

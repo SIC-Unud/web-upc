@@ -9,30 +9,46 @@
 
     <div class="space-y-4">
         @foreach ($informasi as $info)
-            <div class="bg-white shadow-xl rounded-xl p-4 relative max-h-[140px] text-justify">
+            <div x-data="{ expanded: false }" class="bg-white shadow-xl rounded-xl p-4 relative text-justify">
                 <h2 class="md:text-lg text-base font-bold text-gray-800 mb-1">{{ $info['title'] }}</h2>
 
-                <div class="text-xs md:text-base text-black relative overflow-hidden">
-                    @php
-                        $limitDesktop = 210;
-                        $limitMobile = 80;
-                        $previewDesktop = Str::limit($info['content'], $limitDesktop);
-                        $previewMobile = Str::limit($info['content'], $limitMobile);
-                    @endphp
+                @php
+                    $limitDesktop = 210;
+                    $limitMobile = 80;
+                    $previewDesktop = Str::limit($info['content'], $limitDesktop);
+                    $previewMobile = Str::limit($info['content'], $limitMobile);
+                @endphp
 
-                    <p class="text-xs md:text-base text-black">
-                        <span x-show="!isMobile">{!! nl2br(e($previewDesktop)) !!}</span>
-                        <span x-show="isMobile">{!! nl2br(e($previewMobile)) !!}</span>
-                        <span
-                            class="text-green-500 cursor-pointer hover:underline"
-                            @click="modalOpen = true; modalContent = `{{ addslashes($info['content']) }}`; modalTitle = `{{ $info['title'] }}`"
-                        >
-                            lihat selengkapnya
-                        </span>
-                    </p>
+                <div class="text-xs md:text-base text-black relative overflow-hidden">
+                    <template x-if="!isMobile">
+                        <p>
+                            {!! nl2br(e($previewDesktop)) !!}
+                            <span
+                                class="text-green-500 cursor-pointer hover:underline"
+                                @click="modalOpen = true; modalContent = `{{ addslashes($info['content']) }}`; modalTitle = `{{ $info['title'] }}`"
+                            >
+                                lihat selengkapnya
+                            </span>
+                        </p>
+                    </template>
+
+                    <template x-if="isMobile">
+                        <p>
+                            <span x-show="!expanded">{!! nl2br(e($previewMobile)) !!}</span>
+                            <span x-show="expanded">{!! nl2br(e($info['content'])) !!}</span>
+                            <span
+                                class="text-green-500 cursor-pointer hover:underline"
+                                x-show="!expanded"
+                                @click="expanded = true"
+                            >
+                                lihat selengkapnya
+                            </span>
+                        </p>
+                    </template>
                 </div>
             </div>
         @endforeach
+
 
 
         <!-- Modal -->

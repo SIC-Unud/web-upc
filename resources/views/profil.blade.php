@@ -30,7 +30,7 @@
                 <span class="font-bold">Jenis Kelamin</span>
                 <span>: {{ $user->participant->gender == 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
                 <span class="font-bold">No Handphone</span>
-                <span>: {{ $user->participant->no_wa ?? 'N/A' }}</span>
+                <span>: {{ $user->participant->leader_no_wa ?? 'N/A' }}</span>
                 <span class="font-bold">Email</span>
                 <span>: {{ $user->email }}</span>
                 <span class="font-bold">Asal Sekolah</span>

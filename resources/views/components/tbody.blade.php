@@ -36,7 +36,7 @@
          {{-- pop-up detail --}}
          <div x-show="showDetail" x-transition.opacity x-cloak
             class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm ">
-            <div class="bg-[#FAF9F6] p-8 rounded-lg shadow-xl h-fit max-h-198 w-fit lg:w-180 overflow-y-auto"
+            <div class="bg-[#FAF9F6] p-8 rounded-lg shadow-xl h-fit max-h-138 w-fit lg:w-180 overflow-y-auto"
                x-on:click.outside="showDetail = false">
                <div class="grid grid-cols-1 gap-3">
                   <button class="flex justify-end" x-on:click="showDetail = false">

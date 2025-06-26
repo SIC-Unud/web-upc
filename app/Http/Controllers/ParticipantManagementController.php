@@ -76,7 +76,7 @@ class ParticipantManagementController extends Controller
 
     public function show(Request $request) {
 
-        $participants = Participant::with('competition')
+        $participants = Participant::with(['competition', 'user', 'members'])
             ->when($request->search, function ($query, $search) {
                 $query->where('leader_name', 'like', '%' . $search . '%');
             })
@@ -93,7 +93,7 @@ class ParticipantManagementController extends Controller
                         ->where('is_rejected', false);
                 }
             })
-            ->paginate(1)
+            ->paginate(10)
             ->withQueryString();
 
         // $users = $participants->toArray()['data'];

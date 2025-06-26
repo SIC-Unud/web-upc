@@ -214,7 +214,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </a>
                                                     @endif
@@ -244,7 +244,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset($student_proof) }}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/studentproofs/'. $student_proof)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($student_proof), 255) }}
                                                         </a>
                                                     @endif
@@ -486,7 +486,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </a>
                                                     @endif
@@ -511,7 +511,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('storage/student_proofs/'. $student_proof) }}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/studentproofs/'. $student_proof) }}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($student_proof), 255) }}
                                                         </a>
                                                     @endif
@@ -651,7 +651,7 @@
                                             <div class="mt-2">
                                                 <span class="text-white text-xs block">File sebelumnya:</span>
                                                 <a
-                                                    href="{{ asset('storage/TransactionProofs/' . $transaction_proof) }}"
+                                                    href="{{ asset('/storage/TransactionProofs/' . $transaction_proof) }}"
                                                     target="_blank"
                                                     class="text-blue-400 underline text-xs"
                                                 >

@@ -138,25 +138,8 @@ Route::get('/competitions', function () {
          'status' => '3 hari lagi',
          'isMissed' => false
       ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
    ]]);
 });
 
-Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
+// Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
+Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');

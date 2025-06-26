@@ -568,10 +568,10 @@
                                             <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran kompetisi Fisika SMP</h4>
                                             <p class="text-white text-xs md:text-base">{{ rupiah($subtotal) }}</p>
                                         </div>
-                                        <div class="flex justify-between mb-1 md:mb-2">
+                                        {{-- <div class="flex justify-between mb-1 md:mb-2">
                                             <h4 class="text-white text-xs md:text-base font-extralight">Biaya aplikasi</h4>
                                             <p class="text-white text-xs md:text-base">Rp. 1.000</p>
-                                        </div>
+                                        </div> --}}
                                         @if ($discount > 0)
                                             <div class="flex justify-between mb-3 md:mb-5">
                                                 <h4 class="text-white text-xs md:text-base font-extralight">Potongan kupon</h4>

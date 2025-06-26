@@ -34,7 +34,6 @@
             @include('partials.navbar-peserta')
          @endif
       </nav>
-
       <main x-bind:class="isOpen ? 'lg:ml-60 md:ml-50' : 'md:ml-30'" x-data="{ open: false }" id="main"
          class="relative w-full min-h-screen transition-all duration-300">
          {{-- Nav Bar --}}

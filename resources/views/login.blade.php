@@ -46,23 +46,23 @@
 <!-- POPUP VALIDASI -->
 @if($data)
    <div id="PopUpValidasi" class="fixed inset-0 backdrop-blur-md bg-scroll flex items-center justify-center z-[999999] hidden">
-      <div class="relative bg-black border border-white text-white mx-7 md:w-[62rem] h-fit p-11 font-jakarta">
-         <div class="max-h-[70vh] overflow-y-auto pr-2">
+      <div class="relative bg-black border border-white text-white mx-7  md:w-[62rem] h-fit p-5 md:p-11 mt-5 mb-15 md:mb-0 font-jakarta">
+         <div class="max-h-[50vh] overflow-y-auto pr-2">
          @if ($data->participant->leader_name)
-            <h1 class="font-jakarta text-xl md:text-3xl font-bold mb-2">{{ $data->participant->leader_name }}</h1>
+            <h1 class="font-jakarta  text-xs md:text-3xl font-bold mb-1 md:mb-2">{{ $data->participant->leader_name }}</h1>
          @endif
          
          @if($data->participant->is_rejected)
-         <div class="inline-block bg-[#FF0000] text-white font-bold px-5 py-1 rounded-full mb-6 text-sm md:text-lg">
+         <div class="inline-block bg-[#FF0000] text-white font-bold px-5 py-1 rounded-full mb-3 md:mb-6 text-[8px] md:text-lg">
             Gagal validasi.
          </div>
          @else
-         <div class="inline-block bg-[#DEBD00] text-white font-bold px-5 py-1 rounded-full mb-6 text-sm md:text-lg">
+         <div class="inline-block bg-[#DEBD00] text-white font-bold px-5 py-1 rounded-full mb-3 md:mb-6 text-[8px] md:text-lg">
          Sedang divalidasi.
          </div>
          @endif
 
-         <div class="grid grid-cols-[min-content_auto] md:grid-cols-[max-content_auto] gap-x-2 gap-y-4 text-sm md:text-lg mb-6">
+         <div class="grid grid-cols-[max-content_auto] gap-x-2 gap-y-2 md:gap-y-4 text-[8px] md:text-lg mb-3 md:mb-6">
             <span class="font-bold">Nama Instansi</span>
             <span>: {{ $data->participant->institution }}</span>
             <span class="font-bold">Kategori Kompetisi</span>
@@ -72,29 +72,29 @@
          </div>
 
          @if($data->participant->is_rejected)
-            <p class="text-sm md:text-lg leading-relaxed mb-2 text-justify">Catatan</p>
-            <p class="text-sm md:text-lg leading-relaxed mb-6 text-justify">{{ $data->participant->reject_message }}</p>
+            <p class="text-[8px] md:text-lg leading-relaxed mb-2 text-justify">Catatan</p>
+            <p class="text-[8px] md:text-lg leading-relaxed mb-3 md:mb-6 text-justify">{{ $data->participant->reject_message }}</p>
          @else
-            <p class="text-sm md:text-lg leading-relaxed mb-6 text-justify">
+            <p class="text-[8px] md:text-lg leading-relaxed mb-3 md:mb-6 text-justify">
             Akun anda sedang dalam peninjauan oleh pihak panitia. Peninjauan akan memakan waktu paling lambat H+3 hari kerja. Jika anda merasa tidak terdapat perubahan setelah waktu yang ditentukan, dipersilahkan untuk menghubungi cp humas UPC dengan mencantumkan no. registrasi anda dan bukti pembayaran.
             </p>
          @endif
 
-         <div class="flex justify-end mt-8">
+         <div class="flex justify-end mt-4 md:mt-8">
             <button>
-               <div class="bg-black/65 justify-center items-center cursor-pointer relative z-100 flex py-4 w-[75px] md:w-[150px]">
+               <div class="bg-black/65 justify-center items-center cursor-pointer relative z-100 flex py-2 md:py-4 w-[75px] md:w-[150px]">
                   @if($data->participant->is_rejected)
                      <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
                      <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
                      <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
-                     <p class="font-julius text-white text-lg md:text-xl text-center">PERBAIKI FORMULIR</p>
+                     <p class="font-julius text-white text-[10px] md:text-xl text-center">PERBAIKI FORMULIR</p>
                   @else
                      <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
                      <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
                      <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
-                     <p class="font-julius text-white text-lg md:text-xl text-center">OK</p>
+                     <p class="font-julius text-white text-[10px] md:text-xl text-center">OK</p>
                   @endif
                </div>
             </button>

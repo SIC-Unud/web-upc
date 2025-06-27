@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ParticipantManagementController;
 use Illuminate\Support\Facades\Route;
@@ -39,24 +40,12 @@ Route::get('/profil', function () {
 Route::post('/profil', function () {
     return redirect('/profil');
 });
-Route::get('/admin/informasi', function () {
-    $informasi = [
-        [
-            'title' => '[H–1 BABAK PENYISIHAN UPC 2025]',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus mauris at lorem accumsan, in semper ex consequat. Donec porttitor sapien non suscipit tempus. Suspendisse eleifend sapien leo, a commodo elit viverra ac. Vestibulum eleifend condimentum placerat. Nam ante libero, varius a mollis non, dapibus non risus. Sed massa mauris, imperdiet nec tristique ac, commodo non urna. Donec laoreet, justo non vulputate vestibulum, eros augue congue lectus, eu maximus lacus sem eget lorem. Duis quis ligula ac massa iaculis egestas ut in nunc. Nunc volutpat ut nulla id pharetra.
-            Vestibulum eleifend condimentum placerat. Nam ante libero, varius a mollis non, dapibus non risus. Sed massa mauris, imperdiet nec tristique ac, commodo non urna. Donec laoreet, justo non vulputate vestibulum, eros augue congue lectus, eu maximus lacus sem eget lorem. Duis quis ligula ac massa iaculis egestas ut in nunc. Nunc volutpat ut nulla id pharetra.',
-        ],
-        [
-            'title' => '[H–2 BABAK PENYISIHAN UPC 2025]',
-            'content' => 'Isi lengkap babak H–2 di sini',
-        ],
-        [
-            'title' => '[H–3 BABAK PENYISIHAN UPC 2025]',
-            'content' => 'Isi lengkap babak H–3 di sini',
-        ],
-    ];
 
-    return view('informasi-admin', compact('informasi'));
+
+Route::controller(BroadcastController::class)->group(function () {
+    Route::get('/admin/informasi', 'index')->name('broadcast.index');
+    Route::post('/admin/informasi', 'store')->name('broadcast.store');
+    // Route::put('/')->name
 });
 
 Route::get('/competitions', function () {

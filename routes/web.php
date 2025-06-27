@@ -44,7 +44,6 @@ Route::get('/informasi', function () {
         [
             'title' => '[H–1 BABAK PENYISIHAN UPC 2025]',
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus mauris at lorem accumsan, in semper ex consequat. Donec porttitor sapien non suscipit tempus. Suspendisse eleifend sapien leo, a commodo elit viverra ac. Vestibulum eleifend condimentum placerat. Nam ante libero, varius a mollis non, dapibus non risus. Sed massa mauris, imperdiet nec tristique ac, commodo non urna. Donec laoreet, justo non vulputate vestibulum, eros augue congue lectus, eu maximus lacus sem eget lorem. Duis quis ligula ac massa iaculis egestas ut in nunc. Nunc volutpat ut nulla id pharetra.
-
             Vestibulum eleifend condimentum placerat. Nam ante libero, varius a mollis non, dapibus non risus. Sed massa mauris, imperdiet nec tristique ac, commodo non urna. Donec laoreet, justo non vulputate vestibulum, eros augue congue lectus, eu maximus lacus sem eget lorem. Duis quis ligula ac massa iaculis egestas ut in nunc. Nunc volutpat ut nulla id pharetra.',
         ],
         [
@@ -57,7 +56,7 @@ Route::get('/informasi', function () {
         ],
     ];
 
-    return view('informasi', compact('informasi'));
+    return view('informasi-admin', compact('informasi'));
 });
 
 Route::get('/competitions', function () {

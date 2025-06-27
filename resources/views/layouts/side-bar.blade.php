@@ -92,6 +92,7 @@
          {{-- Footer --}}
          <footer id="mainFooter" x-bind:class="isOpen ? 'lg:ml-60 md:ml-50' : 'md:ml-30'"
             class="transition-all max-h-fit min-h-fit duration-300 fixed z-40 bg-white bottom-0 right-0 left-0 ">
+>>>>>>> 328aa12bc6a7a07fa13b3d27d68f660e4f66711f
             <h3 class="text-[#4C4C4C] mx-10 my-1 lg:my-4 text-[8px] lg:text-base font-light">&copy; 2025
                UDAYANAPHYSICSCHAMPIONSHIP. All rights reserved.</h3>
          </footer>
@@ -120,6 +121,7 @@
    </div>
    {{-- Script --}}
    @yield('script')
+
 </body>
 
 </html>

@@ -26,7 +26,7 @@ class AuthController extends Controller
      */
     // public function show()
     // {
-    //     $listCabang = Competition::all(); 
+    //     $listCabang = Competition::all();
     //     return response()->json( [
     //         'success' => true,
     //         'data' => $listCabang
@@ -84,7 +84,7 @@ class AuthController extends Controller
     //         $valMembers = $validatedData['members'];
     //     }
 
-        
+
     //     do {
     //         $validated['no_registration'] = generateRegistrationCode();
     //     } while (Participant::where('no_registration', $validated['no_registration'])->exists());
@@ -115,18 +115,18 @@ class AuthController extends Controller
     //     if (!isset($validated['total'])) {
     //         $validated['total'] = $validated['subtotal'];
     //     }
-        
+
     //     DB::beginTransaction();
     //     try {
     //         $dataUser = User::create([
     //             'email' => $validatedEx['email'],
     //             'password' => Hash::make($validated['no_registration'])
     //         ]);
-    
+
     //         $validated['user_id'] = $dataUser->id;
-    
+
     //         $dataParticipant = Participant::create($validated);
-    
+
     //         foreach ($valMembers as $member) {
     //             Member::create([
     //                 'participant_id' => $dataParticipant->id,
@@ -140,9 +140,9 @@ class AuthController extends Controller
     //         }
 
     //         DB::commit();
-    
+
     //         // Mail::to($validatedEx['email'])->send(new PasswordMail($dataParticipant->no_registration, $dataCompetition->name, $dataParticipant->leader_name ));
-            
+
     //         // return redirect()->route('register.form')->with('download_invoice', $dataParticipant->no_registration);$participant = Participant::where('no_registration', $no_registration)->first();
 
     //         return response()->json([
@@ -185,10 +185,17 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $data = User::with(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
-                        'participant.competition:id,name'])
-                        ->where('email', $credentials['email'])
-                        ->first();
+            $data = User::with([
+                'participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
+                'participant.competition:id,name'
+            ])
+                ->where('email', $credentials['email'])
+                ->first();
+            // check if role is admin
+            if ($data->role == 1) {
+                $request->session()->regenerate();
+                return redirect()->route('broadcast.index');
+            }
 
             if ($data->participant->is_rejected === true) {
                 return redirect()->route('login')->with([

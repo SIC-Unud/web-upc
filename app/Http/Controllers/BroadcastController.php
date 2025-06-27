@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Broadcast;
 
@@ -33,5 +34,26 @@ class BroadcastController extends Controller
         ]);
 
         return redirect()->back()->with("message", "Broadcast success created");
+    }
+    public function update(Request $request, $id)
+    {
+
+        try {
+            $found_broadcast = Broadcast::findOrFail($id);
+            $validated = $request->validate([
+                "title" => "string|max:255",
+                "broadcast" => "string",
+                "created_by" => "numeric"
+            ]);
+
+            $found_broadcast->title = $validated["title"];
+            $found_broadcast->broadcast = $validated["broadcast"];
+
+            $found_broadcast->save();
+
+            return redirect()->back()->with("message", "Broadcast success updated");
+        } catch (Exception $e) {
+            return redirect()->back()->with("message", "Broadcast not found");
+        }
     }
 }

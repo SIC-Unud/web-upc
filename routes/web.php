@@ -45,6 +45,7 @@ Route::post('/profil', function () {
 Route::controller(BroadcastController::class)->group(function () {
     Route::get('/admin/informasi', 'index')->name('broadcast.index');
     Route::post('/admin/informasi', 'store')->name('broadcast.store');
+    Route::put('/admin/informasi/update/{id}', 'update')->name('broadcast.update');
     // Route::put('/')->name
 });
 

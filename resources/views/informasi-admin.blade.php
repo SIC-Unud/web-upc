@@ -3,13 +3,44 @@
 @section('title', 'Informasi Admin')
 @section('content')
 
-    <div x-data="{modalOpen: false, formOpen: false, modalContent: '', modalTitle: '', isMobile: window.innerWidth < 768, editMode: false}"
+    <div x-data="{
+                                                modalOpen: false,
+                                                formOpen: false,
+                                                modalContent: '',
+                                                modalTitle: '',
+                                                isMobile: window.innerWidth < 768,
+                                                editMode: false,
+                                                currentId: null,
+                                                updateFormAction() {
+                                                    const form = document.getElementById('form');
+                                                    if (this.editMode && this.currentId) {
+                                                        form.action = '/admin/informasi/update/' + this.currentId;
+                                                        // Add method spoofing for PUT/PATCH if needed
+                                                        let methodInput = form.querySelector('input[name=_method]');
+                                                        if (!methodInput) {
+                                                            methodInput = document.createElement('input');
+                                                            methodInput.type = 'hidden';
+                                                            methodInput.name = '_method';
+                                                            form.appendChild(methodInput);
+                                                        }
+                                                        methodInput.value = 'PUT';
+                                                    } else {
+                                                        form.action = '{{ route('broadcast.store') }}';
+                                                        // Remove method input for create
+                                                        const methodInput = form.querySelector('input[name=_method]');
+                                                        if (methodInput) {
+                                                            methodInput.remove();
+                                                        }
+                                                    }
+                                                }
+                                            }"
         x-init="$watch('isMobile', value => {}); window.addEventListener('resize', () => isMobile = window.innerWidth < 768)"
         class="px-4 relative font-jakarta">
 
         <div class="flex justify-between items-center py-8">
             <h1 class="text-3xl md:text-5xl font-bold text-[#4C4C4C]">Informasi</h1>
-            <button @click="formOpen = true; modalTitle=''; modalContent=''; editMode=false"
+            <button
+                @click="formOpen = true; modalTitle=''; modalContent=''; editMode=false; currentId=null; updateFormAction()"
                 class="bg-[#007BFF] hover:shadow-xl text-white font-bold py-2 px-4 text-[10px] md:text-base">
                 + Tambah
             </button>
@@ -32,7 +63,12 @@
                             <span x-show="!isMobile">{!! nl2br(e($previewDesktop)) !!}</span>
                             <span x-show="isMobile">{!! nl2br(e($previewMobile)) !!}</span>
                             <span class="text-green-500 cursor-pointer hover:underline"
-                                @click="formOpen = true; modalTitle = `{{ addslashes($info['title']) }}`; modalContent = `{{ addslashes($info['broadcast']) }}`; editMode = true">
+                                @click="formOpen = true;
+                                                                                                                       modalTitle = `{{ addslashes($info['title']) }}`;
+                                                                                                                       modalContent = `{{ addslashes($info['broadcast']) }}`;
+                                                                                                                       editMode = true;
+                                                                                                                       currentId = {{ $info['id'] }};
+                                                                                                                       updateFormAction();">
                                 lihat selengkapnya
                             </span>
                         </p>
@@ -48,7 +84,7 @@
                         <h2 class="font-bold text-lg md:text-2xl text-black"
                             x-text="editMode ? 'Edit Informasi' : 'Tambah Informasi'"></h2>
                         <button class="text-gray-700 text-xl font-bold hover:text-red-600"
-                            @click="formOpen = false; editMode = false">
+                            @click="formOpen = false; editMode = false; currentId = null;">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-8 md:size-10" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +94,7 @@
                     </div>
 
                     <!-- Form -->
-                    <form class="space-y-4" method="POST" action="{{ route('broadcast.store') }}">
+                    <form class="space-y-4" id="form" method="POST" action="{{ route('broadcast.store') }}">
                         @csrf
                         <input type="hidden" name="created_by" value="{{ auth()->user()->id }}">
                         <div>
@@ -73,7 +109,7 @@
                         </div>
                         <div class="text-right">
                             <button class="bg-[#029161] hover:shadow-xl text-white font-bold text-xs md:text-base py-2 px-6"
-                                type="submit" @click="editMode = false">
+                                type="submit">
                                 Simpan
                             </button>
                         </div>

@@ -39,7 +39,7 @@ Route::get('/profil', function () {
 Route::post('/profil', function () {
     return redirect('/profil');
 });
-Route::get('/informasi', function () {
+Route::get('/admin/informasi', function () {
     $informasi = [
         [
             'title' => '[H–1 BABAK PENYISIHAN UPC 2025]',

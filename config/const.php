@@ -5,7 +5,7 @@ return [
         [
             'code' => 'OPREGIS',
             'value' => 10000,
-            'start_date' => '2025-06-29 00:00:00',
+            'start_date' => '2025-06-20 00:00:00',
             'end_date' => '2025-07-02 23:59:59'
         ],
         [
@@ -67,7 +67,7 @@ return [
     'schedules' => [
         'wave_1' => [
             'name' => 'Pendaftaran Gelombang I',
-            'start' => '2025-06-09 00:00:00',
+            'start' => '2025-06-20 00:00:00',
             'end' => '2025-07-25 23:59:59'
         ],
         'wave_2' => [

@@ -17,7 +17,7 @@
         <div class="md:pt-12 pt-8 mx-auto text-white">
             <h1 class="font-bold text-4xl md:text-5xl text-center">Registrasi</h1>
             <p class="font-medium font-jakarta text-sm md:text-2xl px-6 md:px-15 lg:px-30 text-center my-8 md:my-12">
-                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat, mudah, dan GRATIS!
+                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat dan mudah!
             </p>
         </div>
 

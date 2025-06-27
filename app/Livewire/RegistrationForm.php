@@ -111,6 +111,11 @@ class RegistrationForm extends Component
     public function mount()
     {
         $this->competitions = Competition::all();
+        if ( now()->lt(Carbon::parse(config('const.schedules.wave_1.start'))) ) {
+            return redirect()->route('registration.not-found', 'not');
+        } else if(now()->gt(Carbon::parse(config('const.schedules.wave_3.end')))) {
+            return redirect()->route('registration.not-found', 'late');
+        }
     }
 
     public function updated($propertyName)
@@ -313,6 +318,7 @@ class RegistrationForm extends Component
             fileDelete($studentProofPath);
             fileDelete($transactionProofPath);
             DB::rollBack();
+            dd($e);
             session()->flash('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
     }

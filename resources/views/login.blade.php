@@ -4,7 +4,7 @@
 @php
    $data = session('data');
 @endphp
-   <div class="bg-[url(../../public/assets/login/bg.png)] bg-cover py-25 md:pb-0">
+   <div class="bg-[url(../../public/assets/login/bg.png)] bg-cover py-25 md:pb-0 overflow-hidden">
       <div class="flex justify-center items-center">
          <div class="text-center w-fit mx-auto">
             <img class="w-[100px] md:w-[250px] mt-5" src="/assets/logo-with-name.png" alt="logo UPC">

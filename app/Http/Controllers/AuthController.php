@@ -185,26 +185,31 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $data = User::with(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
-                        'participant.competition:id,name'])
-                        ->where('email', $credentials['email'])
-                        ->first();
+            $data = User::where('email', $credentials['email'])->first();
 
-            if ($data->participant->is_rejected === true) {
-                return redirect()->route('login')->with([
-                    'status' => 'Sedang divalidasi',
-                    'data' => $data
-                ]);
-            } else if ($data->participant->is_accepted !== true) {
-                $request->session()->regenerate();
-                return redirect()->route('login')->with([
-                    'success' => 'Gagal divalidasi',
-                    'data' => $data
-                ]);
-            } else {
+            if($data->role) {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
+            } else {
+                $data->load(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
+                        'participant.competition:id,name']);
+                if ($data->participant->is_rejected === true) {
+                    return redirect()->route('login')->with([
+                        'status' => 'Sedang divalidasi',
+                        'data' => $data
+                    ]);
+                } else if ($data->participant->is_accepted !== true) {
+                    $request->session()->regenerate();
+                    return redirect()->route('login')->with([
+                        'success' => 'Gagal divalidasi',
+                        'data' => $data
+                    ]);
+                } else {
+                    $request->session()->regenerate();
+                    return redirect()->intended('dashboard');
+                }
             }
+
         }
 
         return back()->withErrors([

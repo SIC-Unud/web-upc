@@ -90,14 +90,17 @@
                                    <label class="text-xs lg:text-base">Kompetisi</label>
                                    <select name="kompetisi" class="w-full p-2 bg-white text-black text-xs lg:text-base rounded">
                                         <option value="">Pilih...</option>
-                                        <option value="1">Cerdas cermat SD (kelompok)</option>
+                                        @foreach ($competitions as $key => $competition)
+                                             <option value="{{ $competition->id }}">{{ $competition->name }} {{ ($competition->is_team_competition ? '(kelompok)' : '') }}</option>
+                                        @endforeach
+                                        {{-- <option value="1">Cerdas cermat SD (kelompok)</option>
                                         <option value="2">Fisika SMP</option>
                                         <option value="3">Fisika SMA</option>
                                         <option value="4">Kebumian</option>
                                         <option value="5">Astronomi</option>
                                         <option value="6">Esai (kelompok)</option>
-                                        <option value="7">Poster Ilmiah (kelompok)</option>
-                                   </select>
+                                        <option value="7">Poster Ilmiah (kelompok)</option> --}}
+                                   </select> 
                               </div>
                               {{-- <div class="flex flex-col gap-1 w-full">
                                    <label class="text-xs lg:text-base">Waktu Registrasi</label>

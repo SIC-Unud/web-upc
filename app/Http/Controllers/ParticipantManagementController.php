@@ -76,9 +76,12 @@ class ParticipantManagementController extends Controller
 
     public function show(Request $request) {
 
+        $competitions = Competition::all();
+
         $participants = Participant::with(['competition', 'user', 'members'])
             ->when($request->search, function ($query, $search) {
-                $query->where('leader_name', 'like', '%' . $search . '%');
+                $query->where('leader_name', 'like', '%' . $search . '%')
+                    ->orWhere('no_registration', 'like', '%' . $search . '%' );
             })
             ->when($request->kompetisi, function ($query, $kompetisi) {
                 $query->where('competition_id', $kompetisi);
@@ -96,13 +99,10 @@ class ParticipantManagementController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        // $users = $participants->toArray()['data'];
-
-        // $competitions = Competition::all();
 
         $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
 
         // return view("manajemen-user", compact('headers', 'users'));
-        return view("manajemen-user", compact('headers', 'participants'));
+        return view("manajemen-user", compact('headers', 'participants', 'competitions'));
     }
 }

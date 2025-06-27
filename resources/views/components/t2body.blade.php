@@ -1,4 +1,4 @@
-<tr id="user-row-{{ $user->id }}" class="bg-[#FFD9001A]">
+<tr id="user-row-{{ $user->id }}" class="{{ $user->is_accepted ? 'bg-white' : ($user->is_rejected ? 'bg-[#FF00001A]' : 'bg-[#FFD9001A]') }}">
     <td class="text-center lg:px-4 px-2 py-3 lg:text-[12px] text-xs lg:py-5">{{ $user->no_registration }}</td>
     <td class="lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user->leader_name }}</td>
     <td class="text-center lg:px-4 lg:py-5 px-2 py-3 lg:text-[12px] text-xs">{{ $user->leader_student_id }}</td>

@@ -189,7 +189,7 @@ class AuthController extends Controller
 
             if($data->role) {
                 $request->session()->regenerate();
-                return redirect()->intended('dashboard');
+                return redirect()->intended('admin');
             } else {
                 $data->load(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
                         'participant.competition:id,name']);
@@ -206,7 +206,7 @@ class AuthController extends Controller
                     ]);
                 } else {
                     $request->session()->regenerate();
-                    return redirect()->intended('dashboard');
+                    return redirect()->intended('competitions');
                 }
             }
 

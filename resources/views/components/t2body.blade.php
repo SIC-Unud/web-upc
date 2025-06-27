@@ -69,7 +69,7 @@
                         <div class="w-full grid gap-2">
                             <h1 class="border-b-2 text-2xl font-extrabold">Ketua</h1>
                             <div class=" text-center flex justify-center items-center">
-                                <img src="{{ asset('/storage/Images/' . $user->pass_photo) }}" class="w-30 h-40" alt="profil-peserta">
+                                <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-30 rounded-full" alt="profil-peserta">
                             </div>
                             <div
                                 class="text-left lg:text-base text-xs grid break-all grid-cols-[max-content_1fr] gap-x-2 gap-y-4 w-full">
@@ -129,12 +129,12 @@
 
                                 <span class="font-bold">Pas Foto</span>
                                 <span>: <a
-                                    href="{{ asset('/storage/Images/' . $user->pass_photo) }}"
+                                    href="{{ asset('/storage/' . $user->pass_photo) }}"
                                     target="_blank" class="text-blue-500 underline"> {{ $user->pass_photo }} </a></span>
                                     
                                 <span class="font-bold">Kartu Pelajar</span>
                                 <span>: <a
-                                    href="{{ asset('/storage/StudentProofs/' . $user->student_proof) }}"
+                                    href="{{ asset('/storage/' . $user->student_proof) }}"
                                     target="_blank" class="text-blue-500 underline">{{ $user->student_proof }} </a></span>
 
                                 {{-- <span class="font-bold">Link Twibbon</span>
@@ -149,7 +149,7 @@
 
                                 <span class="font-bold">Bukti Pembayaran</span>
                                 <span>: <a
-                                    href="{{ asset('/storage/TransactionProofs/' . $user->transaction_proof) }}"
+                                    href="{{ asset('/storage/' . $user->transaction_proof) }}"
                                     target="_blank" class="text-blue-500 underline">{{ $user->transaction_proof }}</a></span>
 
                                 <span class="font-bold">Diterima</span>

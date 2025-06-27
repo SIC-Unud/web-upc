@@ -64,12 +64,12 @@
                             <tr>
                                 <td style="padding: 0 0.5rem;">
                                     <a href="https://wa.me/yourwhatsapplink" target="_blank" style="display: block;">
-                                        <img src="{{ asset('wa.png')}}" alt="YouTube" style="height: 24px;">
+                                        <img src="{{ asset('wa.png')}}" alt="WhatsApp" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
                                     <a href="https://www.instagram.com/yourinstagramlink" target="_blank" style="display: block;">
-                                        <img src="{{ asset('ig.png')}}" alt="YouTube" style="height: 24px;">
+                                        <img src="{{ asset('ig.png')}}" alt="Instagram" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">

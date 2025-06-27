@@ -107,10 +107,16 @@ Route::post('/admin/manajemen-user/reject/{partisipant_id}', [ParticipantManagem
 
 
 Route::get('/profil', function () {
-    return view('profil');
+   return view('profil');
 });
+
+Route::get('/registration-not-found/{late}', function ($late) {
+   $isLate = $late == 'late' ? 1 : 0;
+   return view('not-found.registration', compact('isLate'));
+})->name('registration.not-found');
+
 Route::post('/profil', function () {
-    return redirect('/profil');
+   return redirect('/profil');
 });
 
 Route::get('/competitions', function () {

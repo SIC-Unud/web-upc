@@ -2,8 +2,6 @@
 
 namespace App\Livewire;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Member;
 use Livewire\Component;
 use App\Mail\PasswordMail;
@@ -12,8 +10,6 @@ use App\Models\Participant;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
@@ -82,6 +78,8 @@ class UpdateParticipantDataForm extends Component
     public $pass_photo_old;
     public $student_proof_old;
     public $transaction_proof_old;
+    
+    public $reject_message;
 
     protected $rules = [
     //    rulesnya
@@ -92,11 +90,9 @@ class UpdateParticipantDataForm extends Component
 
     public function mount()
     {
-        // dd($this->no_registration);
-        $this->competitions = Competition::all();
-
         $participant = Participant::with(['competition', 'user', 'members'])->where('no_registration', Auth::user()->participant->no_registration)->firstOrFail();
-
+        
+        $this->competitions = [$participant->competition];
         $this->no_registration = $participant->no_registration;
         $this->is_team_competition = $participant->competition->is_team_competition;
 
@@ -162,6 +158,7 @@ class UpdateParticipantDataForm extends Component
 
         $this->transaction_proof = $participant->transaction_proof;
         $this->transaction_proof_old = $participant->transaction_proof;
+        $this->reject_message = $participant->reject_message;
 
     }
 
@@ -186,32 +183,12 @@ class UpdateParticipantDataForm extends Component
             'is_first_competition' => 'required',
             'reason' => 'required',
             'competition' => 'required',
+        ], [
+            'source_of_information.required' => 'Sumber informasi wajib diisi.',
+            'is_first_competition.required' => 'Mohon jawab apakah ini kompetisi pertama kamu.',
+            'reason.required' => 'Alasan mengikuti lomba wajib diisi.',
+            'competition.required' => 'Pilih salah satu lomba yang ingin diikuti.',
         ]);
-
-        // $selectedCompetition = $this->competitions->firstWhere('id', $this->competition);
-        // $selectedCompetition = $this->competitions->firstWhere('id', $this->competition);
-        
-
-        // if ($selectedCompetition) {
-        //     $this->is_team_competition = $selectedCompetition->is_team_competition;
-        // } else {
-        //     $this->is_team_competition = false;
-        // }
-
-        // if ($selectedCompetition) {
-        //     for ($i = 1; $i <= 3; $i++) {
-        //         if (
-        //             now()->between(
-        //                 Carbon::parse(config('const.schedules.wave_' . $i . '.start')),
-        //                 Carbon::parse(config('const.schedules.wave_' . $i . '.end'))
-        //             )
-        //         ) {
-        //             $wave = 'wave_' . $i . '_price';
-        //             $this->subtotal = $selectedCompetition->$wave;
-        //             break;
-        //         }
-        //     }
-        // }
         
         $this->currentStep = 2;
         $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
@@ -219,29 +196,12 @@ class UpdateParticipantDataForm extends Component
 
     public function secondStepSubmit()
     {
-        // $commonRules = [
-        //     'email' => 'required|email|max:255|unique:users,email. $user->id',
-        //     'institution' => 'required|string|max:255',
-        //     'institution_address' => 'required|string|max:500',
-        //     'institution_province' => 'required|string|max:255', 
-        //     'institution_city' => 'required|string|max:255',
-        //     'parent_no_wa' => 'required|string|max:20',
-        //     'pass_photo' => $this->pass_photo instanceof \Illuminate\Http\UploadedFile
-        //         ? 'image|mimes:jpg,png|max:2048'
-        //         : 'nullable',
-        //     'student_proof' => $this->student_proof instanceof \Illuminate\Http\UploadedFile
-        //         ? 'file|mimes:pdf|max:2048'
-        //         : 'nullable',
-        //     'twibbon_links' => 'required',
-        //     'terms_accepted' => 'required|accepted',
-        // ];
-
         $commonRules = [
             'email' => [
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user_id), // $this->user_id harus diset di mount()
+                Rule::unique('users', 'email')->ignore($this->user_id),
             ],
             'institution' => 'required|string|max:255',
             'institution_address' => 'required|string|max:500',
@@ -250,24 +210,17 @@ class UpdateParticipantDataForm extends Component
             'parent_no_wa' => 'required|string|max:20',
 
             'pass_photo' => $this->pass_photo instanceof \Illuminate\Http\UploadedFile
-                ? 'image|mimes:jpg,png|max:2048'
+                ? 'image|mimes:jpg,png|max:500'
                 : 'nullable',
 
             'student_proof' => $this->student_proof instanceof \Illuminate\Http\UploadedFile
-                ? 'file|mimes:pdf|max:2048'
+                ? 'file|mimes:pdf|max:1024'
                 : 'nullable',
 
             'twibbon_links' => 'required',
             'terms_accepted' => 'required|accepted',
         ];
 
-        // $leaderRules = [
-        //     'leader_name' => 'required|string|max:255',
-        //     'leader_student_id' => 'required|string|max:50',
-        //     'leader_date_of_birth' => 'required|date',
-        //     'leader_gender' => 'required',
-        //     'leader_no_wa' => 'required|string|max:20|unique:participants,leader_no_wa',
-        // ];
         $leaderRules = [
             'leader_name' => 'required|string|max:255',
             'leader_student_id' => 'required|string|max:50',
@@ -281,21 +234,6 @@ class UpdateParticipantDataForm extends Component
             ],
         ];
 
-        // $memberRules = [
-        //     'member1_name' => 'required_if:is_team_competition,true|string|max:255',
-        //     'member1_student_id' => 'required_if:is_team_competition,true|string|max:50',
-        //     'member1_date_of_birth' => 'required_if:is_team_competition,true|date',
-        //     'member1_gender' => 'required_if:is_team_competition,true',
-        //     'member1_no_wa' => 'required|string|max:20|unique:members,no_wa',
-        //     'member1_email' => 'required_if:is_team_competition,true|email|max:255|unique:members,email',
-            
-        //     'member2_name' => 'required_if:is_team_competition,true|string|max:255',
-        //     'member2_student_id' => 'required_if:is_team_competition,true|string|max:50',
-        //     'member2_date_of_birth' => 'required_if:is_team_competition,true|date',
-        //     'member2_gender' => 'required_if:is_team_competition,true',
-        //     'member2_no_wa' => 'required|string|max:20|unique:members,no_wa',
-        //     'member2_email' => 'required_if:is_team_competition,true|email|max:255|unique:members,email',
-        // ];
         $memberRules = [
             'member1_name' => 'required_if:is_team_competition,true|string|max:255',
             'member1_student_id' => 'required_if:is_team_competition,true|string|max:50',
@@ -334,7 +272,57 @@ class UpdateParticipantDataForm extends Component
 
 
         if ($this->is_team_competition) {
-            $this->validate(array_merge($commonRules, $leaderRules, $memberRules));
+            $this->validate(array_merge($commonRules, $leaderRules, $memberRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.max' => 'Email maksimal 255 karakter.',
+                'email.unique' => 'Email sudah digunakan oleh akun lain.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.file' => 'Bukti siswa harus berupa file.',
+                'student_proof.mimes' => 'Bukti siswa harus berformat PDF.',
+                'student_proof.max' => 'Ukuran file bukti siswa maksimal 1MB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua wajib dipilih.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ketua sudah digunakan.',
+
+                'member1_name.required_if' => 'Nama anggota 1 wajib diisi.',
+                'member1_student_id.required_if' => 'NIS/NISN anggota 1 wajib diisi.',
+                'member1_date_of_birth.required_if' => 'Tanggal lahir anggota 1 wajib diisi.',
+                'member1_gender.required_if' => 'Jenis kelamin anggota 1 wajib dipilih.',
+                'member1_no_wa.required' => 'Nomor WhatsApp anggota 1 wajib diisi.',
+                'member1_no_wa.unique' => 'Nomor WhatsApp anggota 1 sudah digunakan.',
+                'member1_email.required_if' => 'Email anggota 1 wajib diisi.',
+                'member1_email.email' => 'Format email anggota 1 tidak valid.',
+                'member1_email.unique' => 'Email anggota 1 sudah digunakan.',
+
+                'member2_name.required_if' => 'Nama anggota 2 wajib diisi.',
+                'member2_student_id.required_if' => 'NIS/NISN anggota 2 wajib diisi.',
+                'member2_date_of_birth.required_if' => 'Tanggal lahir anggota 2 wajib diisi.',
+                'member2_gender.required_if' => 'Jenis kelamin anggota 2 wajib dipilih.',
+                'member2_no_wa.required' => 'Nomor WhatsApp anggota 2 wajib diisi.',
+                'member2_no_wa.unique' => 'Nomor WhatsApp anggota 2 sudah digunakan.',
+                'member2_email.required_if' => 'Email anggota 2 wajib diisi.',
+                'member2_email.email' => 'Format email anggota 2 tidak valid.',
+                'member2_email.unique' => 'Email anggota 2 sudah digunakan.',
+            ]);
             if ($this->member1_email == $this->member2_email) {
                 $this->addError('member2_email', 'Email anggota 1 dan 2 tidak boleh sama.');
             }
@@ -346,10 +334,39 @@ class UpdateParticipantDataForm extends Component
                 return;
             }
         } else {
-            $this->validate(array_merge($commonRules, $leaderRules));
+            $this->validate(array_merge($commonRules, $leaderRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.max' => 'Email maksimal 255 karakter.',
+                'email.unique' => 'Email sudah digunakan oleh akun lain.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.file' => 'Bukti siswa harus berupa file.',
+                'student_proof.mimes' => 'Bukti siswa harus berformat PDF.',
+                'student_proof.max' => 'Ukuran file bukti siswa maksimal 1MB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua wajib dipilih.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ketua sudah digunakan.'
+            ]);
         }
         
-        // $this->total = $this->subtotal;
         $this->currentStep = 3;
         $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
     }
@@ -358,13 +375,12 @@ class UpdateParticipantDataForm extends Component
     {
         $this->validate([
             'transaction_proof' => $this->transaction_proof instanceof \Illuminate\Http\UploadedFile
-                ? 'image|max:2048'
+                ? 'image|max:500'
                 : 'nullable',
+        ], [
+            'transaction_proof.image' => 'Bukti transaksi harus berupa gambar.',
+            'transaction_proof.max' => 'Ukuran bukti transaksi maksimal 500KB.',
         ]);
-
-        // do {
-        //     $this->no_registration = generateRegistrationCode();
-        // } while (Participant::where('no_registration', $this->no_registration)->exists());
 
         $passPhotoPath = is_object($this->pass_photo)
             ? fileUpload($this->pass_photo, 'Images')
@@ -382,11 +398,6 @@ class UpdateParticipantDataForm extends Component
         try {
 
             $dataCompetition = Competition::findOrFail($this->competition);
-
-            // $dataUser = User::create([
-            //     'email' => $this->email,
-            //     'password' => Hash::make($this->no_registration)
-            // ]);
 
             $dataParticipant = Participant::where('no_registration', $this->no_registration)->firstOrFail();
             $dataParticipant->source_of_information = $this->source_of_information;
@@ -462,24 +473,6 @@ class UpdateParticipantDataForm extends Component
     {
         $this->currentStep = $step;
     }
-
-    // public function applyCoupon()
-    // {
-    //     $promoCodes = config('const.promo_codes');
-    //     $validPromo = collect($promoCodes)->firstWhere('code', $this->coupon_code);
-
-    //     if ($validPromo && now()->between(
-    //                     Carbon::parse($validPromo['start_date']),
-    //                     Carbon::parse($validPromo['end_date']))) {
-    //         $this->discount = $validPromo['value'];
-    //         $this->total = $this->subtotal - $this->discount;
-    //         $this->resetErrorBag('coupon_code');
-    //     } else {
-    //         $this->discount = 0;
-    //         $this->total = $this->subtotal;
-    //         $this->addError('coupon_code', 'Maaf, kode kupon tidak valid.');
-    //     }
-    // }
 
     public function downloadInvoice()
     {

@@ -21,7 +21,7 @@ class CheckRejectedParticipant
         $user = Auth::user();
 
         if (!$user) {
-            abort(403, 'Akses Ditolak');
+            abort(403);
         }
 
         $participant = Participant::where('user_id', $user->id)->first();
@@ -31,7 +31,7 @@ class CheckRejectedParticipant
             ($participant->is_accepted != false ||
             $participant->is_rejected != true)
         ) {
-            abort(403, 'Akses Ditolak');
+            abort(403);
         }
 
         return $next($request);

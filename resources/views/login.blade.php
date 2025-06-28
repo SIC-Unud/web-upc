@@ -71,7 +71,7 @@
          </div>
 
          @if($data->participant->is_rejected)
-            <p class="text-[8px] md:text-lg leading-relaxed mb-2 text-justify">Catatan</p>
+            <p class="text-[8px] md:text-lg leading-relaxed mb-2 text-justify font-bold">Catatan</p>
             <p class="text-[8px] md:text-lg leading-relaxed mb-3 md:mb-6 text-justify">{{ $data->participant->reject_message }}</p>
          @else
             <p class="text-[8px] md:text-lg leading-relaxed mb-3 md:mb-6 text-justify">

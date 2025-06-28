@@ -14,7 +14,7 @@
          </div>
          <img class="hidden md:block md:w-84" src="/assets/cat/yellow.png" alt="">
       </div>
-      <div class="flex justify-center items-center w-full relative -top-[50%] translate-y-1/2 z-10">
+      <div class="overflow-hidden flex justify-center items-center w-full relative -top-[50%] translate-y-1/2 z-10">
          <img class="w-[80px] relative z-10 md:hidden" src="/assets/cat/purple.png" alt="">
          @php
             $isGuest = auth()->guest();

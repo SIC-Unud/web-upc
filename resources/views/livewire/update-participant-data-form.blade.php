@@ -1,4 +1,4 @@
-<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full pt-18">
+<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full">
     <div
         wire:loading
         wire:target="firstStepSubmit, secondStepSubmit, submitForm"
@@ -12,13 +12,16 @@
             <span class="text-sm md:text-lg font-light">Menyimpan data...</span>
         </div>
     </div>
-    <div class="backdrop-blur-2xl bg-black/55">
+    <div class="backdrop-blur-2xl bg-black/55 pt-18">
         {{-- Heading --}}
         <div class="md:pt-12 pt-8 mx-auto text-white">
             <h1 class="font-bold text-4xl md:text-5xl text-center">Update Data Registrasi</h1>
-            <p class="font-medium font-jakarta text-sm md:text-2xl px-6 md:px-15 lg:px-30 text-center my-8 md:my-12">
-                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat dan mudah!
-            </p>
+            <div class="w-full px-4">
+                <div class="bg-red-500 py-3 px-4 w-md max-w-full mx-auto rounded-lg my-5 md:my-8">
+                    <h1 class="font-bold text-lg">Catatan Kesalahan dari Panitia</h1>
+                    <p class="font-medium font-jakarta text-sm md:text-base">{{ $reject_message }}</p>
+                </div>
+            </div>
         </div>
 
         @if(!$success)
@@ -68,7 +71,7 @@
                                 </div>
                                 <div class="mb-6 md:mb-12">
                                     <label for="competition" class="md:block text-xs md:text-xl text-wrap text-white">Kategori kompetisi apa yang ingin Anda ikuti?  <span class="text-red-500">*</span></label>
-                                    <select wire:model="competition" class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="competition" id="competition" required>
+                                    <select wire:model="competition" @disabled(true) class="block w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-500 text-black" name="competition" id="competition" required>
                                         <option class="" value="">Pilih...</option>
                                         @foreach ($competitions as $key => $competition)
                                             <option value="{{ $competition->id }}">{{ $competition->name }} {{ ($competition->is_team_competition ? '(kelompok)' : '') }}</option>
@@ -259,7 +262,7 @@
                                         {{-- check-box --}}
                                         <div class="flex items-center gap-2 md:gap-4">
                                             <input wire:model="terms_accepted" class="size-6" type="checkbox" name="terms_accepted" id="terms_accepted" required>
-                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan ketentuan/Juknis UPC 2025. <span class="text-red-500">*</span></label>
+                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan <a href="{{ config('const.link_drive_petunjuk_teknis') }}" target="_blank" rel="noopener noreferrer" class="text-blue-600">ketentuan/Juknis UPC 2025</a>. <span class="text-red-500">*</span></label>
                                         </div>
                                         @error('terms_accepted') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
@@ -615,19 +618,14 @@
                                     </div>
 
                                     <div class="mb-4 md:mb-8">
-                                        <h3 class="text-white md:text-base text-xs mb-1 md:mb-2">Punya kode kupon?</h3>
-                                        <div class="flex gap-x-1 md:gap-x-4 items-end">
-                                            {{-- <input wire:model="coupon_code" placeholder="Ketik di sini..." class="grow md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" type="text"> --}}
-                                            {{-- <button wire:click.prevent="applyCoupon" type="button" class="border border-[#12B1EB] rounded-md py-2 px-3 md:text-lg text-xs md:py-2 md:px-5 bg-[#12B1EB] text-white text-center cursor-pointer">Masukkan</button> --}}
-                                            <p class="grow md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black">{{ $coupon_code }}</p>
-                                        </div>
+                                        @if ($coupon_code)
+                                            <h3 class="text-white md:text-base text-xs mb-1 md:mb-2">Kode Kupon Sebelumnya Akan Digunakan</h3>
+                                            <div class="flex gap-x-1 md:gap-x-4 items-end">
+                                                <p class="grow md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-500 text-black">{{ $coupon_code }}</p>
+                                            </div>
+                                        @endif
                                         @error('coupon_code') <p class="text-red-500 mt-2">{{ $message }}</p> @enderror
                                     </div>
-                                    {{-- <div class="mb-4 md:mb-8">
-                                        <h3 class="text-white md:text-base text-xs">Upload Bukti Transfer <span class="text-red-500">*</span></h3>
-                                        <input wire:model="transaction_proof" class="w-full md:py-2 md:px-1 p-1 border md:mt-2 mt-1 text-xs md:text-lg bg-gray-300" type="file" name="transaction_proof" id="transaction_proof" accept=".jpg, .png" required>
-                                        @error('transaction_proof') <span class="text-red-500 text-xs block">{{ $message }}</span> @enderror
-                                    </div> --}}
                                     <div class="mb-4 md:mb-8">
                                         <h3 class="text-white md:text-base text-xs">
                                             Upload Bukti Transfer <span class="text-red-500">*</span>

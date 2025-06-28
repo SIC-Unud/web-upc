@@ -240,7 +240,7 @@
                                         {{-- check-box --}}
                                         <div class="flex items-center gap-2 md:gap-4">
                                             <input wire:model="terms_accepted" class="size-6" type="checkbox" name="terms_accepted" id="terms_accepted" required>
-                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan ketentuan/Juknis UPC 2025. <span class="text-red-500">*</span></label>
+                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan <a href="{{ config('const.link_drive_petunjuk_teknis') }}" target="_blank" rel="noopener noreferrer" class="text-blue-600">ketentuan/Juknis UPC 2025</a>. <span class="text-red-500">*</span></label>
                                         </div>
                                         @error('terms_accepted') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>

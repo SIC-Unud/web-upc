@@ -75,38 +75,6 @@ class RegistrationForm extends Component
     //    rulesnya
     ];
 
-    // nanti ambil dari db
-    // public array $competitions = [
-    //     [
-    //         'name' => 'Cerdas cermat SD (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    //     [
-    //         'name' => 'Fisika SMP',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Fisika SMA',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Kebumian',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Astronomi',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Esai (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    //     [
-    //         'name' => 'Poster Ilmiah (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    // ];
-
     public function mount()
     {
         $this->competitions = Competition::all();
@@ -138,6 +106,11 @@ class RegistrationForm extends Component
             'is_first_competition' => 'required',
             'reason' => 'required',
             'competition' => 'required',
+        ], [
+            'source_of_information.required' => 'Sumber informasi wajib diisi.',
+            'is_first_competition.required' => 'Pertanyaan apakah ini kompetisi pertama wajib dijawab.',
+            'reason.required' => 'Alasan mengikuti kompetisi wajib diisi.',
+            'competition.required' => 'Kompetisi yang dipilih wajib diisi.',
         ]);
 
         $selectedCompetition = $this->competitions->firstWhere('id', $this->competition);
@@ -176,8 +149,8 @@ class RegistrationForm extends Component
             'institution_province' => 'required|string|max:255',
             'institution_city' => 'required|string|max:255',
             'parent_no_wa' => 'required|string|max:20',
-            'pass_photo' => 'required|image|mimes:jpg,png|max:2048',
-            'student_proof' => 'required|file|mimes:pdf|max:2048',
+            'pass_photo' => 'required|image|mimes:jpg,png|max:500',
+            'student_proof' => 'required|file|mimes:pdf|max:1024',
             'twibbon_links' => 'required',
             'terms_accepted' => 'required|accepted',
         ];
@@ -207,7 +180,52 @@ class RegistrationForm extends Component
         ];
 
         if ($this->is_team_competition) {
-            $this->validate(array_merge($commonRules, $leaderRules, $memberRules));
+            $this->validate(array_merge($commonRules, $leaderRules, $memberRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.required' => 'Pas foto wajib diunggah.',
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.required' => 'Bukti sebagai siswa wajib diunggah.',
+                'student_proof.file' => 'Bukti harus berupa file.',
+                'student_proof.mimes' => 'Bukti harus berformat PDF.',
+                'student_proof.max' => 'Ukuran bukti siswa maksimal 1024KB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua tim wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua tim wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua tim wajib diisi.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua tim wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ini sudah digunakan.',
+
+                'member1_name.required_if' => 'Nama anggota 1 wajib diisi.',
+                'member1_email.required_if' => 'Email anggota 1 wajib diisi.',
+                'member1_email.email' => 'Format email anggota 1 tidak valid.',
+                'member1_email.unique' => 'Email anggota 1 sudah digunakan.',
+                'member1_no_wa.required' => 'Nomor WhatsApp anggota 1 wajib diisi.',
+                'member1_no_wa.unique' => 'Nomor WhatsApp anggota 1 sudah digunakan.',
+
+                'member2_name.required_if' => 'Nama anggota 2 wajib diisi.',
+                'member2_email.required_if' => 'Email anggota 2 wajib diisi.',
+                'member2_email.email' => 'Format email anggota 2 tidak valid.',
+                'member2_email.unique' => 'Email anggota 2 sudah digunakan.',
+                'member2_no_wa.required' => 'Nomor WhatsApp anggota 2 wajib diisi.',
+                'member2_no_wa.unique' => 'Nomor WhatsApp anggota 2 sudah digunakan.',
+            ]);
             if ($this->member1_email == $this->member2_email) {
                 $this->addError('member2_email', 'Email anggota 1 dan 2 tidak boleh sama.');
             }
@@ -219,7 +237,38 @@ class RegistrationForm extends Component
                 return;
             }
         } else {
-            $this->validate(array_merge($commonRules, $leaderRules));
+            $this->validate(array_merge($commonRules, $leaderRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.required' => 'Pas foto wajib diunggah.',
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.required' => 'Bukti sebagai siswa wajib diunggah.',
+                'student_proof.file' => 'Bukti harus berupa file.',
+                'student_proof.mimes' => 'Bukti harus berformat PDF.',
+                'student_proof.max' => 'Ukuran bukti maksimal 1024KB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua tim wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua tim wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua tim wajib diisi.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua tim wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ini sudah digunakan.'
+            ]);
         }
         
         $this->total = $this->subtotal;
@@ -230,7 +279,11 @@ class RegistrationForm extends Component
     public function submitForm()
     {
         $this->validate([
-            'transaction_proof' => 'required|image|max:2048',
+            'transaction_proof' => 'required|image|max:500',
+        ], [
+            'transaction_proof.required' => 'Bukti pembayaran wajib diunggah.',
+            'transaction_proof.image' => 'Bukti pembayaran harus berupa gambar.',
+            'transaction_proof.max' => 'Ukuran bukti pembayaran maksimal 500KB.',
         ]);
 
         do {

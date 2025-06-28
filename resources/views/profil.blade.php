@@ -14,7 +14,7 @@
                 <div class="lg:w-full w-1/2 mx-auto">
                     <img src="/assets/profile-peserta.png" class="mx-auto" alt="">
                 </div>
-                <div class="grid break-all grid-cols-[max-content_1fr] lg:grid-cols-[max-content_auto] gap-x-2 gap-y-4 max-w-full w-max mx-auto">
+                <div class="grid break-all grid-cols-[max-content_1fr] lg:grid-cols-[max-content_auto] gap-x-2 gap-y-4 max-w-full w-max mx-auto lg:mx-0">
                     <span class="font-bold">No. Peserta</span>
                     <span>: {{ $user->participant->no_participant }}</span>
                     <span class="font-bold">No. Registrasi</span>

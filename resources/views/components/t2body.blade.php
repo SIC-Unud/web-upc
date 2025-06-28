@@ -60,14 +60,14 @@
                 <div class="bg-[#FAF9F6] p-8 rounded-lg shadow-xl h-fit max-h-138 w-fit lg:w-180 overflow-y-auto"
                     x-on:click.outside="showDetail = false">
                     <div class="grid grid-cols-1 gap-3">
-                        <button class="flex justify-end cursor-pointer" x-on:click="showDetail = false">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="black" class="border p-1 inline size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        <button class="cursor-pointer text-gray-700 text-xl font-bold hover:text-red-600 flex justify-end" x-on:click="showDetail = false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-8 md:size-10" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </button>
                         <div class="w-full grid gap-2">
-                            <h1 class="border-b-2 text-2xl font-extrabold">Ketua</h1>
                             <div class=" text-center flex justify-center items-center">
                                 <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-40 rounded-md object-cover" alt="profil-peserta">
                             </div>
@@ -102,7 +102,10 @@
 
                                 <span class="font-bold">Waktu Registrasi</span>
                                 <span>: {{ \Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s') }}</span>
-
+                            </div>
+                            <h1 class="border-b-2 text-2xl font-extrabold mt-3">Ketua</h1>
+                            <div
+                                class="text-left lg:text-base text-xs grid break-all grid-cols-[max-content_1fr] gap-x-2 gap-y-4 w-full">
                                 <span class="font-bold">Nama Lengkap</span>
                                 <span>: {{ $user->leader_name }}</span>
 
@@ -142,11 +145,7 @@
                                 <span>: <a
                                     href="{{ asset('/storage/' . $user->student_proof) }}"
                                     target="_blank" class="text-blue-500 underline"> Bukti Identitas (Klik untuk lihat detail) </a></span>
-
-                                {{-- <span class="font-bold">Link Twibbon</span>
-                                <span>: <a
-                                    href="https://www.figma.com/design/Tvi5lcd05JzhzZDlWL4C7Z/UPC-25?node-id=544-1374&t=0ZuWJ1e4dOswEGt8-0"
-                                    target="_blank" class="text-blue-500 underline">Lorem ipsum dolor sit amet. </a></span> --}}
+                                
                                 <span class="font-bold">Subtotal</span>
                                 <span>: {{ rupiah($user->subtotal) }} </span>
 
@@ -234,7 +233,7 @@
 
                             <form
                                 method="POST"
-                                action="{{ route('admin.manajemen-user.accpet', ['partisipant_id' => $user->id]) }}"
+                                action="{{ route('admin.manajemen-user.accept', ['participant_id' => $user->id]) }}"
                                 onsubmit="showConfirm = false; showButton = false"
                             >
                                     @csrf
@@ -275,7 +274,7 @@
 
                             <form
                                 method="POST"
-                                action="{{ route('admin.manajemen-user.reject', ['partisipant_id' => $user->id]) }}"
+                                action="{{ route('admin.manajemen-user.reject', ['participant_id' => $user->id]) }}"
                                 onsubmit="showReject = false; showButton = false"
                                 >
                                     @csrf

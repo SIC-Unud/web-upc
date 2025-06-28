@@ -20,12 +20,15 @@
          </div>
          <div class="text-center mx-2 py-5 border-b">
             <div class="text-center mx-2 py-5 border-b">
-                <div class="h-fit mx-auto mb-2 bg-[#5ACEF2] rounded-full w-10 lg:w-15">
-                    <img src="/assets/landing/profil.png" alt="">
-                </div>
-                <h1 x-show="isOpen" class="sidebar-text text-wrap mb-[2px] text-[10px] lg:text-base">YUDHISTIRA ARIMBAWA
-                    SAPUTRA</h1>
-                <h1 x-show="isOpen" class="sidebar-text text-[8px] lg:text-sm">Kompetisi Astronomi</h1>
+               <div class="h-fit mx-auto mb-2 bg-[#5ACEF2] rounded-full w-10 lg:w-15">
+                  @if (auth()->user()->role)
+                     <img src="/assets/landing/profil.png" alt="">
+                  @else
+                     <img src="{{ asset('/storage/'.auth()->user()->participant->pass_photo) }}" class="aspect-square w-full object-cover rounded-full" alt="">
+                  @endif
+               </div>
+               <h1 x-show="isOpen" class="sidebar-text text-wrap mb-[2px] text-[10px] lg:text-base">{{ auth()->user()->role ? auth()->user()->email : auth()->user()->participant->leader_name }}</h1>
+               <h1 x-show="isOpen" class="sidebar-text text-[8px] lg:text-sm">{{ auth()->user()->role ? 'Administrator' : auth()->user()->participant->competition->name }}</h1>
             </div>
             @if (auth()->user()->role)
                 @include('partials.navbar-admin')

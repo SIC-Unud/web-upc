@@ -106,9 +106,9 @@
          </div>
 
          <div
-            class="mt-5 justify-evenly items-center text-[8px] flex font-lao md:w-full md:flex-wrap lg:flex-nowrap md:mt-10 md:gap-9 md:text-xl">
+            class="mt-5 justify-evenly items-center text-[8px] flex font-lao md:w-full flex-wrap lg:flex-nowrap md:mt-10 md:gap-9 md:text-xl">
             @foreach ($competitions as $competition)
-               <div class="w-16 md:w-32">
+               <div class="w-20 md:w-32">
                   <img class="" src="{{ $competition->icon_competition }}" alt="">
                   <h1 class="text-wrap text-center text-white mt-2.5">{{ $competition->name }}</h1>
                </div>

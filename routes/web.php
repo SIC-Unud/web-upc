@@ -8,6 +8,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Exports\ParticipantExport;
+use App\Http\Controllers\ParticipantDashboardController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ParticipantExportController;
 use App\Models\Competition;
@@ -38,19 +39,17 @@ Route::get('/admin/manajemen-user', [ParticipantManagementController::class, 'sh
 Route::post('/admin/manajemen-user/accpet/{partisipant_id}', [ParticipantManagementController::class, 'accept'])->name('admin.manajemen-user.accpet');
 Route::post('/admin/manajemen-user/reject/{partisipant_id}', [ParticipantManagementController::class, 'reject'])->name('admin.manajemen-user.reject');
 
-Route::get('/profil', function () {
-   return view('profil');
+
+Route::middleware(['auth'])->name('dashboard.')->group(function () {
+    Route::get('/competitions', [ParticipantDashboardController::class, 'competitions'])->name('kompetisi');
+    Route::get('/profil', [ParticipantDashboardController::class, 'profil'])->name('profil');
+    Route::get('/informasi', [ParticipantDashboardController::class, 'informasi'])->name('informasi');
 });
 
 Route::get('/registration-not-found/{late}', function ($late) {
    $isLate = $late == 'late' ? 1 : 0;
    return view('not-found.registration', compact('isLate'));
 })->name('registration.not-found');
-
-Route::post('/profil', function () {
-   return redirect('/profil');
-});
-
 
 Route::controller(BroadcastController::class)->group(function () {
     Route::get('/admin/informasi', 'index')->name('broadcast.index');
@@ -59,42 +58,42 @@ Route::controller(BroadcastController::class)->group(function () {
     Route::delete('/admin/informasi/{broadcast}', 'destroy')->name('broadcast.delete');
 });
 
-Route::get('/competitions', function () {
-    return view('competition', [
-        'lomba' => [
-            [
-                'title' => 'Simulasi Kompetisi',
-                'date' => '26 Oktober 2025',
-                'status' => 'Terlewati',
-                'isMissed' => true
-            ],
-            [
-                'title' => 'Penyisihan Astronomi',
-                'date' => '26 Oktober 2025',
-                'status' => '1 hari lagi',
-                'isMissed' => false
-            ],
-            [
-                'title' => 'Penyisihan SD',
-                'date' => '28 Oktober 2025',
-                'status' => '3 hari lagi',
-                'isMissed' => false
-            ],
-            [
-                'title' => 'Penyisihan SD',
-                'date' => '28 Oktober 2025',
-                'status' => '3 hari lagi',
-                'isMissed' => false
-            ],
-            [
-                'title' => 'Penyisihan SD',
-                'date' => '28 Oktober 2025',
-                'status' => '3 hari lagi',
-                'isMissed' => false
-            ],
-        ]
-    ]);
-});
+// Route::get('/competitions', function () {
+//     return view('competition', [
+//         'lomba' => [
+//             [
+//                 'title' => 'Simulasi Kompetisi',
+//                 'date' => '26 Oktober 2025',
+//                 'status' => 'Terlewati',
+//                 'isMissed' => true
+//             ],
+//             [
+//                 'title' => 'Penyisihan Astronomi',
+//                 'date' => '26 Oktober 2025',
+//                 'status' => '1 hari lagi',
+//                 'isMissed' => false
+//             ],
+//             [
+//                 'title' => 'Penyisihan SD',
+//                 'date' => '28 Oktober 2025',
+//                 'status' => '3 hari lagi',
+//                 'isMissed' => false
+//             ],
+//             [
+//                 'title' => 'Penyisihan SD',
+//                 'date' => '28 Oktober 2025',
+//                 'status' => '3 hari lagi',
+//                 'isMissed' => false
+//             ],
+//             [
+//                 'title' => 'Penyisihan SD',
+//                 'date' => '28 Oktober 2025',
+//                 'status' => '3 hari lagi',
+//                 'isMissed' => false
+//             ],
+//         ]
+//     ]);
+// });
 
 Route::get('/admin/competitions', function () {
     $all = Competition::with('questions')->get();
@@ -105,17 +104,27 @@ Route::get('/admin/competitions', function () {
         if ($competition->is_cbt) {
             $countNormalQuestions = $competition->questions->where('is_simulation', false)->count();
 
+            $start = Carbon::parse($competition->start_competition)->translatedFormat('d F Y, H:i');
+            $end = Carbon::parse($competition->end_competition)->translatedFormat('d F Y, H:i') . ' WITA';
+            $dateRange = $start . ' - ' . $end;
+
             $competitions[] = [
                 'title' => $competition->name,
-                'date' => Carbon::parse($competition->start_competition)->translatedFormat('d F Y'),
+                'date' => $dateRange,
                 'countQestion' => $countNormalQuestions
             ];
 
             $countSimulationQuestions = $competition->questions->where('is_simulation', true)->count();
+            $simulasiStart = Carbon::parse(config('const.simulation.start_at'));
+            $simulasiEnd = Carbon::parse(config('const.simulation.end_at'));
+
+            $simulasiStartFormatted = $simulasiStart->translatedFormat('d F Y, H:i');
+            $simulasiEndFormatted = $simulasiEnd->translatedFormat('d F Y, H:i') . ' WITA';
+            $simulationDateRange = $simulasiStartFormatted . ' - ' . $simulasiEndFormatted;
 
             $competitions[] = [
                 'title' => 'Simulasi ' . $competition->name,
-                'date' => Carbon::parse('2025-09-01')->translatedFormat('d F Y'),
+                'date' => $simulationDateRange,
                 'countQestion' => $countSimulationQuestions
             ];
         }

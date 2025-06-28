@@ -69,7 +69,7 @@
                         <div class="w-full grid gap-2">
                             <h1 class="border-b-2 text-2xl font-extrabold">Ketua</h1>
                             <div class=" text-center flex justify-center items-center">
-                                <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-30 rounded-full object-cover" alt="profil-peserta">
+                                <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-40 rounded-md object-cover" alt="profil-peserta">
                             </div>
                             @if ($user->is_accepted == false && $user->rejected == false && $user->reject_message != null)
                                 <div class="my-3 py-2 px-4 bg-red-500 w-full rounded-md text-white">

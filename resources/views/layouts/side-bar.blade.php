@@ -11,9 +11,6 @@
 </head>
 
 <body>
-   @php
-      $isAdmin = true;
-   @endphp
    <div x-data="{ isOpen: false }" x-cloak class="flex font-jakarta">
       {{-- Sidebar Tablet dan Laptop --}}
       <nav id="sidebar" x-bind:class="isOpen ? 'lg:w-60 w-50' : 'w-30'"
@@ -30,7 +27,7 @@
                     SAPUTRA</h1>
                 <h1 x-show="isOpen" class="sidebar-text text-[8px] lg:text-sm">Kompetisi Astronomi</h1>
             </div>
-            @if ($isAdmin)
+            @if (auth()->user()->role)
                 @include('partials.navbar-admin')
             @else
                 @include('partials.navbar-peserta')
@@ -82,7 +79,7 @@
                         </div>
                     </div>
 
-                    @if ($isAdmin)
+                    @if (auth()->user()->role)
                         @include('partials.navbar-admin')
                     @else
                         @include('partials.navbar-peserta')

@@ -8,48 +8,51 @@
     <h1 class="text-3xl md:text-5xl font-bold text-[#4C4C4C] py-8">Informasi</h1>
 
     <div class="space-y-4">
-        @foreach ($informasi as $info)
-            <div x-data="{ expanded: false }" class="bg-white shadow-xl rounded-xl p-4 relative text-justify">
-                <h2 class="md:text-lg text-base font-bold text-gray-800 mb-1">{{ $info['title'] }}</h2>
+        @if (count($broadcasts) > 0)
+            @foreach ($broadcasts as $info)
+                <div x-data="{ expanded: false }" class="bg-white shadow-xl rounded-xl p-4 relative text-justify">
+                    <h2 class="md:text-lg text-base font-bold text-gray-800 mb-1">{{ $info['title'] }}</h2>
 
-                @php
-                    $limitDesktop = 210;
-                    $limitMobile = 80;
-                    $previewDesktop = Str::limit($info['content'], $limitDesktop);
-                    $previewMobile = Str::limit($info['content'], $limitMobile);
-                @endphp
+                    @php
+                        $limitDesktop = 210;
+                        $limitMobile = 80;
+                        $previewDesktop = Str::limit($info['content'], $limitDesktop);
+                        $previewMobile = Str::limit($info['content'], $limitMobile);
+                    @endphp
 
-                <div class="text-xs md:text-base text-black relative overflow-hidden">
-                    <template x-if="!isMobile">
-                        <p>
-                            {!! nl2br(e($previewDesktop)) !!}
-                            <span
-                                class="text-green-500 cursor-pointer hover:underline"
-                                @click="modalOpen = true; modalContent = `{{ addslashes($info['content']) }}`; modalTitle = `{{ $info['title'] }}`"
-                            >
-                                lihat selengkapnya
-                            </span>
-                        </p>
-                    </template>
+                    <div class="text-xs md:text-base text-black relative overflow-hidden">
+                        <template x-if="!isMobile">
+                            <p>
+                                {!! nl2br(e($previewDesktop)) !!}
+                                <span
+                                    class="text-green-500 cursor-pointer hover:underline"
+                                    @click="modalOpen = true; modalContent = `{{ addslashes($info['content']) }}`; modalTitle = `{{ $info['title'] }}`"
+                                >
+                                    lihat selengkapnya
+                                </span>
+                            </p>
+                        </template>
 
-                    <template x-if="isMobile">
-                        <p>
-                            <span x-show="!expanded">{!! nl2br(e($previewMobile)) !!}</span>
-                            <span x-show="expanded">{!! nl2br(e($info['content'])) !!}</span>
-                            <span
-                                class="text-green-500 cursor-pointer hover:underline"
-                                x-show="!expanded"
-                                @click="expanded = true"
-                            >
-                                lihat selengkapnya
-                            </span>
-                        </p>
-                    </template>
+                        <template x-if="isMobile">
+                            <p>
+                                <span x-show="!expanded">{!! nl2br(e($previewMobile)) !!}</span>
+                                <span x-show="expanded">{!! nl2br(e($info['content'])) !!}</span>
+                                <span
+                                    class="text-green-500 cursor-pointer hover:underline"
+                                    x-show="!expanded"
+                                    @click="expanded = true"
+                                >
+                                    lihat selengkapnya
+                                </span>
+                            </p>
+                        </template>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-
-
+            @endforeach
+        @else
+            <img src="{{ asset('assets/cat/purple.png') }}" class="w-50 max-w-full mx-auto" alt="">
+            <p class="text-sm sm:text-lg lg:text-xl font-bold text-center">Belum Ada Informasi Terbaru dari Panitia😊🙏🏻</p>
+        @endif
 
         <!-- Modal -->
         <div class="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/10 z-50" x-show="modalOpen" x-transition>

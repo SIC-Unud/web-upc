@@ -27,9 +27,9 @@
       </div>
 
       <div
-         class="menu hidden absolute z-50 right-0 border border-white bg-black text-2xl -bottom-27 md:-bottom-70 md:w-[383px]">
-         <div class="text-white py-3 md:py-12 md:px-8">
-            <div class="relative text-center font-julius px-3 mx-3 text-xs pb-2 md:pb-5 md:text-2xl">
+         class="menu hidden absolute z-50 border border-white bg-black text-2xl right-5 -bottom-27 md:-bottom-54 md:w-[383px]">
+         <div class="text-white py-3 md:py-8 md:px-4">
+            <div class="relative text-center font-julius px-3 mx-3 text-xs pb-2 md:pb-3 md:text-lg">
                <a href="{{ route('register') }}">DAFTAR</a>
                <div
                   class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
@@ -38,7 +38,7 @@
                   class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white from-0% via-20% to-60% w-1/2">
                </div>
             </div>
-            <div class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-5 md:text-2xl">
+            <div class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-3 md:text-lg">
                <a href="{{ route('login') }}">MASUK</a>
                <div
                   class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
@@ -47,7 +47,7 @@
                   class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white from-0% via-20% to-60% w-1/2">
                </div>
             </div>
-            <div class="text-center font-julius px-3 mx-3 text-xs pt-2 md:pt-5 md:text-2xl">
+            <div class="text-center font-julius px-3 mx-3 text-xs pt-2 md:pt-3 md:text-lg">
                <a href="{{ config('const.link_drive_petunjuk_teknis') }}" target="_blank">PETUNJUK TEKNIS</a>
             </div>
          </div>

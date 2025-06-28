@@ -63,7 +63,7 @@
             </div> --}}
 
             <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">
-                Jika terdapat pertanyaan lainnya, dapat menghubungi kontak Humas UPC 2025 <a href="https://upcunud.com/kontak" style="color: #007BFF; text-decoration: underline;">di sini</a>.
+                Jika terdapat pertanyaan lainnya, dapat menghubungi kontak Humas UPC 2025 <a href="{{ config('const.link_cp_humas') }}" style="color: #007BFF; text-decoration: underline;">di sini</a>.
             </p>
 
             <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
@@ -78,22 +78,22 @@
                         <table border="0" cellpadding="0" cellspacing="0" align="center">
                             <tr>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://wa.me/yourwhatsapplink" target="_blank" style="display: block;">
+                                    <a href="{{ config('const.social_media.wa') }}" target="_blank" style="display: block;">
                                         <img src="{{ asset('wa.png')}}" alt="WhatsApp" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.instagram.com/yourinstagramlink" target="_blank" style="display: block;">
+                                    <a href="{{ config('const.social_media.ig') }}https://www.instagram.com/yourinstagramlink" target="_blank" style="display: block;">
                                         <img src="{{ asset('ig.png')}}" alt="Instagram" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.tiktok.com/@yourtiktoklink" target="_blank" style="display: block;">
+                                    <a href="{{ config('const.social_media.tiktok') }}" target="_blank" style="display: block;">
                                         <img src="{{ asset('tiktok.png')}}" alt="TikTok" style="height: 24px; display: block;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.youtube.com/youryoutubelink" target="_blank" style="display: block;">
+                                    <a href="{{ config('const.social_media.youtube') }}" target="_blank" style="display: block;">
                                         <img src="{{ asset('youtube.png')}}" alt="YouTube" style="height: 24px;">
                                     </a>
                                 </td>

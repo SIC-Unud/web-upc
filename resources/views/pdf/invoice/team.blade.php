@@ -162,7 +162,7 @@
 
         <table class="border" style="padding:10px;">
             <tr>
-                <td>Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-bold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilahkan untuk menghubungi CP Humas UPC 2025 yang tertera pada bagian header formulir ini.</td>
+                <td>Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-bold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilahkan untuk menghubungi <a href="{{ config('const.link_cp_humas') }}" target="_blank" rel="noopener noreferrer">CP Humas UPC 2025</a> yang tertera pada bagian header formulir ini.</td>
             </tr>
         </table>
     </div>

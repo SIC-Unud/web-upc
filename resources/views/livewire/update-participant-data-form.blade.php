@@ -262,7 +262,7 @@
                                         {{-- check-box --}}
                                         <div class="flex items-center gap-2 md:gap-4">
                                             <input wire:model="terms_accepted" class="size-6" type="checkbox" name="terms_accepted" id="terms_accepted" required>
-                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan <a href="{{ config('const.link_drive_petunjuk_teknis') }}" target="_blank" rel="noopener noreferrer" class="text-blue-600">ketentuan/Juknis UPC 2025</a>. <span class="text-red-500">*</span></label>
+                                            <label class="text-white font-extralight text-xs md:text-lg" for="terms_accepted">Saya telah membaca, menyetujui, dan akan mematuhi seluruh syarat dan ketentuan/Juknis UPC 2025. <span class="text-red-500">*</span></label>
                                         </div>
                                         @error('terms_accepted') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
@@ -734,7 +734,7 @@
                         <div class="text-center">
                             <button wire:click.prevent="downloadInvoice" type="button" class="cursor-pointer border border-[#12B1EB] rounded-md py-2 px-15 md:text-2xl text-xs md:py-2 md:px-20 mb-8 bg-[#12B1EB] text-white text-center">Unduh</button>
                         </div>
-                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="https://wa.me/" class="text-[#12B1EB] underline">di sini</a>.</p>
+                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="{{ config('const.link_cp_humas') }}" class="text-[#12B1EB] underline">di sini</a>.</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Terima kasih telah mendaftar!</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Sampai jumpa di rangkaian kegiatan UPC selanjutnya!</p>
                     </div>

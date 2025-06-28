@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Home')
+@section('title', 'Login')
 @section('content')
 @php
    $data = session('data');

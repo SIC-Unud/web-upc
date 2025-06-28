@@ -154,7 +154,7 @@
                @if ($kalimat)
                     <p class="font-bold text-center">Peserta {{ $kalimat }} tidak ditemukan!</p>
                @else
-                    <p class="font-bold text-center">Peserta tidak ditemukan!</p>
+                    <p class="font-bold text-center">Belum ada peserta!</p>
                @endif
           @endif
      </div>

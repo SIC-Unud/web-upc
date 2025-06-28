@@ -20,7 +20,6 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('no_wa', 20)->unique();
             $table->string('email')->unique();
-            $table->char('gender');
             $table->timestamps();
         });
     }

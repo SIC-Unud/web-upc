@@ -46,9 +46,9 @@ Route::controller(ParticipantManagementController::class)->group(function () {
 });
 
 Route::controller(ParticipantDashboardController::class)->group(function () {
-   Route::get('/competitions', 'competitions')->name('kompetisi');
-   Route::get('/profil', 'profil')->name('profil');
-   Route::get('/informasi', 'informasi')->name('informasi');
+   Route::get('/competitions', 'competitions')->name('participants.index');
+   Route::get('/profil', 'profil')->name('participants.profil');
+   Route::get('/informasi', 'informasi')->name('participants.informasi');
 });
 
 Route::controller(BroadcastController::class)->group(function () {

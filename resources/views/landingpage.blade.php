@@ -16,16 +16,30 @@
       </div>
       <div class="flex justify-center items-center w-full relative -top-[50%] translate-y-1/2 z-10">
          <img class="w-[80px] relative z-10 md:hidden" src="/assets/cat/purple.png" alt="">
-         <a href="/register"
+         @php
+            $isGuest = auth()->guest();
+            $user = auth()->user();
+            $isAdmin = $user?->role == 1;
+            $isAccepted = $user?->participant?->is_accepted == 1;
+
+            $url = $isGuest || (!$isAdmin && !$isAccepted) 
+               ? route('register') 
+               : ($isAdmin ? route('admin.dashboard') : route('participants.index'));
+
+            $label = $isGuest || (!$isAdmin && !$isAccepted)
+               ? 'DAFTAR SEKARANG'
+               : 'DASHBOARD SAYA';
+         @endphp
+
+         <a href="{{ $url }}"
             class="mx-5 cursor-pointer relative z-10 flex w-fit justify-center items-center py-4 px-[12px] backdrop-blur-sm bg-white/10 md:py-[30px] md:px-[30px]">
             <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
             <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
             <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
             <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
-            <div class="text-[13px] text-white leading-6 mr-[8px] font-julius md:mr-6 md:text-2xl">DAFTAR SEKARANG
-            </div>
+            <div class="text-[13px] text-white leading-6 mr-[8px] font-julius md:mr-6 md:text-2xl">{{ $label }}</div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-               stroke="currentColor" class="size-3 md:size-6  text-white">
+               stroke="currentColor" class="size-3 md:size-6 text-white">
                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
          </a>

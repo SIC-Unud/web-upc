@@ -29,24 +29,39 @@
       <div
          class="menu hidden absolute z-50 border border-white bg-black text-2xl right-5 -bottom-27 md:-bottom-54 md:w-[383px]">
          <div class="text-white py-3 md:py-8 md:px-4">
-            <div class="relative text-center font-julius px-3 mx-3 text-xs pb-2 md:pb-3 md:text-lg">
-               <a href="{{ route('register') }}">DAFTAR</a>
-               <div
-                  class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
+            @php
+               $user = auth()->user();
+               $isGuest = auth()->guest();
+               $isAdmin = $user?->role == 1;
+               $isAccepted = $user?->participant?->is_accepted == 1;
+            @endphp
+
+            @if ($isGuest || (!$isAdmin && !$isAccepted))
+               <div class="relative text-center font-julius px-3 mx-3 text-xs pb-2 md:pb-3 md:text-lg">
+                  <a href="{{ route('register') }}">DAFTAR</a>
+                  <div class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white w-1/2"></div>
+                  <div class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white w-1/2"></div>
                </div>
-               <div
-                  class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white from-0% via-20% to-60% w-1/2">
+               <div class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-3 md:text-lg">
+                  <a href="{{ route('login') }}">MASUK</a>
+                  <div class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white w-1/2"></div>
+                  <div class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white w-1/2"></div>
                </div>
-            </div>
-            <div class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-3 md:text-lg">
-               <a href="{{ route('login') }}">MASUK</a>
-               <div
-                  class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white from-0% via-20% to-60% w-1/2">
+            @else
+               <div class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-3 md:text-lg">
+                  <a href="{{ $isAdmin ? route('admin.dashboard') : route('participants.index') }}">DASHBOARD</a>
+                  <div class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white w-1/2"></div>
+                  <div class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white w-1/2"></div>
                </div>
-               <div
-                  class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white from-0% via-20% to-60% w-1/2">
-               </div>
-            </div>
+               <form action="{{ route('logout') }}" method="POST" class="relative text-center font-julius px-3 mx-3 text-xs py-2 md:py-3 md:text-lg">
+                  @csrf
+                  <button type="submit" class="cursor-pointer">
+                     <p>LOGOUT</p>
+                     <div class="h-[0.70px] bg-gradient-to-r absolute bottom-0 left-0 from-black via-[#12B1EB]/95 to-white w-1/2"></div>
+                     <div class="h-[0.70px] bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white w-1/2"></div>
+                  </button>
+               </form>
+            @endif
             <div class="text-center font-julius px-3 mx-3 text-xs pt-2 md:pt-3 md:text-lg">
                <a href="{{ config('const.link_drive_petunjuk_teknis') }}" target="_blank">PETUNJUK TEKNIS</a>
             </div>

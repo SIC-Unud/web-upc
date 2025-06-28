@@ -104,6 +104,6 @@ class ParticipantManagementController extends Controller
         $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
 
         // return view("manajemen-user", compact('headers', 'users'));
-        return view("manajemen-user", compact('headers', 'participants', 'competitions'));
+        return view("admin.manajemen-user", compact('headers', 'participants', 'competitions'));
     }
 }

@@ -10,7 +10,9 @@ use App\Http\Controllers\HomeController;
 use App\Exports\ParticipantExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ParticipantExportController;
+use App\Models\Competition;
 use App\Models\Participant;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -94,6 +96,34 @@ Route::get('/competitions', function () {
     ]);
 });
 
+Route::get('/admin/competitions', function () {
+    $all = Competition::with('questions')->get();
+
+    $competitions = [];
+
+    foreach ($all as $competition) {
+        if ($competition->is_cbt) {
+            $countNormalQuestions = $competition->questions->where('is_simulation', false)->count();
+
+            $competitions[] = [
+                'title' => $competition->name,
+                'date' => Carbon::parse($competition->start_competition)->translatedFormat('d F Y'),
+                'countQestion' => $countNormalQuestions
+            ];
+
+            $countSimulationQuestions = $competition->questions->where('is_simulation', true)->count();
+
+            $competitions[] = [
+                'title' => 'Simulasi ' . $competition->name,
+                'date' => Carbon::parse('2025-09-01')->translatedFormat('d F Y'),
+                'countQestion' => $countSimulationQuestions
+            ];
+        }
+    }
+
+    return view('admin.competition', ['competitions' => $competitions]);
+});
+
 Route::get('/update-participant', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
 // Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');
 Route::get('/admin', function () {
@@ -112,5 +142,5 @@ Route::get('/admin', function () {
    $labels = $competitionStats->pluck('name');
    $totals = $competitionStats->pluck('total');
 
-   return view('dashboard', compact('countPartisipan', 'countWaiting', 'countFailed', 'countSuccess', 'labels', 'totals'));
+   return view('admin.dashboard', compact('countPartisipan', 'countWaiting', 'countFailed', 'countSuccess', 'labels', 'totals'));
 });

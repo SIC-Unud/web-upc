@@ -11,7 +11,7 @@ class BroadcastController extends Controller
     public function index()
     {
         $broadcasts = Broadcast::latest()->get();
-        return view("informasi-admin", compact("broadcasts"));
+        return view("admin.informasi-admin", compact("broadcasts"));
     }
 
     public function store(Request $request)

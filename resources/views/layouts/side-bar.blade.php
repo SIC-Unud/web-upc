@@ -11,16 +11,17 @@
 </head>
 
 <body>
-    @php
-        $isAdmin = true;
-       @endphp
-    <div x-data="{ isOpen: false }" x-cloak class="flex font-jakarta">
-        {{-- Sidebar Tablet dan Laptop --}}
-        <nav id="sidebar" x-bind:class="isOpen ? 'lg:w-60 w-50' : 'w-30'"
-            class="bg-white transition-all duration-300 min-h-screen md:block hidden z-50 top-0 left-0 bottom-0 shadow-[0_0_30px_rgba(0,0,0,0.25)] fixed ">
-            <div class="border-b mx-2">
-                <img src="/assets/competition/logo-sidebar.png" class="mb-2 mt-3 lg:mt-4 ml-3 w-10 lg:w-20" alt="">
-            </div>
+   @php
+      $isAdmin = true;
+   @endphp
+   <div x-data="{ isOpen: false }" x-cloak class="flex font-jakarta">
+      {{-- Sidebar Tablet dan Laptop --}}
+      <nav id="sidebar" x-bind:class="isOpen ? 'lg:w-60 w-50' : 'w-30'"
+         class="bg-white transition-all duration-300 min-h-screen md:block hidden z-50 top-0 left-0 bottom-0 shadow-[0_0_30px_rgba(0,0,0,0.25)] fixed ">
+         <div class="border-b mx-2">
+            <img src="/assets/competition/logo-sidebar.png" class="mb-2 mt-3 lg:mt-4 ml-3 w-10 lg:w-20" alt="">
+         </div>
+         <div class="text-center mx-2 py-5 border-b">
             <div class="text-center mx-2 py-5 border-b">
                 <div class="h-fit mx-auto mb-2 bg-[#5ACEF2] rounded-full w-10 lg:w-15">
                     <img src="/assets/landing/profil.png" alt="">

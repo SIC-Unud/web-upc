@@ -7,6 +7,7 @@ use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // competitions
+
         $competitions = [
             [
                 'name' => 'Kompetisi Sains SD',
@@ -124,5 +125,11 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        DB::table('users')->insert([
+            'email' => 'udayanaphysicschampionship@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('$2025uPc2o25#admn'),
+            'role' => 1
+        ]);
     }
 }

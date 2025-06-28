@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ParticipantManagementController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,9 @@ Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->nam
 
 
 Route::get('/export-participants', function () {
-   return Excel::download(new ParticipantExport, 'participants.csv', \Maatwebsite\Excel\Excel::CSV, [
-      'Content-Type' => 'text/csv',
-   ]);
+    return Excel::download(new ParticipantExport, 'participants.csv', \Maatwebsite\Excel\Excel::CSV, [
+        'Content-Type' => 'text/csv',
+    ]);
 });
 
 Route::get('/participants/export', [ParticipantExportController::class, 'export'])->name('participants.export');
@@ -48,39 +49,49 @@ Route::post('/profil', function () {
    return redirect('/profil');
 });
 
+
+Route::controller(BroadcastController::class)->group(function () {
+    Route::get('/admin/informasi', 'index')->name('broadcast.index');
+    Route::post('/admin/informasi', 'store')->name('broadcast.store');
+    Route::put('/admin/informasi/update/{id}', 'update')->name('broadcast.update');
+    Route::delete('/admin/informasi/{broadcast}', 'destroy')->name('broadcast.delete');
+});
+
 Route::get('/competitions', function () {
-   return view('competition', ['lomba' => [
-      [
-         'title' => 'Simulasi Kompetisi',
-         'date' => '26 Oktober 2025',
-         'status' => 'Terlewati',
-         'isMissed' => true
-      ],
-      [
-         'title' => 'Penyisihan Astronomi',
-         'date' => '26 Oktober 2025',
-         'status' => '1 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-   ]]);
+    return view('competition', [
+        'lomba' => [
+            [
+                'title' => 'Simulasi Kompetisi',
+                'date' => '26 Oktober 2025',
+                'status' => 'Terlewati',
+                'isMissed' => true
+            ],
+            [
+                'title' => 'Penyisihan Astronomi',
+                'date' => '26 Oktober 2025',
+                'status' => '1 hari lagi',
+                'isMissed' => false
+            ],
+            [
+                'title' => 'Penyisihan SD',
+                'date' => '28 Oktober 2025',
+                'status' => '3 hari lagi',
+                'isMissed' => false
+            ],
+            [
+                'title' => 'Penyisihan SD',
+                'date' => '28 Oktober 2025',
+                'status' => '3 hari lagi',
+                'isMissed' => false
+            ],
+            [
+                'title' => 'Penyisihan SD',
+                'date' => '28 Oktober 2025',
+                'status' => '3 hari lagi',
+                'isMissed' => false
+            ],
+        ]
+    ]);
 });
 
 Route::get('/update-participant', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');

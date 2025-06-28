@@ -189,16 +189,16 @@ class AuthController extends Controller
 
             if($data->role) {
                 $request->session()->regenerate();
-                return redirect()->intended('dashboard');
+                return redirect()->intended('admin');
             } else {
                 $data->load(['participant:user_id,competition_id,leader_name,institution,created_at,is_accepted,is_rejected,reject_message',
                         'participant.competition:id,name']);
-                if ($data->participant->is_rejected === true) {
+                if ($data->participant->is_accepted != true && $data->participant->is_rejected != true) {
                     return redirect()->route('login')->with([
                         'status' => 'Sedang divalidasi',
-                        'data' => $data
+                        'data' => $data,
                     ]);
-                } else if ($data->participant->is_accepted !== true) {
+                } else if ($data->participant->is_rejected == true && $data->participant->is_accepted != true) {
                     $request->session()->regenerate();
                     return redirect()->route('login')->with([
                         'success' => 'Gagal divalidasi',
@@ -206,7 +206,7 @@ class AuthController extends Controller
                     ]);
                 } else {
                     $request->session()->regenerate();
-                    return redirect()->intended('dashboard');
+                    return redirect()->intended('competitions');
                 }
             }
 
@@ -217,28 +217,13 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(string $id)
-    // {
-    //     //
-    // }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy(string $id)
-    // {
-    //     //
-    // }
+        return redirect('/login');
+    }
 }

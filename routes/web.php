@@ -20,7 +20,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-// Route::get('/registration', [AuthController::class, 'show']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
 
 
@@ -34,79 +34,6 @@ Route::get('/participants/export', [ParticipantExportController::class, 'export'
 Route::get('/admin/manajemen-user', [ParticipantManagementController::class, 'show']);
 Route::post('/admin/manajemen-user/accpet/{partisipant_id}', [ParticipantManagementController::class, 'accept'])->name('admin.manajemen-user.accpet');
 Route::post('/admin/manajemen-user/reject/{partisipant_id}', [ParticipantManagementController::class, 'reject'])->name('admin.manajemen-user.reject');
-
-
-// Route::get('/admin/manajemen-user', function() {
-//      $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
-//      $users = [
-//       [
-//          'id' => '1',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Astronomi',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '2',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Fisika SMA',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '3',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Cerdas cermat SD (kelompok)',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '4',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Fisika SMP',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '5',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Esai (kelompok)',
-//          'status' => 'Menunggu',
-//       ]];
-//      // Convert array ke Collection
-//       $userCollection = collect($users);
-
-//       // Konfigurasi pagination
-//       $perPage = 3; // jumlah data per halaman
-//       $currentPage = request()->get('page', 1);
-//       $currentItems = $userCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-//       $paginatedUsers = new LengthAwarePaginator(
-//             $currentItems,
-//             $userCollection->count(),
-//             $perPage,
-//             $currentPage,
-//             ['path' => request()->url(), 'query' => request()->query()]
-//       );
-//       return view("manajemen-user", compact('headers', 'paginatedUsers'));
-//    });
-
 
 Route::get('/profil', function () {
    return view('profil');
@@ -156,8 +83,8 @@ Route::get('/competitions', function () {
    ]]);
 });
 
-// Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
-Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');
+Route::get('/update-participant', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
+// Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');
 Route::get('/admin', function () {
    $countPartisipan = Participant::count();
    $countWaiting = Participant::where('is_accepted', 0)->where('is_rejected', 0)->count();

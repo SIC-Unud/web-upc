@@ -82,21 +82,23 @@
 
          <div class="flex justify-end mt-4 md:mt-8">
             <button>
-               <div class="bg-black/65 justify-center items-center cursor-pointer relative z-100 flex py-2 md:py-4 w-[75px] md:w-[150px]">
-                  @if($data->participant->is_rejected)
+               @if($data->participant->is_rejected)
+                  <a href="{{ route('update-participant') }}" class="bg-black/65 justify-center items-center cursor-pointer relative z-100 flex py-2 md:py-4 w-[75px] md:w-[150px]">
                      <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
                      <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
                      <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <p class="font-julius text-white text-[10px] md:text-xl text-center">PERBAIKI FORMULIR</p>
-                  @else
+                  </a>
+               @else
+                  <div class="bg-black/65 justify-center items-center cursor-pointer relative z-100 flex py-2 md:py-4 w-[75px] md:w-[150px]">
                      <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
                      <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
                      <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
                      <p class="font-julius text-white text-[10px] md:text-xl text-center">OK</p>
-                  @endif
-               </div>
+                  </div>
+               @endif
             </button>
          </div>
       </div>
@@ -114,74 +116,21 @@
 @endsection
 
 @section('script')
-@if($data)
-<script>
-   window.addEventListener('load', function () {
-      const popupValidasi = document.getElementById('PopUpValidasi');
-      if (popupValidasi && popupValidasi.classList.contains('hidden')) {
-         popupValidasi.classList.remove('hidden');
-         popupValidasi.classList.add('flex');
-      }
+   @if($data)
+      <script>
+         window.addEventListener('load', function () {
+            const popupValidasi = document.getElementById('PopUpValidasi');
+            if (popupValidasi && popupValidasi.classList.contains('hidden')) {
+               popupValidasi.classList.remove('hidden');
+               popupValidasi.classList.add('flex');
+            }
 
-      const tombolOK = popupValidasi.querySelector('button');
-      tombolOK?.addEventListener('click', function () {
-         popupValidasi.classList.add('hidden');
-         popupValidasi.classList.remove('flex');
-      });
-   });
-</script>
-@endif
-{{-- <script>
-   // Toggle menu
-   const tombol = document.querySelector('.tombolMenu')
-   const menu = document.querySelector('.menu')
-   tombol?.addEventListener('click', (event) => {
-      event.preventDefault()
-      menu?.classList.toggle('hidden')
-   })
-
-   // Jalankan saat halaman selesai dimuat
-   window.addEventListener('load', function () {
-      const popupValidasi = document.getElementById('PopUpValidasi');
-      const tombolOK = popupValidasi?.querySelector('button');
-
-      // Jika popup aktif (class "flex"), pasang handler tombol OK
-      if (popupValidasi?.classList.contains('flex')) {
-         tombolOK?.addEventListener('click', function () {
-            popupValidasi.classList.add('hidden');
-            popupValidasi.classList.remove('flex');
+            const tombolOK = popupValidasi.querySelector('button');
+            tombolOK?.addEventListener('click', function () {
+               popupValidasi.classList.add('hidden');
+               popupValidasi.classList.remove('flex');
+            });
          });
-      }
-   });
-</script> --}}
-{{-- <script>
-   const tombol = document.querySelector('.tombolMenu')
-   const menu = document.querySelector('.menu')
-   tombol.addEventListener('click', (event) => {
-      event.preventDefault()
-      if (menu.classList.contains('hidden')) {
-         menu.classList.remove('hidden')
-      } else menu.classList.add('hidden')
-   })
-
-   window.addEventListener('load', function () {
-   const form = document.querySelector('form');
-   const popupValidasi = document.getElementById('PopUpValidasi');
-
-   if (form && popupValidasi) {
-      form.addEventListener('submit', function (e) {
-         e.preventDefault();
-         popupValidasi.classList.remove('hidden');
-         popupValidasi.classList.add('flex');
-      });
-
-      // tombol OK
-      const tombolOK = popupValidasi.querySelector('button');
-      tombolOK?.addEventListener('click', function () {
-         popupValidasi.classList.add('hidden');
-         popupValidasi.classList.remove('flex');
-      });
-   }
-});
-</script> --}}
+      </script>
+   @endif
 @endsection

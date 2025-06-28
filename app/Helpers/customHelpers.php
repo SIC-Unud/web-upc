@@ -58,6 +58,7 @@ if (!function_exists('generateInvoice')) {
 
 if (!function_exists('rupiah')) {
     function rupiah($angka, $prefix = 'Rp. ') {
+        $angka = is_numeric($angka) ? (float) $angka : 0;
         return $prefix . number_format($angka, 0, ',', '.');
     }
 }

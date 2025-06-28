@@ -15,9 +15,9 @@
     <div class="backdrop-blur-2xl bg-black/55">
         {{-- Heading --}}
         <div class="md:pt-12 pt-8 mx-auto text-white">
-            <h1 class="font-bold text-4xl md:text-5xl text-center">Registrasi</h1>
+            <h1 class="font-bold text-4xl md:text-5xl text-center">Update Data Registrasi</h1>
             <p class="font-medium font-jakarta text-sm md:text-2xl px-6 md:px-15 lg:px-30 text-center my-8 md:my-12">
-                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat, mudah, dan GRATIS!
+                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat dan mudah!
             </p>
         </div>
 
@@ -214,7 +214,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('/storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </a>
                                                     @endif
@@ -244,7 +244,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('/storage/studentproofs/'. $student_proof)}}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/'. $student_proof)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($student_proof), 255) }}
                                                         </a>
                                                     @endif
@@ -486,7 +486,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('/storage/images/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/'. $pass_photo)}}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </a>
                                                     @endif
@@ -511,7 +511,7 @@
                                                         {{-- <span class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($pass_photo), 255) }}
                                                         </span> --}}
-                                                        <a href="{{ asset('/storage/studentproofs/'. $student_proof) }}" target="_blank" class="text-white text-xs">
+                                                        <a href="{{ asset('/storage/'. $student_proof) }}" target="_blank" class="text-white text-xs">
                                                             {{ \Illuminate\Support\Str::limit(basename($student_proof), 255) }}
                                                         </a>
                                                     @endif
@@ -648,7 +648,7 @@
                                             <div class="mt-2">
                                                 <span class="text-white text-xs block">File sebelumnya:</span>
                                                 <a
-                                                    href="{{ asset('/storage/TransactionProofs/' . $transaction_proof) }}"
+                                                    href="{{ asset('/storage/' . $transaction_proof) }}"
                                                     target="_blank"
                                                     class="text-blue-400 underline text-xs"
                                                 >

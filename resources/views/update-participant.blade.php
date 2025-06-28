@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- content --}}
-    <livewire:update-participant-data-form :no_registration="$no_registration" />
+    <livewire:update-participant-data-form />
     {{-- scripts --}}
 @endsection
 

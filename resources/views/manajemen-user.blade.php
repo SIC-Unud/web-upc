@@ -90,25 +90,13 @@
                                    <label class="text-xs lg:text-base">Kompetisi</label>
                                    <select name="kompetisi" class="w-full p-2 bg-white text-black text-xs lg:text-base rounded">
                                         <option value="">Pilih...</option>
-                                        <option value="1">Cerdas cermat SD (kelompok)</option>
-                                        <option value="2">Fisika SMP</option>
-                                        <option value="3">Fisika SMA</option>
-                                        <option value="4">Kebumian</option>
-                                        <option value="5">Astronomi</option>
-                                        <option value="6">Esai (kelompok)</option>
-                                        <option value="7">Poster Ilmiah (kelompok)</option>
-                                   </select>
+                                        @foreach ($competitions as $key => $competition)
+                                             <option value="{{ $competition->id }}">{{ $competition->name }} {{ ($competition->is_team_competition ? '(kelompok)' : '') }}</option>
+                                        @endforeach
+                                   </select> 
                               </div>
-                              {{-- <div class="flex flex-col gap-1 w-full">
-                                   <label class="text-xs lg:text-base">Waktu Registrasi</label>
-                                   <input name="waktu" type="datetime-local" class="w-full p-2 bg-white text-black text-xs lg:text-base rounded" />
-                              </div> --}}
                               <div class="flex justify-center">
-                                   <button type="submit" class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg">
-                              {{-- <div 
-                                   class="flex justify-center"
-                                   @@click="filter = false"> --}}
-                                   {{-- <button class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg"> --}}
+                                   <button type="submit" class="w-1/2 px-4 py-2 bg-[#007BFF] hover:bg-[#0062ff] text-xs lg:text-base text-white rounded-lg cursor-pointer">
                                         Cari
                                    </button>
                               </div>
@@ -117,27 +105,58 @@
                </div>
           </div>
 
-          <div class="overflow-x-auto mb-8 rounded-lg shadow-xl">
-               <table class="min-w-full table-auto bg-[#D9D9D999]">
-                    <thead class="border border-collapse border-b-3 border-gray-400">
-                         <tr>
-                              @foreach ($headers as $header)
-                                   <th class="lg:py-2 lg:px-3 p-1 font-extralight lg:text-base text-sm">{{ $header }}</th>
+          @if (count($participants) > 0)
+               <div class="overflow-x-auto mb-8 rounded-lg shadow-xl">
+                    <table class="min-w-full table-auto bg-[#D9D9D999]">
+                         <thead class="border border-collapse border-b-3 border-gray-400">
+                              <tr>
+                                   @foreach ($headers as $header)
+                                        <th class="lg:py-2 lg:px-3 p-1 font-extralight lg:text-base text-sm">{{ $header }}</th>
+                                   @endforeach
+                              </tr>
+                         </thead>
+                         <tbody class="bg-white">
+                              @foreach ($participants as $user)
+                                   <x-t2body :user="$user"/>
                               @endforeach
-                         </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                         {{-- @foreach ($users as $user) --}}
-                         @foreach ($participants as $user)
-                              <x-t2body :user="$user"/>
-                         @endforeach
-                    </tbody>
-               </table>
-               <div>
-                    {{-- {{ $users->links() }} --}}
-                    {{ $participants->links() }}
+                         </tbody>
+                    </table>
+                    <div>
+                         {{ $participants->links() }}
+                    </div>
                </div>
-          </div>
+          @else
+               @php
+                    $parts = [];
+                    $competitionId = request('kompetisi');
+                    $competitionName = null;
+                    if ($competitionId && $competitions) {
+                         $competition = $competitions->firstWhere('id', $competitionId);
+                         if ($competition) {
+                              $competitionName = $competition->name;
+                         }
+                    }
+
+                    if (request('search')) {
+                         $parts[] = 'dengan keyword ' . e(request('search'));
+                    }
+                    if ($competitionName) {
+                         $parts[] = 'pada ' . e($competitionName);
+                    }
+                    if (request('status')) {
+                         $parts[] = 'dengan status ' . e(request('status'));
+                    }
+                    $kalimat = implode(' dan ', array_filter([
+                         implode(', ', array_slice($parts, 0, -1)),
+                         last($parts)
+                    ]));
+               @endphp
+               @if ($kalimat)
+                    <p class="font-bold text-center">Peserta {{ $kalimat }} tidak ditemukan!</p>
+               @else
+                    <p class="font-bold text-center">Peserta tidak ditemukan!</p>
+               @endif
+          @endif
      </div>
 @endsection
    {{-- <div class="bg-gray-100 w-full min-h-full flex flex-col font-jakarta">

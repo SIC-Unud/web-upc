@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Mail\PasswordMail;
 use App\Models\Competition;
 use App\Models\Participant;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -94,9 +95,9 @@ class UpdateParticipantDataForm extends Component
         // dd($this->no_registration);
         $this->competitions = Competition::all();
 
-        $participant = Participant::with(['competition', 'user', 'members'])->where('no_registration', $this->no_registration)->firstOrFail();
+        $participant = Participant::with(['competition', 'user', 'members'])->where('no_registration', Auth::user()->participant->no_registration)->firstOrFail();
 
-        // $this->competitions = $participant->competition;
+        $this->no_registration = $participant->no_registration;
         $this->is_team_competition = $participant->competition->is_team_competition;
 
         $this->user_id = $participant->user->id;
@@ -411,7 +412,6 @@ class UpdateParticipantDataForm extends Component
             $dataParticipant->transaction_proof = $transactionProofPath;
             $dataParticipant->is_accepted = false;
             $dataParticipant->is_rejected = false;
-            $dataParticipant->reject_message = null;
 
             $dataParticipant->save();
             
@@ -446,6 +446,9 @@ class UpdateParticipantDataForm extends Component
             $this->currentStep = 4;
             $this->downloadInvoice();
             $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
+            Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
         } catch (\Throwable $e) {
             fileDelete($passPhotoPath);
             fileDelete($studentProofPath);

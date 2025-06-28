@@ -108,10 +108,7 @@
                      disimpan.</p>
                </div>
                <form method="POST" action="/logout" class="flex justify-end text-white gap-3 md:gap-5">
-                  <x-button type="button" x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
-                  <x-button type="submit" class="bg-[#FF0000]">Ya, Keluar</x-button>
-               </form>
-               <form method="POST" action="#" class="flex justify-end text-white gap-3 md:gap-5">
+                  @csrf
                   <x-button type="button" x-on:click="open = false" class="bg-[#4C4C4C]">Batal</x-button>
                   <x-button type="submit" class="bg-[#FF0000]">Ya, Keluar</x-button>
                </form>

@@ -21,22 +21,17 @@ class CheckRejectedParticipant
         $user = Auth::user();
 
         if (!$user) {
-            return redirect()
-                ->route('login')
-                ->with('error', 'Silakan login terlebih dahulu.');
+            abort(403, 'Akses Ditolak');
         }
-
-        // "no_registration" ada di parameter route
-        $noRegistration = $request->route('no_registration');
 
         $participant = Participant::where('user_id', $user->id)->first();
 
         if (
             !$participant ||
-            $participant->no_registration !== $noRegistration ||
-            $participant->is_rejected !== true
+            ($participant->is_accepted != false ||
+            $participant->is_rejected != true)
         ) {
-            abort(403, 'Halaman tidak tersedia.');
+            abort(403, 'Akses Ditolak');
         }
 
         return $next($request);

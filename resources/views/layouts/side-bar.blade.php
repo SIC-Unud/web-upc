@@ -7,6 +7,7 @@
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>UPC | @yield('title')</title>
    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   @livewireStyles
 </head>
 
 <body>
@@ -120,6 +121,7 @@
    </div>
    {{-- Script --}}
    @yield('script')
+   @livewireScripts
 </body>
 
 </html>

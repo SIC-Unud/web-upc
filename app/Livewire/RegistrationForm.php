@@ -12,7 +12,6 @@ use App\Models\Participant;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class RegistrationForm extends Component

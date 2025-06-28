@@ -9,8 +9,10 @@ use App\Http\Controllers\HomeController;
 use App\Exports\ParticipantExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\ParticipantExportController;
+use App\Models\Participant;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 
@@ -156,3 +158,21 @@ Route::get('/competitions', function () {
 
 // Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
 Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');
+Route::get('/admin', function () {
+   $countPartisipan = Participant::count();
+   $countWaiting = Participant::where('is_accepted', 0)->where('is_rejected', 0)->count();
+   $countFailed = Participant::where('is_accepted', 0)->where('is_rejected', 1)->count();
+   $countSuccess = Participant::where('is_accepted', 1)->count();
+
+   $competitionStats = DB::table('competitions')
+      ->leftJoin('participants', 'competitions.id', '=', 'participants.competition_id')
+      ->select('competitions.name', DB::raw('COUNT(participants.id) as total'))
+      ->groupBy('competitions.name')
+      ->orderBy('competitions.name')
+      ->get();
+
+   $labels = $competitionStats->pluck('name');
+   $totals = $competitionStats->pluck('total');
+
+   return view('dashboard', compact('countPartisipan', 'countWaiting', 'countFailed', 'countSuccess', 'labels', 'totals'));
+});

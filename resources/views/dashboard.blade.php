@@ -1,13 +1,13 @@
-@extends('layouts.side-bar');
+@extends('layouts.side-bar')
 
-@section('title', 'Dashboard');
+@section('title', 'Dashboard')
 
 @section('content')
-   <div class="w-fit">
+   <div>
       <x-header>Dashboard</x-header>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
          <x-statistik-section class="text-[#029161]">
-            <x-slot:jumlah>500</x-slot:jumlah>
+            <x-slot:jumlah>{{ $countPartisipan }}</x-slot:jumlah>
             <x-slot:icon>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path
@@ -17,7 +17,7 @@
             Pendaftar
          </x-statistik-section>
          <x-statistik-section class="text-[#FFD900]">
-            <x-slot:jumlah>120</x-slot:jumlah>
+            <x-slot:jumlah>{{ $countWaiting }}</x-slot:jumlah>
             <x-slot:icon>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path fill-rule="evenodd"
@@ -28,7 +28,7 @@
             Menunggu
          </x-statistik-section>
          <x-statistik-section class="text-[#FF0000]">
-            <x-slot:jumlah>10</x-slot:jumlah>
+            <x-slot:jumlah>{{ $countFailed }}</x-slot:jumlah>
             <x-slot:icon>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path fill-rule="evenodd"
@@ -39,7 +39,7 @@
             Gagal
          </x-statistik-section>
          <x-statistik-section class="text-[#029161]">
-            <x-slot:jumlah>370</x-slot:jumlah>
+            <x-slot:jumlah>{{ $countSuccess }}</x-slot:jumlah>
             <x-slot:icon>
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path fill-rule="evenodd"
@@ -57,17 +57,7 @@
             <h1 class="text-lg md:text-xl lg:text-2xl font-extrabold mb-2 ml-2 md:mb-4 md:ml-4 ">Grafik Persebaran</h1>
             <canvas id="GrafikPersebaran" width="full"></canvas>
          </div>
-         <div class="w-full bg-white shadow-lg p-3 md:p-5 rounded-lg">
-            <div class="flex justify-between mb-2 ml-2 md:mb-4 md:ml-4 items-center">
-               <h1 class="text-lg md:text-xl lg:text-2xl font-extrabold ">Trend Pendaftar</h1>
-               <select class="bg-[#D9D9D9] p-1 rounded-xs text-xs md:text-base" name="" id="">
-                  <option value="">2025</option>
-                  <option value="">2026</option>
-                  <option value="">2027</option>
-               </select>
-            </div>
-            <canvas id="TrendPendaftar" width="full"></canvas>
-         </div>
+         <livewire:trend-pendaftaran />
       </div>
    </div>
 @endsection
@@ -75,15 +65,14 @@
 @section('script')
    <script type="module">
       const ctx1 = document.getElementById('GrafikPersebaran')
-      const ctx2 = document.getElementById('TrendPendaftar')
 
       new Chart(ctx1, {
          type: 'bar',
          data: {
-            labels: ['CC SD', 'Fisika SMP', 'Fisika SMA', 'Kebumian', 'Astronomi', 'Esai', 'Poster Ilmiah'],
+            labels: {!! json_encode($labels) !!},
             datasets: [{
                label: 'Peserta',
-               data: [100, 70, 80, 40, 75, 30, 65],
+               data: {!! json_encode($totals) !!},
                borderWidth: 0,
                indexAxis: 'y',
                backgroundColor: [
@@ -108,38 +97,58 @@
             }
          }
       });
+   </script>
+   <script>
+      document.addEventListener('alpine:init', () => {
+         Alpine.data('trendChartComponent', () => ({
+               chart: null,
 
-      new Chart(ctx2, {
-         type: 'bar',
-         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Spt', 'Okt', 'Nov', 'Des'],
-            datasets: [{
-               label: 'Pendaftar',
-               data: [100, 70, 80, 40, 75, 30, 65, 70, 80, 40, 75, 30, 65],
-               borderWidth: 0,
-               backgroundColor: [
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-                  '#D9D9D9',
-               ]
-            }]
-         },
-         options: {
-            scales: {
-               x: {
-                  beginAtZero: true,
+               initChart(labels, data) {
+                  this.renderChart(labels, data);
+
+                  window.addEventListener('update-trend-chart', (event) => {
+                     const detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
+                     const { labels, data } = detail;
+                     this.renderChart(labels, data);
+                  });
+               },
+
+               renderChart(labels, data) {
+                  setTimeout(() => {
+                     const canvas = document.getElementById('TrendPendaftar');
+                     if (!canvas) return console.warn('Canvas tidak ditemukan');
+                     
+                     const ctx = canvas.getContext('2d');
+                     if (!ctx) return console.warn('Context null');
+
+                     if (this.chart) this.chart.destroy();
+
+                     this.chart = new Chart(ctx, {
+                           type: 'bar',
+                           data: {
+                              labels: [...labels],
+                              datasets: [{
+                                 label: 'Pendaftar',
+                                 data: [...data],
+                                 backgroundColor: '#D9D9D9'
+                              }]
+                           },
+                           options: {
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              scales: {
+                                 y: {
+                                       beginAtZero: true,
+                                       ticks: {
+                                          stepSize: 10
+                                       }
+                                 }
+                              }
+                           }
+                     });
+                  }, 50);
                }
-            }
-         }
-      });
+         }))
+      })
    </script>
 @endsection

@@ -47,36 +47,36 @@ class ParticipantDashboardController extends Controller
         }
 
         $competitions[] = [
-            'title' => $competition->name,
+            'title' => $competition->is_cbt ? $competition->name : "Penyisihan ".$competition->name,
             'date' => $dateRange,
             'status' => $status,
             'isMissed' => $now->gt($endTime),
         ];
 
-
-        $simulasiConfig = Config::get('const.simulation');
-        $simulasiStart = Carbon::parse($simulasiConfig['start_at']);
-        $simulasiEnd = Carbon::parse($simulasiConfig['end_at']);
-        $simulasiStartFormatted = $simulasiStart->translatedFormat('d F Y, H:i');
-        $simulasiEndFormatted = $simulasiEnd->translatedFormat('d F Y, H:i') . ' WITA';
-        $simulasiDateRange = $simulasiStartFormatted . ' - ' . $simulasiEndFormatted;
-
-        if ($now->gt($simulasiEnd)) {
-            $simulasiStatus = 'Terlewati';
-        } elseif ($now->between($simulasiStart, $simulasiEnd)) {
-            $simulasiStatus = 'Sedang Berlangsung';
-        } else {
-            $simulasiStatus = diffInDaysHuman($simulasiStart);
+        if($competition->is_cbt) {
+            $simulasiConfig = Config::get('const.simulation');
+            $simulasiStart = Carbon::parse($simulasiConfig['start_at']);
+            $simulasiEnd = Carbon::parse($simulasiConfig['end_at']);
+            $simulasiStartFormatted = $simulasiStart->translatedFormat('d F Y, H:i');
+            $simulasiEndFormatted = $simulasiEnd->translatedFormat('d F Y, H:i') . ' WITA';
+            $simulasiDateRange = $simulasiStartFormatted . ' - ' . $simulasiEndFormatted;
+    
+            if ($now->gt($simulasiEnd)) {
+                $simulasiStatus = 'Terlewati';
+            } elseif ($now->between($simulasiStart, $simulasiEnd)) {
+                $simulasiStatus = 'Sedang Berlangsung';
+            } else {
+                $simulasiStatus = diffInDaysHuman($simulasiStart);
+            }
+    
+            $competitions[] = [
+                'title' => 'Simulasi Kompetisi',
+                'date' => $simulasiDateRange,
+                'status' => $simulasiStatus,
+                'isMissed' => $now->gt($simulasiEnd),
+            ];
         }
-
-        $competitions[] = [
-            'title' => 'Simulasi Kompetisi',
-            'date' => $simulasiDateRange,
-            'status' => $simulasiStatus,
-            'isMissed' => $now->gt($simulasiEnd),
-        ];
-
-
+        
         $competitions = collect($competitions)->sortBy('date')->values();
 
         return view('competition', compact('competitions'));

@@ -25,6 +25,7 @@ class UpdateParticipantDataForm extends Component
     public $reason;
     public $special_needs;
     public $competition;
+    public $competition_name;
     public $is_team_competition = false;
     
     public $leader_name;
@@ -106,6 +107,7 @@ class UpdateParticipantDataForm extends Component
         $this->reason = $participant->reason;
         $this->special_needs = $participant->special_needs;
         $this->competition = $participant->competition->id;
+        $this->competition_name = $participant->competition->name;
 
         $this->leader_name = $participant->leader_name;
         $this->leader_student_id = $participant->leader_student_id;
@@ -455,6 +457,15 @@ class UpdateParticipantDataForm extends Component
 
             $this->success = true;
             $this->currentStep = 4;
+            if(is_object($this->pass_photo)) {
+                fileDelete($this->pass_photo_old);
+            }
+            if(is_object($this->student_proof)) {
+                fileDelete($this->student_proof_old);
+            }
+            if(is_object($this->transaction_proof)) {
+                fileDelete($this->transaction_proof_old);
+            }
             $this->downloadInvoice();
             $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
             Auth::logout();

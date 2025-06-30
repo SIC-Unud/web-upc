@@ -26,6 +26,7 @@ class RegistrationForm extends Component
     public $reason;
     public $special_needs;
     public $competition;
+    public $competition_name;
     public $is_team_competition = false;
     
     public $leader_name;
@@ -131,6 +132,7 @@ class RegistrationForm extends Component
                 ) {
                     $wave = 'wave_' . $i . '_price';
                     $this->subtotal = $selectedCompetition->$wave;
+                    $this->competition_name = $selectedCompetition->name.($i == 1 ? " - Gelombang 1" : ($i == 2 ? " - Gelombang 2" : ($i == 3 ? " - Gelombang 3" : "")));
                     break;
                 }
             }

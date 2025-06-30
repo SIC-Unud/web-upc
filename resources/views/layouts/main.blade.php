@@ -5,8 +5,61 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>UPC | @yield('title')</title>
-   @vite(['resources/css/app.css', 'resources/js/app.js'])
+   <title>Udayana Physics Championship @yield('title')</title>
+   <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.ico') }}">
+   {{-- SEO Meta Tags --}}
+   <meta name="description" content="Udayana Physics Championship (UPC) adalah kompetisi fisika nasional yang diikuti pelajar dan mahasiswa dari seluruh Indonesia.">
+   <meta name="keywords" content="Udayana, Physics, Championship, Kompetisi Fisika, Nasional, UPC Udayana, Olimpiade Fisika, Event Sains, Lomba Fisika, upc, upc unud, upc udayana, udayana upc, UPC">
+   <meta name="author" content="Himpunan Mahasiswa Fisika Universitas Udayana">
+   <link rel="canonical" href="https://upcunud.com/">
+   {{-- Open Graph Meta Tags --}}
+   <meta property="og:url" content="https://upcunud.com/">
+   <meta property="og:type" content="website">
+   <meta property="og:title" content="UPC Udayana 2025">
+   <meta property="og:description" content="Udayana Physics Championship (UPC) merupakan ajang kompetisi skala nasional dengan partisipasi dari pelajar hingga mahasiswa dari berbagai daerah di Indonesia.">
+   <meta property="og:image" content="https://upcunud.com/assets/logo-in-slide.png">
+   <meta property="og:image:width" content="1920">
+   <meta property="og:image:height" content="1080">
+
+   {{-- Twitter Meta Tags --}}
+   <meta name="twitter:card" content="summary_large_image">
+   <meta property="twitter:domain" content="upcunud.com">
+   <meta property="twitter:url" content="https://upcunud.com/">
+   <meta name="twitter:title" content="UPC Udayana 2025">
+   <meta name="twitter:description" content="Udayana Physics Championship (UPC) merupakan ajang kompetisi skala nasional dengan partisipasi dari pelajar hingga mahasiswa dari berbagai daerah di Indonesia.">
+   <meta name="twitter:image" content="https://upcunud.com/assets/logo-in-slide.png">
+
+   {{-- Structured Data (JSON-LD for SEO) --}}
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "Event",
+     "name": "Udayana Physics Championship 2025",
+     "startDate": "2025-07-01",
+     "endDate": "2025-09-01",
+     "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+     "eventStatus": "https://schema.org/EventScheduled",
+     "location": {
+       "@type": "Place",
+       "name": "Universitas Udayana",
+       "address": {
+         "@type": "PostalAddress",
+         "addressLocality": "Bali",
+         "addressCountry": "ID"
+       }
+     },
+     "image": ["https://upcunud.com/assets/logo-in-slide.png"],
+     "description": "Kompetisi fisika nasional oleh Universitas Udayana yang diikuti siswa dan mahasiswa dari seluruh Indonesia.",
+     "organizer": {
+       "@type": "Organization",
+       "name": "Himpunan Mahasiswa Fisika Universitas Udayana",
+       "url": "https://upcunud.com"
+     }
+   }
+   </script>
+   
+   <link rel="stylesheet" href="{{ asset('build/assets/app-BTe-iNix.css') }}">
+   <script src="{{ asset('build/assets/app-Dc4bBNVK.js') }}" defer></script>
    @livewireStyles
 </head>
 

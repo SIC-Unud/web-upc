@@ -600,18 +600,18 @@
                                     <p class="text-base font-extralight md:text-xl mb-5 md:mb-12 text-white">Lengkapi formulir di bawah ini dengan data dirimu yang valid.</p>
                                     {{-- rincian --}}
                                     <div class="border border-white w-full h-fit md:px-5 px-2 py-5 md:py-7 mb-4 md:mb-8">
-                                        <div class="flex justify-between mb-1 md:mb-2">
-                                            <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran kompetisi Fisika SMP</h4>
+                                        <div class="flex flex-wrap gap-1 justify-between mb-1 md:mb-2">
+                                            <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran {{ $competition_name }}</h4>
                                             <p class="text-white text-xs md:text-base">{{ rupiah($subtotal) }}</p>
                                         </div>
                                         
                                         @if ($discount > 0)
-                                            <div class="flex justify-between mb-3 md:mb-5">
+                                            <div class="flex flex-wrap gap-1 justify-between mb-3 md:mb-5">
                                                 <h4 class="text-white text-xs md:text-base font-extralight">Potongan kupon</h4>
                                                 <p class="text-white text-xs md:text-base">-{{ rupiah($discount) }}</p>
                                             </div>
                                         @endif
-                                        <div class="flex justify-between">
+                                        <div class="flex flex-wrap gap-1 justify-between">
                                             <h4 class="text-white text-xs md:text-base font-semibold md:font-bold">Total</h4>
                                             <p class="text-white text-xs md:text-base font-semibold md:font-bold">{{ rupiah($total) }}</p>
                                         </div>

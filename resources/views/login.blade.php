@@ -7,7 +7,7 @@
    <div class="bg-[url(../../public/assets/login/bg.png)] bg-cover py-25 md:pb-0 overflow-hidden">
       <div class="flex justify-center items-center flex-col">
          <h1 class="text-white text-xs text-center font-julius">UDAYANA PHYSICS CHAMPIONSHIP</h1>
-         <img class="w-[100px] md:w-[250px] mt-5" src="/assets/login/logo.png" alt="logo UPC">
+         <img class="w-[100px] md:w-[250px] mt-5" src="/assets/login/Logo.png" alt="logo UPC">
       </div>  
       <div class="flex justify-center items-center">
          <img class="hidden lg:block" src="/assets/cat/purple.png" alt="">

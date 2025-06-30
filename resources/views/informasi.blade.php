@@ -65,7 +65,7 @@
                             </svg>
                         </button>
                 </div>
-                <div class="text-sm md:text-lg text-black text-justify overflow-y-auto max-h-full pr-5">
+                <div class="text-sm md:text-lg text-black text-justify overflow-y-auto max-h-full pr-5 pb-6">
                     <p class="mt-0" x-text="modalContent"></p>
                 </div>
             </div>

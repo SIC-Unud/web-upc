@@ -12,7 +12,7 @@
         @if($user && $user->participant)
             <div class="grid grid-cols-1 lg:grid-cols-[max-content_auto] gap-x-15 gap-y-4">
                 <div class="lg:w-full w-1/2 mx-auto">
-                    <img src="/assets/profile-peserta.png" class="mx-auto" alt="">
+                    <img src="{{ asset('/storage/'.auth()->user()->participant->pass_photo) }}" class="mx-auto aspect-[4/3] object-cover w-30 h-40 md:w-60 md:h-80 max-w-full" alt="">
                 </div>
                 <div class="grid break-all grid-cols-[max-content_1fr] lg:grid-cols-[max-content_auto] gap-x-2 gap-y-4 max-w-full w-max mx-auto lg:mx-0">
                     <span class="font-bold">No. Peserta</span>

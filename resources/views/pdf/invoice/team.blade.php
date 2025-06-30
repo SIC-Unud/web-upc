@@ -123,7 +123,7 @@
                         <div class="anggota-title">Anggota {{ $i + 1 }}</div>
                         <table>
                             <tr><td class="font-bold">Nama Lengkap</td><td>:</td><td>{{ $member->name }}</td></tr>
-                            <tr><td class="font-bold">NISN / NIM</td><td>:</td><td>{{ $member->participant_id }}</td></tr>
+                            <tr><td class="font-bold">NISN / NIM</td><td>:</td><td>{{ $member->student_id }}</td></tr>
                             <tr><td class="font-bold">Jenis Kelamin</td><td>:</td><td>{{ $member->gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</td></tr>
                             <tr><td class="font-bold">Tanggal Lahir</td><td>:</td><td>{{ $member->date_of_birth }}</td></tr>
                             <tr><td class="font-bold">No. Handphone</td><td>:</td><td>{{ $member->no_wa }}</td></tr>

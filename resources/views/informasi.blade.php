@@ -66,7 +66,9 @@
                         </button>
                 </div>
                 <div class="text-sm md:text-lg text-black text-justify overflow-y-auto max-h-full pr-5 pb-6">
-                    <p class="mt-0" x-text="modalContent"></p>
+                    <textarea name="broadcast" rows="4"
+                        class="mt-1 block w-full rounded-md  border-black shadow-sm text-xs md:text-lg text-black text-justify overflow-y-auto min-h-[210px] p-3 pr-5"
+                        placeholder="Tulis isi informasi..." disabled x-text="modalContent"></textarea>
                 </div>
             </div>
         </div>

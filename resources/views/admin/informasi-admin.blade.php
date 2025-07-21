@@ -49,7 +49,7 @@
         <div class="space-y-4">
             @if (count($broadcasts) > 0)
                 @foreach ($broadcasts as $info)
-                    <div class="bg-white shadow-xl rounded-xl p-4 relative max-h-[140px] text-justify">
+                    <div class="bg-white shadow-xl rounded-xl p-4 relative text-justify">
                         <div class="flex gap-2 justify-between items-center">
                             <h2 class="md:text-lg text-sm font-bold text-gray-800 mb-1">{{ $info['title'] }}</h2>
                             <form action="{{ route('broadcast.delete', $info['id']) }}" method="POST">

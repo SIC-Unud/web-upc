@@ -14,18 +14,32 @@
          </div>
          <img class="hidden md:block md:w-84" src="/assets/cat/yellow.png" alt="">
       </div>
-      <div class="flex justify-center items-center w-full relative -top-[50%] translate-y-1/2 z-10">
+      <div class="overflow-hidden flex justify-center items-center w-full relative -top-[50%] translate-y-1/2 z-10">
          <img class="w-[80px] relative z-10 md:hidden" src="/assets/cat/purple.png" alt="">
-         <a href="/register"
+         @php
+            $isGuest = auth()->guest();
+            $user = auth()->user();
+            $isAdmin = $user?->role == 1;
+            $isAccepted = $user?->participant?->is_accepted == 1;
+
+            $url = $isGuest || (!$isAdmin && !$isAccepted) 
+               ? route('register') 
+               : ($isAdmin ? route('admin.dashboard') : route('participants.index'));
+
+            $label = $isGuest || (!$isAdmin && !$isAccepted)
+               ? 'DAFTAR SEKARANG'
+               : 'DASHBOARD SAYA';
+         @endphp
+
+         <a href="{{ $url }}"
             class="mx-5 cursor-pointer relative z-10 flex w-fit justify-center items-center py-4 px-[12px] backdrop-blur-sm bg-white/10 md:py-[30px] md:px-[30px]">
             <div class="absolute w-px h-full left-0 top-0 bg-[#12B1EB]"></div>
             <div class="absolute w-px h-full right-0 top-0 bg-[#FFD900]"></div>
             <div class="absolute top-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
             <div class="absolute bottom-0 h-px w-full bg-gradient-to-r from-[#12B1EB] to-[#FFD900]"></div>
-            <div class="text-[13px] text-white leading-6 mr-[8px] font-julius md:mr-6 md:text-2xl">DAFTAR SEKARANG
-            </div>
+            <div class="text-[13px] text-white leading-6 mr-[8px] font-julius md:mr-6 md:text-2xl">{{ $label }}</div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-               stroke="currentColor" class="size-3 md:size-6  text-white">
+               stroke="currentColor" class="size-3 md:size-6 text-white">
                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
          </a>
@@ -83,7 +97,7 @@
                   class="h-0.5 md:h-1 bg-gradient-to-l absolute bottom-0 right-0 from-black via-[#FFD900] to-white from-0% via-20% to-60% w-1/2">
                </div>
             </div>
-            <h1 class="text-white text-justify text-[8px] md:text-lg font-lao mt-4 md:mt-10">Udayana Physics Championship (UPC) 2025 merupakan salah satu program kerja tahunan yang diselenggarakan oleh Himpunan Mahasiswa Fisika (HIMAFI), Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Udayana. Kegiatan ini merupakan ajang kompetisi dan perlombaan berskala nasional yang secara konsisten menarik partisipasi dari pelajar hingga mahasiswa dari berbagai daerah di Indonesia. Tahun ini, UPC menyelenggarakan beberapa cabang lomba meliputi: Cerdas Cermat SD (untuk siswa SD se-Bali), Kompetisi Fisika SMP (untuk siswa SMP seIndonesia), Kompetisi Fisika SMA, Kebumian, dan Astronomi (untuk siswa SMA seIndonesia), serta Lomba Esai dan Poster Digital (untuk siswa SMA/SMK/MA dan mahasiswa se-Indonesia).</h1>
+            <h1 class="text-white text-justify text-[8px] md:text-lg font-lao mt-4 md:mt-10">Udayana Physics Championship (UPC) 2025 merupakan salah satu program kerja tahunan yang diselenggarakan oleh Himpunan Mahasiswa Fisika (HIMAFI), Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Udayana. Kegiatan ini merupakan ajang kompetisi dan perlombaan berskala nasional yang secara konsisten menarik partisipasi dari pelajar hingga mahasiswa dari berbagai daerah di Indonesia. Tahun ini, UPC menyelenggarakan beberapa cabang lomba meliputi: Kompetisi Sains SD (untuk siswa SD se-Bali), Kompetisi Fisika SMP (untuk siswa SMP seIndonesia), Kompetisi Fisika SMA, Kebumian, dan Astronomi (untuk siswa SMA seIndonesia), serta Lomba Esai dan Poster Digital (untuk siswa SMA/SMK/MA dan mahasiswa se-Indonesia).</h1>
          </div>
          <div class="overflow-hidden">
             <img class="relative object-cover -right-8 w-60 md:w-auto md:static" src="/assets/cat/yellow-rotate.png" alt="">
@@ -106,9 +120,9 @@
          </div>
 
          <div
-            class="mt-5 justify-evenly items-center text-[8px] flex font-lao md:w-full md:flex-wrap lg:flex-nowrap md:mt-10 md:gap-9 md:text-xl">
+            class="mt-5 justify-evenly items-center text-[8px] flex font-lao md:w-full flex-wrap lg:flex-nowrap md:mt-10 md:gap-9 md:text-xl">
             @foreach ($competitions as $competition)
-               <div class="w-16 md:w-32">
+               <div class="w-20 md:w-32">
                   <img class="" src="{{ $competition->icon_competition }}" alt="">
                   <h1 class="text-wrap text-center text-white mt-2.5">{{ $competition->name }}</h1>
                </div>

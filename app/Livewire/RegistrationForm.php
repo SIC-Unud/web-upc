@@ -12,7 +12,6 @@ use App\Models\Participant;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class RegistrationForm extends Component
@@ -27,6 +26,7 @@ class RegistrationForm extends Component
     public $reason;
     public $special_needs;
     public $competition;
+    public $competition_name;
     public $is_team_competition = false;
     
     public $leader_name;
@@ -68,7 +68,7 @@ class RegistrationForm extends Component
     public $subtotal;
     public $total;
 
-    public $appFee = 1000;
+    
     public $discount = 0;
     public $competitions;
 
@@ -76,41 +76,14 @@ class RegistrationForm extends Component
     //    rulesnya
     ];
 
-    // nanti ambil dari db
-    // public array $competitions = [
-    //     [
-    //         'name' => 'Cerdas cermat SD (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    //     [
-    //         'name' => 'Fisika SMP',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Fisika SMA',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Kebumian',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Astronomi',
-    //         'is_team_competition' => false,
-    //     ],
-    //     [
-    //         'name' => 'Esai (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    //     [
-    //         'name' => 'Poster Ilmiah (kelompok)',
-    //         'is_team_competition' => true,
-    //     ],
-    // ];
-
     public function mount()
     {
         $this->competitions = Competition::all();
+        if ( now()->lt(Carbon::parse(config('const.schedules.wave_1.start'))) ) {
+            return redirect()->route('registration.not-found', 'not');
+        } else if(now()->gt(Carbon::parse(config('const.schedules.wave_3.end')))) {
+            return redirect()->route('registration.not-found', 'late');
+        }
     }
 
     public function updated($propertyName)
@@ -134,6 +107,11 @@ class RegistrationForm extends Component
             'is_first_competition' => 'required',
             'reason' => 'required',
             'competition' => 'required',
+        ], [
+            'source_of_information.required' => 'Sumber informasi wajib diisi.',
+            'is_first_competition.required' => 'Pertanyaan apakah ini kompetisi pertama wajib dijawab.',
+            'reason.required' => 'Alasan mengikuti kompetisi wajib diisi.',
+            'competition.required' => 'Kompetisi yang dipilih wajib diisi.',
         ]);
 
         $selectedCompetition = $this->competitions->firstWhere('id', $this->competition);
@@ -154,6 +132,7 @@ class RegistrationForm extends Component
                 ) {
                     $wave = 'wave_' . $i . '_price';
                     $this->subtotal = $selectedCompetition->$wave;
+                    $this->competition_name = $selectedCompetition->name.($i == 1 ? " - Gelombang 1" : ($i == 2 ? " - Gelombang 2" : ($i == 3 ? " - Gelombang 3" : "")));
                     break;
                 }
             }
@@ -172,8 +151,8 @@ class RegistrationForm extends Component
             'institution_province' => 'required|string|max:255',
             'institution_city' => 'required|string|max:255',
             'parent_no_wa' => 'required|string|max:20',
-            'pass_photo' => 'required|image|mimes:jpg,png|max:2048',
-            'student_proof' => 'required|file|mimes:pdf|max:2048',
+            'pass_photo' => 'required|image|mimes:jpg,png|max:500',
+            'student_proof' => 'required|file|mimes:pdf|max:1024',
             'twibbon_links' => 'required',
             'terms_accepted' => 'required|accepted',
         ];
@@ -203,7 +182,52 @@ class RegistrationForm extends Component
         ];
 
         if ($this->is_team_competition) {
-            $this->validate(array_merge($commonRules, $leaderRules, $memberRules));
+            $this->validate(array_merge($commonRules, $leaderRules, $memberRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.required' => 'Pas foto wajib diunggah.',
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.required' => 'Bukti sebagai siswa wajib diunggah.',
+                'student_proof.file' => 'Bukti harus berupa file.',
+                'student_proof.mimes' => 'Bukti harus berformat PDF.',
+                'student_proof.max' => 'Ukuran bukti siswa maksimal 1024KB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua tim wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua tim wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua tim wajib diisi.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua tim wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ini sudah digunakan.',
+
+                'member1_name.required_if' => 'Nama anggota 1 wajib diisi.',
+                'member1_email.required_if' => 'Email anggota 1 wajib diisi.',
+                'member1_email.email' => 'Format email anggota 1 tidak valid.',
+                'member1_email.unique' => 'Email anggota 1 sudah digunakan.',
+                'member1_no_wa.required' => 'Nomor WhatsApp anggota 1 wajib diisi.',
+                'member1_no_wa.unique' => 'Nomor WhatsApp anggota 1 sudah digunakan.',
+
+                'member2_name.required_if' => 'Nama anggota 2 wajib diisi.',
+                'member2_email.required_if' => 'Email anggota 2 wajib diisi.',
+                'member2_email.email' => 'Format email anggota 2 tidak valid.',
+                'member2_email.unique' => 'Email anggota 2 sudah digunakan.',
+                'member2_no_wa.required' => 'Nomor WhatsApp anggota 2 wajib diisi.',
+                'member2_no_wa.unique' => 'Nomor WhatsApp anggota 2 sudah digunakan.',
+            ]);
             if ($this->member1_email == $this->member2_email) {
                 $this->addError('member2_email', 'Email anggota 1 dan 2 tidak boleh sama.');
             }
@@ -215,10 +239,41 @@ class RegistrationForm extends Component
                 return;
             }
         } else {
-            $this->validate(array_merge($commonRules, $leaderRules));
+            $this->validate(array_merge($commonRules, $leaderRules), [
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah digunakan.',
+
+                'institution.required' => 'Nama institusi wajib diisi.',
+                'institution_address.required' => 'Alamat institusi wajib diisi.',
+                'institution_province.required' => 'Provinsi institusi wajib diisi.',
+                'institution_city.required' => 'Kota institusi wajib diisi.',
+                'parent_no_wa.required' => 'Nomor WhatsApp orang tua wajib diisi.',
+
+                'pass_photo.required' => 'Pas foto wajib diunggah.',
+                'pass_photo.image' => 'Pas foto harus berupa gambar.',
+                'pass_photo.mimes' => 'Pas foto harus berformat jpg atau png.',
+                'pass_photo.max' => 'Ukuran pas foto maksimal 500KB.',
+
+                'student_proof.required' => 'Bukti sebagai siswa wajib diunggah.',
+                'student_proof.file' => 'Bukti harus berupa file.',
+                'student_proof.mimes' => 'Bukti harus berformat PDF.',
+                'student_proof.max' => 'Ukuran bukti maksimal 1024KB.',
+
+                'twibbon_links.required' => 'Link twibbon wajib diisi.',
+                'terms_accepted.required' => 'Kamu harus menyetujui syarat dan ketentuan.',
+                'terms_accepted.accepted' => 'Kamu harus menyetujui syarat dan ketentuan.',
+
+                'leader_name.required' => 'Nama ketua tim wajib diisi.',
+                'leader_student_id.required' => 'NIS/NISN ketua tim wajib diisi.',
+                'leader_date_of_birth.required' => 'Tanggal lahir ketua tim wajib diisi.',
+                'leader_gender.required' => 'Jenis kelamin ketua tim wajib diisi.',
+                'leader_no_wa.required' => 'Nomor WhatsApp ketua tim wajib diisi.',
+                'leader_no_wa.unique' => 'Nomor WhatsApp ini sudah digunakan.'
+            ]);
         }
         
-        $this->total = $this->subtotal + $this->appFee;
+        $this->total = $this->subtotal;
         $this->currentStep = 3;
         $this->js("window.scrollTo({ top: 0, behavior: 'smooth' });");
     }
@@ -226,7 +281,11 @@ class RegistrationForm extends Component
     public function submitForm()
     {
         $this->validate([
-            'transaction_proof' => 'required|image|max:2048',
+            'transaction_proof' => 'required|image|max:500',
+        ], [
+            'transaction_proof.required' => 'Bukti pembayaran wajib diunggah.',
+            'transaction_proof.image' => 'Bukti pembayaran harus berupa gambar.',
+            'transaction_proof.max' => 'Ukuran bukti pembayaran maksimal 500KB.',
         ]);
 
         do {
@@ -270,6 +329,7 @@ class RegistrationForm extends Component
                 'twibbon_links' => $this->twibbon_links,
                 'subtotal' => $this->subtotal,
                 'total' => $this->total,
+                'coupon_code' => $this->coupon_code,
                 'transaction_proof' => $transactionProofPath,
                 'is_accepted' => false,
                 'is_rejected' => false,
@@ -312,6 +372,7 @@ class RegistrationForm extends Component
             fileDelete($studentProofPath);
             fileDelete($transactionProofPath);
             DB::rollBack();
+            dd($e);
             session()->flash('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
     }
@@ -326,13 +387,15 @@ class RegistrationForm extends Component
         $promoCodes = config('const.promo_codes');
         $validPromo = collect($promoCodes)->firstWhere('code', $this->coupon_code);
 
-        if ($validPromo) {
-            $this->discount = ($this->subtotal * $validPromo['discount']) / 100;
-            $this->total = $this->subtotal + $this->appFee - $this->discount;
+        if ($validPromo && now()->between(
+                        Carbon::parse($validPromo['start_date']),
+                        Carbon::parse($validPromo['end_date']))) {
+            $this->discount = $validPromo['value'];
+            $this->total = $this->subtotal - $this->discount;
             $this->resetErrorBag('coupon_code');
         } else {
             $this->discount = 0;
-            $this->total = $this->subtotal + $this->appFee;
+            $this->total = $this->subtotal;
             $this->addError('coupon_code', 'Maaf, kode kupon tidak valid.');
         }
     }

@@ -2,6 +2,7 @@
 
 use App\Models\Participant;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -58,6 +59,24 @@ if (!function_exists('generateInvoice')) {
 
 if (!function_exists('rupiah')) {
     function rupiah($angka, $prefix = 'Rp. ') {
+        $angka = is_numeric($angka) ? (float) $angka : 0;
         return $prefix . number_format($angka, 0, ',', '.');
+    }
+}
+
+if (!function_exists('diffInDaysHuman')) {
+    function diffInDaysHuman($targetDate) {
+        $now = Carbon::now();
+        $target = Carbon::parse($targetDate);
+
+        $diff = intval($now->diffInDays($target, false));
+
+        if ($diff < 0) {
+            return abs($diff) . ' hari yang lalu';
+        } elseif ($diff === 0) {
+            return 'Hari ini';
+        } else {
+            return $diff . ' hari lagi';
+        }
     }
 }

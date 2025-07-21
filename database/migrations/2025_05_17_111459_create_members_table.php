@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('participant_id');
             $table->string('name', 100);
             $table->string('student_id', 50);
+            $table->char('gender');
             $table->date('date_of_birth');
             $table->string('no_wa', 20)->unique();
             $table->string('email')->unique();
-            $table->char('gender');
             $table->timestamps();
         });
     }

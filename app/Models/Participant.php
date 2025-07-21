@@ -31,6 +31,7 @@ class Participant extends Model
         'twibbon_links',
         'subtotal',
         'total',
+        'coupon_code',
         'transaction_proof',
         'is_accepted',
         'reject_message',

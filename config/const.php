@@ -1,21 +1,78 @@
 <?php
 
 return [
+    'simulation'=> [
+        'start_at' => '2025-09-20 10:00:00',
+        'end_at' => '2025-09-20 12:00:00'
+    ],
+
     'promo_codes' => [
         [
-            'code' => 'UPC9999',
-            'discount' => 15
+            'code' => 'OPREGIS',
+            'value' => 10000,
+            'start_date' => '2025-06-20 00:00:00',
+            'end_date' => '2025-07-02 23:59:59'
         ],
         [
-            'code' => 'UPC99',
-            'discount' => 10
-        ]
+            'code' => 'MERDEKA',
+            'value' => 8000,
+            'start_date' => '2025-08-17 00:00:00',
+            'end_date' => '2025-08-18 23:59:59'
+        ],
+        [
+            'code' => 'SMKBISA',
+            'value' => 5000,
+            'start_date' => '2025-08-17 00:00:00',
+            'end_date' => '2025-08-18 23:59:59'
+        ],
+        [
+            'code' => 'LASTCHANCE',
+            'value' => 15000,
+            'start_date' => '2025-09-17 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'UPCGOESTOSCHOLL',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-08-25 23:59:59'
+        ],
+        [
+            'code' => 'SDCERDAS',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'SMPKEREN',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'SMAKREATIF',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'AMBISS',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
+        [
+            'code' => 'FISIKAHEBAT',
+            'value' => 5000,
+            'start_date' => '2025-06-29 00:00:00',
+            'end_date' => '2025-09-19 23:59:59'
+        ],
     ],
 
     'schedules' => [
         'wave_1' => [
             'name' => 'Pendaftaran Gelombang I',
-            'start' => '2025-06-09 00:00:00',
+            'start' => '2025-06-20 00:00:00',
             'end' => '2025-07-25 23:59:59'
         ],
         'wave_2' => [
@@ -86,6 +143,14 @@ return [
         ]
     ],
 
-    'link_drive_petunjuk_teknis' => 'upcunud.com',
+    'link_cp_humas' => 'https://wa.me/081529528609',
+    'social_media' => [
+        'wa' => 'https://wa.me/081529528609',
+        'ig' => 'https://instagram.com/upcunud',
+        'tiktok' => 'https://tiktok.com/upcunud',
+        'youtube' => 'https://youtube.com/upcunud'
+    ],
+
+    'link_drive_petunjuk_teknis' => 'https://drive.google.com/drive/folders/112E1RCN7xCnmhm1_MUq96efB9E-WRcoh?usp=sharing',
     'link_drive_certifikat' => 'sdsd'
 ];

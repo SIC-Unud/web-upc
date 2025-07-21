@@ -1,4 +1,4 @@
-<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full pt-18">
+<div class="bg-[url(../../public/assets/register/bg.png)] font-jakarta h-full">
     <div
         wire:loading
         wire:target="firstStepSubmit, secondStepSubmit, submitForm"
@@ -12,12 +12,12 @@
             <span class="text-sm md:text-lg font-light">Menyimpan data...</span>
         </div>
     </div>
-    <div class="backdrop-blur-2xl bg-black/55">
+    <div class="backdrop-blur-2xl bg-black/55 pt-18">
         {{-- Heading --}}
         <div class="md:pt-12 pt-8 mx-auto text-white">
             <h1 class="font-bold text-4xl md:text-5xl text-center">Registrasi</h1>
             <p class="font-medium font-jakarta text-sm md:text-2xl px-6 md:px-15 lg:px-30 text-center my-8 md:my-12">
-                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat, mudah, dan GRATIS!
+                Mulai proses pendaftaran dengan mengisi formulir online. Lengkapi data dirimu, lalu unggah dokumen pendukung. Prosesnya cepat dan mudah!
             </p>
         </div>
 
@@ -564,21 +564,21 @@
                                     <p class="text-base font-extralight md:text-xl mb-5 md:mb-12 text-white">Lengkapi formulir di bawah ini dengan data dirimu yang valid.</p>
                                     {{-- rincian --}}
                                     <div class="border border-white w-full h-fit md:px-5 px-2 py-5 md:py-7 mb-4 md:mb-8">
-                                        <div class="flex justify-between mb-1 md:mb-2">
-                                            <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran kompetisi Fisika SMP</h4>
+                                        <div class="flex flex-wrap gap-1 justify-between mb-1 md:mb-2">
+                                            <h4 class="text-white text-xs md:text-base font-extralight">Biaya pendaftaran {{ $competition_name }}</h4>
                                             <p class="text-white text-xs md:text-base">{{ rupiah($subtotal) }}</p>
                                         </div>
-                                        <div class="flex justify-between mb-1 md:mb-2">
+                                        {{-- <div class="flex justify-between mb-1 md:mb-2">
                                             <h4 class="text-white text-xs md:text-base font-extralight">Biaya aplikasi</h4>
                                             <p class="text-white text-xs md:text-base">Rp. 1.000</p>
-                                        </div>
+                                        </div> --}}
                                         @if ($discount > 0)
-                                            <div class="flex justify-between mb-3 md:mb-5">
+                                            <div class="flex flex-wrap gap-1 justify-between mb-3 md:mb-5">
                                                 <h4 class="text-white text-xs md:text-base font-extralight">Potongan kupon</h4>
                                                 <p class="text-white text-xs md:text-base">-{{ rupiah($discount) }}</p>
                                             </div>
                                         @endif
-                                        <div class="flex justify-between">
+                                        <div class="flex flex-wrap gap-1 justify-between">
                                             <h4 class="text-white text-xs md:text-base font-semibold md:font-bold">Total</h4>
                                             <p class="text-white text-xs md:text-base font-semibold md:font-bold">{{ rupiah($total) }}</p>
                                         </div>
@@ -672,7 +672,7 @@
                         <div class="text-center">
                             <button wire:click.prevent="downloadInvoice" type="button" class="cursor-pointer border border-[#12B1EB] rounded-md py-2 px-15 md:text-2xl text-xs md:py-2 md:px-20 mb-8 bg-[#12B1EB] text-white text-center">Unduh</button>
                         </div>
-                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="https://wa.me/" class="text-[#12B1EB] underline">di sini</a>.</p>
+                        <p class="text-white md:text-2xl text-base md:mb-12 mb-6 text-wrap">Mohon mengkonfirmasi pendaftaran anda dan masuk ke dalam grup peserta UPC dengan cara menghubungi CP humas UPC 2025 <a href="{{ config('const.link_cp_humas') }}" class="text-[#12B1EB] underline">di sini</a>.</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Terima kasih telah mendaftar!</p>
                         <p class="text-white text-base md:text-2xl font-semibold md:font-bold text-center text-wrap">Sampai jumpa di rangkaian kegiatan UPC selanjutnya!</p>
                     </div>

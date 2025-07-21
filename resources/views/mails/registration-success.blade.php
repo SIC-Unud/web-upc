@@ -14,7 +14,7 @@
         <!-- Header -->
         <div style="background-color: #212429; padding: 1.5rem;">
             <div style="margin-bottom: 1rem;">
-                <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="UPC 2025" style="width: 80px; height: 50px;">{{-- ganti saat hosting url {{ asset('assets/hero-100persen.png') }} --}}
+                <img src="{{ asset('logo-with-name.png')}}" alt="UPC 2025" style="width: 80px; height: 50px;">{{-- ganti saat hosting url {{ asset('assets/hero-100persen.png') }} --}}
             </div>
             <h1 style="font-size: 1.25rem; font-weight: 600; color: #d1d5db;">Halo, [Calon Jawara UPC 2025]!</h1>
             <p style="font-size: 0.875rem; margin-top: 0.5rem; color: #d1d5db;">
@@ -51,7 +51,7 @@
                 <li>No Registrasi sebagai password default untuk login ke akun Anda.</li>
             </ul>
 
-            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, di sini.</p>
+            <p style="font-size: 0.875rem; margin-bottom: 1rem; color: #000">Jika terdapat pertanyaan lainnya, dapat menghubungi kontak humas UPC 2025, <a href="{{ config('const.link_cp_humas') }}" style="color: #007BFF; text-decoration: underline;">di sini</a>.</p>
             <p style="font-size: 0.875rem; color: #000">Salam hangat,<br>Panitia UPC 2025.</p>
         </div>
 
@@ -63,23 +63,23 @@
                         <table border="0" cellpadding="0" cellspacing="0" align="center">
                             <tr>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://wa.me/yourwhatsapplink" target="_blank" style="display: block;">
-                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    <a href="{{ config('const.social_media.wa') }}" target="_blank" style="display: block;">
+                                        <img src="{{ asset('wa.png')}}" alt="WhatsApp" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.instagram.com/yourinstagramlink" target="_blank" style="display: block;">
-                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    <a href="{{ config('const.social_media.ig') }}" target="_blank" style="display: block;">
+                                        <img src="{{ asset('ig.png')}}" alt="Instagram" style="height: 24px;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.tiktok.com/@yourtiktoklink" target="_blank" style="display: block;">
-                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="TikTok" style="height: 24px; display: block;">
+                                    <a href="{{ config('const.social_media.tiktok') }}" target="_blank" style="display: block;">
+                                        <img src="{{ asset('tiktok.png')}}" alt="TikTok" style="height: 24px; display: block;">
                                     </a>
                                 </td>
                                 <td style="padding: 0 0.5rem;">
-                                    <a href="https://www.youtube.com/youryoutubelink" target="_blank" style="display: block;">
-                                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="YouTube" style="height: 24px;">
+                                    <a href="{{ config('const.social_media.youtube') }}" target="_blank" style="display: block;">
+                                        <img src="{{ asset('youtube.png')}}" alt="YouTube" style="height: 24px;">
                                     </a>
                                 </td>
                             </tr>
@@ -88,7 +88,7 @@
                 </tr>
                 <tr>
                     <td align="center" style="padding-top: 16px;">
-                        <img src="https://img.lovepik.com/free_png/11/40/18/71558PIC4fzsdeeddgZqa_PIC2018.png_860.png" alt="UPC 2025" style="width: 40px; opacity: 0.7; display: block;">
+                        <img src="{{ asset('logo-with-name.png') }}" alt="UPC 2025" style="width: 40px; opacity: 0.7; display: block;">
                     </td>
                 </tr>
             </table>

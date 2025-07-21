@@ -18,9 +18,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'name',
         'email',
         'password',
-        'role'
     ];
 
     /**
@@ -44,15 +44,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function participant() 
-    {
-        return $this->hasOne(Participant::class, 'user_id', 'id');
-    }
-
-    public function created_broadcasts()
-    {
-        return $this->hasMany(Broadcast::class, 'created_by', 'id');
     }
 }

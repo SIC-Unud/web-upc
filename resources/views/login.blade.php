@@ -20,11 +20,11 @@
                   <div class="absolute -top-[1px] -right-[6px] bg-white w-[6px] h-6"></div>
                   <div class="absolute -top-[1px] -right-[2px] bg-white w-[1.5px] h-15"></div>
                   <h1 class="text-white font-jakarta text-xl md:text-5xl font-bold text-center">Masuk</h1>
-                  <input type="email" name="email" placeholder="Email" class="border bg-gray-100 rounded-none text-sm md:text-base w-full mt-5 md:mt-7 p-2 h-6 md:h-12">
+                  <input type="email" name="email" placeholder="Email" class="border bg-gray-100 rounded-none text-sm md:text-base w-full mt-5 md:mt-7 p-2 h-9 md:h-12">
                   @error('email')
                      <div class="text-red-500">{{ $message }}</div>
                   @enderror
-                  <input type="password" name="password" placeholder="Password" class="border bg-gray-100 rounded-none text-sm md:text-base w-full mt-5 h-6 md:h-12 p-2 z-100">
+                  <input type="password" name="password" placeholder="Password" class="border bg-gray-100 rounded-none text-sm md:text-base w-full mt-5 h-9 md:h-12 p-2 z-100">
                </div>
                <div class="flex justify-center">
                   <button type="submit" class="bg-black/65 justify-center items-center cursor-pointer relative z-10 flex my-3 py-3 h-10 md:w-fit md:px-20 md:py-7 w-full mx-12">

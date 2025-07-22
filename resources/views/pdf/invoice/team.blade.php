@@ -146,10 +146,10 @@
                 <td>Biaya Pendaftaran Kompetisi {{ $data->competition->name }}</td>
                 <td style="text-align: right;">{{ rupiah($data->subtotal) }}</td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td>Biaya Admin</td>
                 <td style="text-align: right;">{{ rupiah(1000) }}</td>
-            </tr>
+            </tr> --}}
             <tr>
                 <td>Potongan Kupon</td>
                 <td style="text-align: right;">{{ rupiah($data->subtotal - $data->total) }}</td>

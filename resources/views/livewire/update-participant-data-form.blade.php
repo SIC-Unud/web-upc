@@ -434,37 +434,38 @@
                                             <div class="w-full grid gap-4">
                                                 <h3 class="text-white md:text-3xl text-left md:text-center text-xl md:font-bold font-semibold md:mb-4 mb-2">Anggota 2</h3>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_name" class="block text-xs md:text-xl text-wrap text-white">Nama Lengkap (contoh: Yudhistira Arimbawa Saputra) <span class="text-red-500">*</span></label>
-                                                    <input type="text" wire:model="member2_name" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_name" id="member2_name" required>
+                                                    <label for="member2_name" class="block text-xs md:text-xl text-wrap text-white">Nama Lengkap (contoh: Yudhistira Arimbawa Saputra) </label>
+                                                    <input type="text" wire:model="member2_name" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_name" id="member2_name">
+                                                    <p class="text-sm text-blue-400">Kosongkan nama lengkap ini, jika tidak ada anggota 2</p>
                                                     @error('member2_name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_student_id" class=" text-xs md:text-xl text-wrap text-white">NISN (Siswa) / NIM (Mahasiswa) <span class="text-red-500">*</span></label>
-                                                    <input type="text" wire:model="member2_student_id" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_student_id" id="member2_student_id" required>
+                                                    <label for="member2_student_id" class=" text-xs md:text-xl text-wrap text-white">NISN (Siswa) / NIM (Mahasiswa) </label>
+                                                    <input type="text" wire:model="member2_student_id" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_student_id" id="member2_student_id">
                                                     @error('member2_student_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_gender" class="md:block text-xs md:text-xl text-wrap text-white">Jenis Kelamin <span class="text-red-500">*</span></label>
-                                                    <select wire:model="member2_gender" class="block w-full md:py-3 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_gender" id="member2_gender" required>
-                                                        <option value="{{ $member2_gender }}">{{ $member2_gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</option>
+                                                    <label for="member2_gender" class="md:block text-xs md:text-xl text-wrap text-white">Jenis Kelamin </label>
+                                                    <select wire:model="member2_gender" class="block w-full md:py-3 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_gender" id="member2_gender">
+                                                        <option value="{{ $member2_gender }}">{{ $member2_gender ? ($member2_gender == 'l' ? 'Laki-laki' : 'Perempuan') : "Pilih..." }}</option>
                                                         <option value="l">Laki-laki</option>
                                                         <option value="p">Perempuan</option>
                                                     </select>
                                                     @error('member2_gender') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_date_of_birth" class=" text-xs md:text-xl text-wrap text-white">Tanggal lahir <span class="text-red-500">*</span></label>
-                                                    <input type="date" wire:model="member2_date_of_birth" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_date_of_birth" id="member2_date_of_birth" required>
+                                                    <label for="member2_date_of_birth" class=" text-xs md:text-xl text-wrap text-white">Tanggal lahir </label>
+                                                    <input type="date" wire:model="member2_date_of_birth" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_date_of_birth" id="member2_date_of_birth">
                                                     @error('member2_date_of_birth') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp)<span class="text-red-500">*</span> </label>
-                                                    <input type="text" wire:model="member2_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_no_wa" id="member2_no_wa" required>
+                                                    <label for="member2_no_wa" class="block text-xs md:text-xl text-wrap text-white">No. Handphone (Aktif WhatsApp) </label>
+                                                    <input type="text" wire:model="member2_no_wa" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_no_wa" id="member2_no_wa">
                                                     @error('member2_no_wa') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="flex flex-col justify-between">
-                                                    <label for="member2_email" class="block text-xs md:text-xl text-wrap text-white">Email Aktif <span class="text-red-500">*</span></label>
-                                                    <input type="text" wire:model="member2_email" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_email" id="member2_email" required>
+                                                    <label for="member2_email" class="block text-xs md:text-xl text-wrap text-white">Email Aktif </label>
+                                                    <input type="text" wire:model="member2_email" placeholder="Ketik di sini..." class="w-full md:py-2 md:px-1 p-2 border mt-2 text-xs md:text-lg bg-gray-300 text-black" name="member2_email" id="member2_email">
                                                     @error('member2_email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                 </div>
                                             </div>                                                             

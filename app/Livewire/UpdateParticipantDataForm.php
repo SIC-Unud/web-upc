@@ -116,28 +116,30 @@ class UpdateParticipantDataForm extends Component
         $this->leader_no_wa = $participant->leader_no_wa;
 
         if ($participant->competition->is_team_competition) {
-
             $members = $participant->members->values();
 
             $member1 = $members->get(0);
+            if ($member1) {
+                $this->member1_id           = $member1->id;
+                $this->member1_name         = $member1->name;
+                $this->member1_student_id   = $member1->student_id;
+                $this->member1_date_of_birth= $member1->date_of_birth;
+                $this->member1_gender       = $member1->gender;
+                $this->member1_no_wa        = $member1->no_wa;
+                $this->member1_email        = $member1->email;
+            }
+
             $member2 = $members->get(1);
-
-            $this->member1_id = $member1->id;
-            $this->member1_name = $member1->name;
-            $this->member1_student_id = $member1->student_id;
-            $this->member1_date_of_birth = $member1->date_of_birth;
-            $this->member1_gender = $member1->gender;
-            $this->member1_no_wa = $member1->no_wa;
-            $this->member1_email = $member1->email;
-
-            $this->member2_id = $member2->id;
-            $this->member2_name = $member2->name;
-            $this->member2_student_id = $member2->student_id;
-            $this->member2_date_of_birth = $member2->date_of_birth;
-            $this->member2_gender = $member2->gender;
-            $this->member2_no_wa = $member2->no_wa;
-            $this->member2_email = $member2->email;
-        }        
+            if ($member2) {
+                $this->member2_id           = $member2->id;
+                $this->member2_name         = $member2->name;
+                $this->member2_student_id   = $member2->student_id;
+                $this->member2_date_of_birth= $member2->date_of_birth;
+                $this->member2_gender       = $member2->gender;
+                $this->member2_no_wa        = $member2->no_wa;
+                $this->member2_email        = $member2->email;
+            } 
+        }    
 
         $this->institution = $participant->institution;
         $this->institution_address = $participant->institution_address;
@@ -242,7 +244,7 @@ class UpdateParticipantDataForm extends Component
             'member1_date_of_birth' => 'required_if:is_team_competition,true|date',
             'member1_gender' => 'required_if:is_team_competition,true',
             'member1_no_wa' => [
-                'required',
+                'required_if:is_team_competition,true',
                 'string',
                 'max:20',
                 Rule::unique('members', 'no_wa')->ignore($this->member1_id),
@@ -253,23 +255,24 @@ class UpdateParticipantDataForm extends Component
                 'max:255',
                 Rule::unique('members', 'email')->ignore($this->member1_id),
             ],
-
-            'member2_name' => 'required_if:is_team_competition,true|string|max:255',
-            'member2_student_id' => 'required_if:is_team_competition,true|string|max:50',
-            'member2_date_of_birth' => 'required_if:is_team_competition,true|date',
-            'member2_gender' => 'required_if:is_team_competition,true',
+            'member2_name' => 'nullable|string|max:255',
+            'member2_student_id' => 'nullable|string|max:50|required_with:member2_name',
+            'member2_date_of_birth' => 'nullable|date|required_with:member2_name',
             'member2_no_wa' => [
-                'required',
+                'nullable',
                 'string',
                 'max:20',
+                'required_with:member2_name',
                 Rule::unique('members', 'no_wa')->ignore($this->member2_id),
             ],
             'member2_email' => [
-                'required_if:is_team_competition,true',
+                'nullable',
                 'email',
                 'max:255',
+                'required_with:member2_name',
                 Rule::unique('members', 'email')->ignore($this->member2_id),
             ],
+            'member2_gender' => 'nullable|required_with:member2_name'
         ];
 
 
@@ -315,15 +318,20 @@ class UpdateParticipantDataForm extends Component
                 'member1_email.email' => 'Format email anggota 1 tidak valid.',
                 'member1_email.unique' => 'Email anggota 1 sudah digunakan.',
 
-                'member2_name.required_if' => 'Nama anggota 2 wajib diisi.',
-                'member2_student_id.required_if' => 'NIS/NISN anggota 2 wajib diisi.',
-                'member2_date_of_birth.required_if' => 'Tanggal lahir anggota 2 wajib diisi.',
-                'member2_gender.required_if' => 'Jenis kelamin anggota 2 wajib dipilih.',
-                'member2_no_wa.required' => 'Nomor WhatsApp anggota 2 wajib diisi.',
+                // 'member2_name.required_if' => 'Nama anggota 2 wajib diisi.',
+                // 'member2_student_id.required_if' => 'NIS/NISN anggota 2 wajib diisi.',
+                // 'member2_date_of_birth.required_if' => 'Tanggal lahir anggota 2 wajib diisi.',
+                // 'member2_gender.required_if' => 'Jenis kelamin anggota 2 wajib dipilih.',
+                // 'member2_no_wa.required' => 'Nomor WhatsApp anggota 2 wajib diisi.',
                 'member2_no_wa.unique' => 'Nomor WhatsApp anggota 2 sudah digunakan.',
-                'member2_email.required_if' => 'Email anggota 2 wajib diisi.',
+                // 'member2_email.required_if' => 'Email anggota 2 wajib diisi.',
                 'member2_email.email' => 'Format email anggota 2 tidak valid.',
                 'member2_email.unique' => 'Email anggota 2 sudah digunakan.',
+                'member2_student_id.required_with'   => 'NIM anggota 2 wajib diisi jika nama anggota 2 diisi.',
+                'member2_date_of_birth.required_with'=> 'Tanggal lahir anggota 2 wajib diisi jika nama anggota 2 diisi.',
+                'member2_no_wa.required_with' => 'No. WA anggota 2 wajib diisi jika nama anggota 2 diisi.',
+                'member2_email.required_with' => 'Email anggota 2 wajib diisi jika nama anggota 2 diisi.',
+                'member2_gender.required_with' => 'Jenis kelamin anggota 2 wajib diisi jika nama anggota 2 diisi.',
             ]);
             if ($this->member1_email == $this->member2_email) {
                 $this->addError('member2_email', 'Email anggota 1 dan 2 tidak boleh sama.');
@@ -440,15 +448,32 @@ class UpdateParticipantDataForm extends Component
                 $member1->gender = $this->member1_gender;
                 $member1->save();
 
-                $member2 = Member::findOrFail($this->member2_id);
-                $member2->name = $this->member2_name;
-                $member2->email = $this->member2_email;
-                $member2->student_id = $this->member2_student_id;
-                $member2->date_of_birth = $this->member2_date_of_birth;
-                $member2->no_wa = $this->member2_no_wa;
-                $member2->gender = $this->member2_gender;
-                $member2->save();
-                
+                $member2 = Member::find($this->member2_id);
+                if (blank($this->member2_name)) {
+                    if ($member2) {
+                        $member2->delete();
+                    }
+                } else {
+                    if ($member2) {
+                        $member2->name = $this->member2_name;
+                        $member2->email = $this->member2_email;
+                        $member2->student_id = $this->member2_student_id;
+                        $member2->date_of_birth = $this->member2_date_of_birth;
+                        $member2->no_wa = $this->member2_no_wa;
+                        $member2->gender = $this->member2_gender;
+                        $member2->save();
+                    } else {
+                        Member::create([
+                            'participant_id' => $dataParticipant->id,                            
+                            'name'         => $this->member2_name,
+                            'email'        => $this->member2_email,
+                            'student_id'   => $this->member2_student_id,
+                            'date_of_birth'=> $this->member2_date_of_birth,
+                            'no_wa'        => $this->member2_no_wa,
+                            'gender'       => $this->member2_gender,
+                        ]);
+                    }
+                }               
             }
 
             DB::commit();

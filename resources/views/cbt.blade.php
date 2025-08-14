@@ -83,7 +83,7 @@
          <h2 class="font-bold text-2xl mb-6">Pilihan</h2>
          <div class="flex flex-col gap-3">
             @foreach ($pilihan as $pil)
-               <div class="drop-shadow-sm text-wrap bg-white rounded-lg py-4 px-5">{{ $pil }}</div>
+               <div class="drop-shadow-sm text-wrap bg-white rounded-lg py-4 px-5 cursor-pointer">{{ $pil }}</div>
             @endforeach
          </div>
       </div>
@@ -96,7 +96,8 @@
             <h2 class="font-bold text-2xl mb-4">Soal</h2>
             <div class="grid grid-cols-6 gap-2">
                @foreach ($NoSoal as $No)
-                  <button class="bg-white drop-shadow-lg size-7 items-center text-sm rounded-sm">{{ $No }}</button>
+                  <button
+                     class="bg-white drop-shadow-lg size-7 items-center text-sm rounded-sm cursor-pointer">{{ $No }}</button>
                @endforeach
             </div>
 
@@ -109,6 +110,19 @@
          </div>
          {{-- Countdown --}}
       </div>
-
    </div>
+@endsection
+
+@section('modal')
+   {{-- Modal Pas Masuk --}}
+   {{-- <x-cbtModal></x-cbtModal> --}}
+   {{-- Modal Pas Masuk --}}
+
+   {{-- Modal Kalo User mau Keluar dari Tes --}}
+   {{-- <x-cbtAlert></x-cbtAlert> --}}
+   {{-- Modal Kalo User mau Keluar dari Tes --}}
+
+   {{-- Modal kalo User dah kelar buat Tes --}}
+   {{-- <x-cbt-finish-modal></x-cbt-finish-modal> --}}
+   {{-- Modal kalo User dah kelar buat Tes --}}
 @endsection

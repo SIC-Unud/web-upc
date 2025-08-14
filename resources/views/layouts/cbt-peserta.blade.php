@@ -11,7 +11,7 @@
 
 <body>
    {{-- Header --}}
-   <header id="mainHeader" 
+   <header id="mainHeader"
       class="overflow-visible fixed px-5 py-1 left-0 top-0 right-0 z-40 flex justify-between items-center bg-white ">
       {{-- logo --}}
       <img src="/assets/competition/logo-sidebar.png" alt="logo" class="mb-2 mt-3 lg:mt-4 ml-3 w-10 lg:w-20">
@@ -37,12 +37,17 @@
    {{-- Body --}}
 
    {{-- Footer --}}
-   <footer id="mainFooter" 
-      class="max-h-fit min-h-fit fixed z-40 bg-white bottom-0 right-0 left-0 ">
+   <footer id="mainFooter" class="max-h-fit min-h-fit fixed z-40 bg-white bottom-0 right-0 left-0 ">
       <h3 class="text-[#4C4C4C] mx-10 my-1 lg:my-4 text-[8px] lg:text-base font-light">&copy; 2025
          UDAYANAPHYSICSCHAMPIONSHIP. All rights reserved.</h3>
    </footer>
    {{-- Footer --}}
+
+   {{-- Modal --}}
+   <div>
+      @yield('modal')
+   </div>
+   {{-- Modal --}}
 </body>
 
 </html>

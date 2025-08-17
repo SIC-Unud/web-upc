@@ -93,7 +93,7 @@ class ParticipantManagementController extends Controller
                     $query->where('is_rejected', true);
                 } elseif ($status == "menunggu") {
                     $query->where('is_accepted', false)
-                        ->where('is_rejected', false);
+                        ->where('reject_message', false);
                 }
             })
             ->paginate(10)

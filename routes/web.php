@@ -1,158 +1,70 @@
 <?php
 
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ParticipantManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Exports\ParticipantExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\AdminCompetitionController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-// Route::get('/registration', [AuthController::class, 'show']);
-Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
-
-
-Route::get('/export-participants', function () {
-   return Excel::download(new ParticipantExport, 'participants.csv', \Maatwebsite\Excel\Excel::CSV, [
-      'Content-Type' => 'text/csv',
-   ]);
+Route::controller(AuthController::class)->group(function () {
+   Route::get('/login', 'index')->name('login');
+   Route::get('/register', 'register')->name('register');
+   Route::post('/login', 'login')->name('login.post');
 });
 
-Route::get('/participants/export', [ParticipantExportController::class, 'export'])->name('participants.export');
-Route::get('/admin/manajemen-user', [ParticipantManagementController::class, 'show']);
-Route::post('/admin/manajemen-user/accpet/{partisipant_id}', [ParticipantManagementController::class, 'accept'])->name('admin.manajemen-user.accpet');
-Route::post('/admin/manajemen-user/reject/{partisipant_id}', [ParticipantManagementController::class, 'reject'])->name('admin.manajemen-user.reject');
-
-
-// Route::get('/admin/manajemen-user', function() {
-//      $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
-//      $users = [
-//       [
-//          'id' => '1',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Astronomi',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '2',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Fisika SMA',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '3',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Cerdas cermat SD (kelompok)',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '4',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Fisika SMP',
-//          'status' => 'Menunggu',
-//       ],
-//       [
-//          'id' => '5',
-//          'no_reg' => '198788099',
-//          'nama' => 'YUDHISTIRA ARIMBAWA SAPUTRA',
-//          'nisn' => '2408561072',
-//          'telepon' => '081977397953',
-//          'waktu_registrasi' => '2025-05-29 17:30:00',
-//          'kompetisi' => 'Esai (kelompok)',
-//          'status' => 'Menunggu',
-//       ]];
-//      // Convert array ke Collection
-//       $userCollection = collect($users);
-
-//       // Konfigurasi pagination
-//       $perPage = 3; // jumlah data per halaman
-//       $currentPage = request()->get('page', 1);
-//       $currentItems = $userCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-//       $paginatedUsers = new LengthAwarePaginator(
-//             $currentItems,
-//             $userCollection->count(),
-//             $perPage,
-//             $currentPage,
-//             ['path' => request()->url(), 'query' => request()->query()]
-//       );
-//       return view("manajemen-user", compact('headers', 'paginatedUsers'));
-//    });
-
-
-Route::get('/profil', function () {
-   return view('profil');
+Route::middleware('guest')->group(function () {
+   Route::get('/registration-not-found/{late}', function ($late) {
+      $isLate = $late == 'late' ? 1 : 0;
+      return view('not-found.registration', compact('isLate'));
+   })->name('registration.not-found');
+   Route::get('/invoice/{no_registration}', [PdfController::class, 'invoice'])->name('invoice.download');
 });
 
-Route::get('/registration-not-found/{late}', function ($late) {
-   $isLate = $late == 'late' ? 1 : 0;
-   return view('not-found.registration', compact('isLate'));
-})->name('registration.not-found');
+Route::get('/update-participant', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
 
-Route::post('/profil', function () {
-   return redirect('/profil');
+Route::middleware('auth')->group(function () {
+   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::get('/competitions', function () {
-   return view('competition', ['lomba' => [
-      [
-         'title' => 'Simulasi Kompetisi',
-         'date' => '26 Oktober 2025',
-         'status' => 'Terlewati',
-         'isMissed' => true
-      ],
-      [
-         'title' => 'Penyisihan Astronomi',
-         'date' => '26 Oktober 2025',
-         'status' => '1 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-      [
-         'title' => 'Penyisihan SD',
-         'date' => '28 Oktober 2025',
-         'status' => '3 hari lagi',
-         'isMissed' => false
-      ],
-   ]]);
+Route::middleware('is-participant-active')->group(function () {
+   Route::controller(ParticipantDashboardController::class)->group(function () {
+      Route::get('/competitions', 'competitions')->name('participants.index');
+      Route::get('/profil', 'profil')->name('participants.profil');
+      Route::get('/informasi', 'informasi')->name('participants.informasi');
+   });
 });
 
-// Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant')->middleware('rejected-participant');
-Route::get('/update-participant/{no_registration}', [ParticipantController::class, 'update'])->name('update-participant');
+Route::middleware('is-admin')->group(function () {
+   Route::get('/participants/export', [ParticipantExportController::class, 'export'])->name('participants.export');
+   
+   Route::controller(ParticipantManagementController::class)->group(function () {
+      Route::get('/admin/manajemen-user', 'show')->name('admin.manajemen-user.index');
+      Route::post('/admin/manajemen-user/accept/{participant_id}', 'accept')->name('admin.manajemen-user.accept');
+      Route::post('/admin/manajemen-user/reject/{participant_id}', 'reject')->name('admin.manajemen-user.reject');
+   });
+   
+   Route::controller(BroadcastController::class)->group(function () {
+      Route::get('/admin/informasi', 'index')->name('broadcast.index');
+      Route::post('/admin/informasi', 'store')->name('broadcast.store');
+      Route::put('/admin/informasi/update/{id}', 'update')->name('broadcast.update');
+      Route::delete('/admin/informasi/{broadcast}', 'destroy')->name('broadcast.delete');
+   });
+   
+   Route::controller(AdminCompetitionController::class)->group(function () {
+      Route::get('/admin/competitions', 'index')->name('admin.competitions.index');
+   });
+   
+   Route::controller(AdminDashboardController::class)->group(function () {
+      Route::get('/admin', 'index')->name('admin.dashboard');
+   });
+});
+
+

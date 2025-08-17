@@ -60,27 +60,33 @@
                 <div class="bg-[#FAF9F6] p-8 rounded-lg shadow-xl h-fit max-h-138 w-fit lg:w-180 overflow-y-auto"
                     x-on:click.outside="showDetail = false">
                     <div class="grid grid-cols-1 gap-3">
-                        <button class="flex justify-end" x-on:click="showDetail = false">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="black" class="border p-1 inline size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        <button class="cursor-pointer text-gray-700 text-xl font-bold hover:text-red-600 flex justify-end" x-on:click="showDetail = false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-8 md:size-10" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </button>
                         <div class="w-full grid gap-2">
-                            <h1 class="border-b-2 text-2xl font-extrabold">Ketua</h1>
                             <div class=" text-center flex justify-center items-center">
-                                <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-30 rounded-full" alt="profil-peserta">
+                                <img src="{{ asset('/storage/' . $user->pass_photo) }}" class="w-30 h-40 rounded-md object-cover" alt="profil-peserta">
                             </div>
+                            @if ($user->is_accepted == false && $user->rejected == false && $user->reject_message != null)
+                                <div class="my-3 py-2 px-4 bg-red-500 w-full rounded-md text-white">
+                                    <h1 class="font-bold">Pesan Reject Sebelumnya</h1>
+                                    <p>{{ $user->reject_message }}</p>
+                                </div>
+                            @endif
                             <div
                                 class="text-left lg:text-base text-xs grid break-all grid-cols-[max-content_1fr] gap-x-2 gap-y-4 w-full">
                                 <span class="font-bold">No. Peserta</span>
-                                <span>: {{ $user->no_participant }}</span>
+                                <span>: {{ $user->no_participant ?? 'Belum Dapat' }}</span>
 
                                 <span class="font-bold">No. Registrasi</span>
                                 <span>: {{ $user->no_registration }}</span>
 
-                                <span class="font-bold">Token</span>
-                                <span>: {{ $user->token }}</span>
+                                <span class="font-bold">Kompetisi</span>
+                                <span>: {{ $user->competition->name }}</span>
 
                                 <span class="font-bold">Sumber Informasi</span>
                                 <span>: {{ $user->source_of_information }}</span>
@@ -96,7 +102,10 @@
 
                                 <span class="font-bold">Waktu Registrasi</span>
                                 <span>: {{ \Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s') }}</span>
-
+                            </div>
+                            <h1 class="border-b-2 text-2xl font-extrabold mt-3">Ketua</h1>
+                            <div
+                                class="text-left lg:text-base text-xs grid break-all grid-cols-[max-content_1fr] gap-x-2 gap-y-4 w-full">
                                 <span class="font-bold">Nama Lengkap</span>
                                 <span>: {{ $user->leader_name }}</span>
 
@@ -130,27 +139,33 @@
                                 <span class="font-bold">Pas Foto</span>
                                 <span>: <a
                                     href="{{ asset('/storage/' . $user->pass_photo) }}"
-                                    target="_blank" class="text-blue-500 underline"> {{ $user->pass_photo }} </a></span>
+                                    target="_blank" class="text-blue-500 underline"> Pass Foto (Klik untuk lihat detail) </a></span>
                                     
                                 <span class="font-bold">Kartu Pelajar</span>
                                 <span>: <a
                                     href="{{ asset('/storage/' . $user->student_proof) }}"
-                                    target="_blank" class="text-blue-500 underline">{{ $user->student_proof }} </a></span>
-
-                                {{-- <span class="font-bold">Link Twibbon</span>
-                                <span>: <a
-                                    href="https://www.figma.com/design/Tvi5lcd05JzhzZDlWL4C7Z/UPC-25?node-id=544-1374&t=0ZuWJ1e4dOswEGt8-0"
-                                    target="_blank" class="text-blue-500 underline">Lorem ipsum dolor sit amet. </a></span> --}}
+                                    target="_blank" class="text-blue-500 underline"> Bukti Identitas (Klik untuk lihat detail) </a></span>
+                                
                                 <span class="font-bold">Subtotal</span>
-                                <span>: {{ $user->subtotal }} </span>
+                                <span>: {{ rupiah($user->subtotal) }} </span>
+
+                                <span class="font-bold">Kode Kupon</span>
+                                <span>: {{ $user->coupon_code }} </span>
+
+                                <span class="font-bold">Potongan Diskon</span>
+                                <span>: -{{ rupiah($user->subtotal - $user->total) }} </span>
 
                                 <span class="font-bold">Total</span>
-                                <span>: {{ $user->total }} </span>
+                                <span>: {{ rupiah($user->total) }} </span>
 
                                 <span class="font-bold">Bukti Pembayaran</span>
                                 <span>: <a
                                     href="{{ asset('/storage/' . $user->transaction_proof) }}"
-                                    target="_blank" class="text-blue-500 underline">{{ $user->transaction_proof }}</a></span>
+                                    target="_blank" class="text-blue-500 underline"> Bukti Transaksi (Klik untuk lihat detail) </a>
+                                </span>
+
+                                <span class="font-bold">Link Twibbon</span>
+                                <span>: {{ $user->twibbon_links }} </span>
 
                                 <span class="font-bold">Diterima</span>
                                 <span>: {{ $user->is_accepted ? 'Yes' : 'No' }} </span>
@@ -159,7 +174,7 @@
                                 <span>: {{ $user->is_rejected ? 'Yes' : 'No' }} </span>
 
                                 <span class="font-bold">Pesan Ditolak</span>
-                                <span>: {{ $user->reject_message }} </span>
+                                <span>: {{ $user->reject_message ?? '-' }} </span>
 
                                 <span class="font-bold">Waktu Diperbarui</span>
                                 <span>: {{ \Carbon\Carbon::parse($user->updated_at)->format('Y-m-d H:i:s') }} </span>
@@ -212,18 +227,18 @@
                     <div class="flex justify-end gap-3">
                             <button
                                 x-on:click="showConfirm = false" {{-- Perbaiki @@ menjadi x-on: --}}
-                                class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800">
+                                class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800 cursor-pointer">
                                 Batal
                             </button>
 
                             <form
                                 method="POST"
-                                action="{{ route('admin.manajemen-user.accpet', ['partisipant_id' => $user->id]) }}"
+                                action="{{ route('admin.manajemen-user.accept', ['participant_id' => $user->id]) }}"
                                 onsubmit="showConfirm = false; showButton = false"
                             >
                                     @csrf
                                     <button type="submit"
-                                        class="bg-[#029161] hover:bg-green-700 text-white px-4 py-1 rounded">
+                                        class="bg-[#029161] hover:bg-green-700 text-white px-4 py-1 rounded cursor-pointer">
                                         Ya
                                     </button>
                             </form>
@@ -253,20 +268,20 @@
                     <div class="flex justify-end gap-3">
                             <button
                                 x-on:click="showReject = false" {{-- Perbaiki @@ menjadi x-on: --}}
-                                class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800">
+                                class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800 cursor-pointer">
                                 Batal
                             </button>
 
                             <form
                                 method="POST"
-                                action="{{ route('admin.manajemen-user.reject', ['partisipant_id' => $user->id]) }}"
+                                action="{{ route('admin.manajemen-user.reject', ['participant_id' => $user->id]) }}"
                                 onsubmit="showReject = false; showButton = false"
                                 >
                                     @csrf
                                     <input type="hidden" name="reject_message" :value="note">
 
                                     <button type="submit"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded cursor-pointer">
                                         Tolak
                                     </button>
                             </form>

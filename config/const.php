@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'simulation'=> [
+        'start_at' => '2025-09-20 10:00:00',
+        'end_at' => '2025-09-20 12:00:00'
+    ],
+
     'promo_codes' => [
         [
             'code' => 'OPREGIS',
@@ -138,6 +143,14 @@ return [
         ]
     ],
 
-    'link_drive_petunjuk_teknis' => 'upcunud.com',
+    'link_cp_humas' => 'https://wa.me/081529528609',
+    'social_media' => [
+        'wa' => 'https://wa.me/081529528609',
+        'ig' => 'https://instagram.com/upcunud',
+        'tiktok' => 'https://tiktok.com/upcunud',
+        'youtube' => 'https://youtube.com/upcunud'
+    ],
+
+    'link_drive_petunjuk_teknis' => 'https://drive.google.com/drive/folders/112E1RCN7xCnmhm1_MUq96efB9E-WRcoh?usp=sharing',
     'link_drive_certifikat' => 'sdsd'
 ];

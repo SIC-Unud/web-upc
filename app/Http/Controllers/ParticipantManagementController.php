@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Competition;
 use App\Models\Participant;
 use Illuminate\Http\Request;
 use App\Mail\ValidationAcceptedMail;
 use App\Mail\ValidationRejectedMail;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class ParticipantManagementController extends Controller
 {
@@ -35,13 +33,15 @@ class ParticipantManagementController extends Controller
                                 ->count();
 
         $nextNo = str_pad((int) $jumlahPartisipan + 1, 3, '0', STR_PAD_LEFT);
-        $noPartisipant = $data->competition->code . '_' . $nextNo;
+        $noPartisipant = $data->competition->code . '-' . $nextNo;
 
         $token = random_int(10000, 99999);
 
         $data->no_participant = $noPartisipant;
         $data->token = $token;
         $data->is_accepted = true;
+        $data->is_rejected = false;
+        $data->reject_message = null;
         $data->save();
 
         Mail::to($data->user->email)->queue(new ValidationAcceptedMail( $data->competition->name));
@@ -81,7 +81,8 @@ class ParticipantManagementController extends Controller
         $participants = Participant::with(['competition', 'user', 'members'])
             ->when($request->search, function ($query, $search) {
                 $query->where('leader_name', 'like', '%' . $search . '%')
-                    ->orWhere('no_registration', 'like', '%' . $search . '%' );
+                    ->orWhere('no_registration', 'like', '%' . $search . '%' )
+                    ->orWhere('no_participant', 'like', '%' . $search . '%' );
             })
             ->when($request->kompetisi, function ($query, $kompetisi) {
                 $query->where('competition_id', $kompetisi);
@@ -103,6 +104,6 @@ class ParticipantManagementController extends Controller
         $headers = ['No. Reg', 'Nama lengkap', 'NISN/NIM', 'No. Tlp', 'Waktu Registrasi', 'Kompetisi', 'Status', 'Aksi'];
 
         // return view("manajemen-user", compact('headers', 'users'));
-        return view("manajemen-user", compact('headers', 'participants', 'competitions'));
+        return view("admin.manajemen-user", compact('headers', 'participants', 'competitions'));
     }
 }

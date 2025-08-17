@@ -123,7 +123,7 @@
                         <div class="anggota-title">Anggota {{ $i + 1 }}</div>
                         <table>
                             <tr><td class="font-bold">Nama Lengkap</td><td>:</td><td>{{ $member->name }}</td></tr>
-                            <tr><td class="font-bold">NISN / NIM</td><td>:</td><td>{{ $member->participant_id }}</td></tr>
+                            <tr><td class="font-bold">NISN / NIM</td><td>:</td><td>{{ $member->student_id }}</td></tr>
                             <tr><td class="font-bold">Jenis Kelamin</td><td>:</td><td>{{ $member->gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</td></tr>
                             <tr><td class="font-bold">Tanggal Lahir</td><td>:</td><td>{{ $member->date_of_birth }}</td></tr>
                             <tr><td class="font-bold">No. Handphone</td><td>:</td><td>{{ $member->no_wa }}</td></tr>
@@ -146,10 +146,10 @@
                 <td>Biaya Pendaftaran Kompetisi {{ $data->competition->name }}</td>
                 <td style="text-align: right;">{{ rupiah($data->subtotal) }}</td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td>Biaya Admin</td>
                 <td style="text-align: right;">{{ rupiah(1000) }}</td>
-            </tr>
+            </tr> --}}
             <tr>
                 <td>Potongan Kupon</td>
                 <td style="text-align: right;">{{ rupiah($data->subtotal - $data->total) }}</td>
@@ -162,7 +162,7 @@
 
         <table class="border" style="padding:10px;">
             <tr>
-                <td>Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-bold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilahkan untuk menghubungi CP Humas UPC 2025 yang tertera pada bagian header formulir ini.</td>
+                <td>Gunakan formulir ini sebagai bukti valid pendaftaran Anda dalam kegiatan <span class="font-bold">Udayana Physics Championship (UPC) 2025</span> sebagaimana mestinya. Bila Anda merasa terdapat kesalahan, maka dipersilahkan untuk menghubungi <a href="{{ config('const.link_cp_humas') }}" target="_blank" rel="noopener noreferrer">CP Humas UPC 2025</a> yang tertera pada bagian header formulir ini.</td>
             </tr>
         </table>
     </div>

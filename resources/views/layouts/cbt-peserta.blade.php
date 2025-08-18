@@ -36,7 +36,7 @@
 
 
       {{-- Menu Soal SideBar Mobile dan Tablet --}}
-      <div x-bind:class="isOpen ? 'block' : 'hidden'"
+      <div x-bind:class="isOpen ? 'block' : 'hidden'" x-cloak
          class="fixed z-30 shadow-[0_0_30px_rgba(0,0,0,0.25)] bg-white p-5 h-screen lg:hidden">
          <h2 class="font-bold mb-3 md:text-lg">Soal</h2>
          <div class="grid grid-cols-4 gap-2">

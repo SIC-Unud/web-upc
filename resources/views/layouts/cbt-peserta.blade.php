@@ -16,13 +16,13 @@
       {{-- logo --}}
       <img src="/assets/competition/logo-sidebar.png" alt="logo" class="mb-2 mt-3 lg:mt-4 ml-3 w-10 lg:w-20">
       {{-- Log out Button --}}
-      <button x-on:click="open = true" class="cursor-pointer">
+      <button type="button" class="cursor-pointer">
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 lg:size-9">
             <path fill-rule="evenodd"
                d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6ZM5.78 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 0 0 0 1.06l3 3a.75.75 0 0 0 1.06-1.06l-1.72-1.72H15a.75.75 0 0 0 0-1.5H4.06l1.72-1.72a.75.75 0 0 0 0-1.06Z"
                clip-rule="evenodd" />
          </svg>
-      </button>
+      </button type="button">
       <div class="absolute w-full h-[1px] bottom-0 left-0 flex">
          <div class="w-1/2 bg-gradient-to-r from-gray-100 via-[#12B1EB]/95 to-white from-0% via-5% to-40% "></div>
          <div class="w-1/2 bg-gradient-to-l from-gray-100 via-[#FFD900] to-white from-0% via-5% to-40% "></div>
@@ -30,11 +30,30 @@
    </header>
    {{-- Header --}}
 
-   {{-- Body --}}
-   <div id="mainContent" class="bg-gray-100 min-h-screen w-full h-full px-5 lg:px-9 py-10 lg:py-22">
-      @yield('content')
+
+   {{-- Content --}}
+   <div x-data="{ isOpen: false }" id="mainContent" class=" min-h-screen w-full h-full py-11 bg-gray-100 ">
+
+
+      {{-- Menu Soal SideBar Mobile dan Tablet --}}
+      <div x-bind:class="isOpen ? 'block' : 'hidden'"
+         class="fixed z-30 shadow-[0_0_30px_rgba(0,0,0,0.25)] bg-white p-5 h-screen lg:hidden">
+         <h2 class="font-bold mb-3 md:text-lg">Soal</h2>
+         <div class="grid grid-cols-4 gap-2">
+            @foreach ($NoSoal as $No)
+               <button type="button"
+                  class="bg-white drop-shadow-lg size-7 items-center text-[10px] md:text-sm rounded-sm cursor-pointer hover:bg-[#007BFF] hover:text-white">{{ $No }}</button>
+            @endforeach
+         </div>
+      </div>
+      {{-- Menu Soal SideBar Mobile dan Tablet --}}
+
+
+      <div class=" bg-gray-100 min-h-screen w-full h-full px-5 lg:px-9 py-5 lg:py-11">
+         @yield('content')
+      </div>
    </div>
-   {{-- Body --}}
+   {{-- Content --}}
 
    {{-- Footer --}}
    <footer id="mainFooter" class="max-h-fit min-h-fit fixed z-40 bg-white bottom-0 right-0 left-0 ">

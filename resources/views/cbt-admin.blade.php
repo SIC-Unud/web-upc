@@ -1,16 +1,24 @@
 @extends('layouts.side-bar')
 
 @section('content')
-     <div class="font-jakarta">
-          <header class="flex justify-between lg:mb-4 mb-2">
+     <div class="font-jakarta" x-data="{banyakOpsi: 1, showNotif: false, isSaving: false }" @popup-confirmed.window="showNotif = true; setTimeout(() => showNotif = false, 3000)">
+          <header class="flex justify-between lg:mb-4 mb-2 relative">
                <h1 class="text-[#4C4C4C] font-bold lg:text-4xl text-2xl">Kompetisi</h1>
-               <button class="bg-[#00C482] rounded-md lg:px-6 px-3 lg:py-3 py-1.5 cursor-pointer flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 lg:size-5" fill="white" viewBox="0 0 16 16">
-                         <path d="M11 2H9v3h2z"/>
-                         <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
-                    </svg>
-                    <p class="hidden md:block md:text-base lg:text-lg text-white font-semibold">Simpan</p>
-               </button>
+               <div class="flex items-center gap-3 relative">
+                    <!-- Notifikasi -->
+                    <p x-show="showNotif" x-transition class="text-sm lg:text-base text-[#00C482] font-semibold">
+                         Progres Berhasil Tersimpan!
+                    </p>
+                    <!-- Button -->
+                    <button @click="isSaving = true; showNotif = true; setTimeout(() => { showNotif = false; isSaving = false }, 3000)" :class="isSaving ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#00C482]'" class="bg-[#00C482] rounded-md lg:px-6 px-3 lg:py-3 py-1.5 cursor-pointer flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4 lg:size-5" fill="white" viewBox="0 0 16 16">
+                              <path d="M11 2H9v3h2z"/>
+                              <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+                         </svg>
+                         <p class="hidden md:block md:text-base lg:text-lg text-white font-semibold">Simpan</p>
+                    </button>
+               </div>
+
           </header>
 
           <main class="block md:flex justify-between lg:gap-5 md:gap-3 ">
@@ -30,10 +38,10 @@
                     <div class="grid grid-cols-[repeat(6,1fr)_auto] gap-x-2 gap-y-4 justify-center">
                          <div class="flex col-span-2 gap-2 items-center">
                               <label class="text-xs lg:text-base w-1/2">Banyak Opsi</label>
-                              <select class="bg-[#D9D9D9] lg:w-12 md:w-1/2 text-center cursor-pointer" name="" id="">
-                                   <option value="">1</option>
-                                   <option value="">1</option>
-                                   <option value="">1</option>
+                              <select x-model.number="banyakOpsi" class="bg-[#D9D9D9] lg:w-12 md:w-1/2 text-center cursor-pointer">
+                                   <template x-for="i in 5" :key="i">
+                                        <option :value="i" x-text="i"></option>
+                                   </template>
                               </select>
                          </div>
                          <div class="col-span-2 flex gap-2 items-center">
@@ -50,10 +58,14 @@
                          </div>
                          <p class="flex place-self-center text-xs lg:text-base">Kunci</p>
                          {{-- jawaban --}}
-                         @for ($i = 1; $i <= 5; $i++)
-                              <textarea class="lg:p-2 p-1 lg:text-base text-xs border col-span-6 rounded-md resize-y" rows="1" placeholder="Ketik Opsi {{ $i }}"></textarea>
-                              <input class="flex place-self-center lg:size-6 size-4" type="checkbox" name="\" id="">
-                         @endfor
+                         <div class="col-span-7 flex flex-col gap-2">
+                              <template x-for="i in banyakOpsi" :key="i">
+                                   <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+                                        <textarea class="lg:p-2 p-1 lg:text-base text-xs border rounded-md resize-y" rows="1" x-bind:placeholder="'Ketik Opsi ' + i"></textarea>
+                                        <input class="lg:size-6 size-4" type="checkbox">
+                                   </div>
+                              </template>
+                         </div>
                     </div>
                </div>
 
@@ -72,16 +84,14 @@
                          <h2 class="lg:text-lg sm:text-base font-bold lg:mb-2 sm:mb-1">Waktu</h2>
                          <div class="flex justify-start items-center gap-2">
                               <select class="bg-[#D9D9D9] text-center w-1/2 cursor-pointer " name="" id="">
-                                   <option value="">1</option>
-                                   <option value="">1</option>
-                                   <option value="">1</option>
+                                   <option value="">45</option>
+                                   <option value="">60</option>
+                                   <option value="">90</option>
                               </select>                                   
                               <label class="lg:text-base sm:text-xs" for="">Menit</label>
                          </div>
                     </div>
                </div>
-
           </main>
-
      </div>
 @endsection

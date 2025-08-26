@@ -80,3 +80,15 @@ if (!function_exists('diffInDaysHuman')) {
         }
     }
 }
+
+
+if (!function_exists('seeded_shuffle')) {
+    function seeded_shuffle(array $array, int $seed): array {
+    mt_srand($seed);
+    for ($i = count($array) - 1; $i > 0; $i--) {
+        $j = mt_rand(0, $i);
+        [$array[$i], $array[$j]] = [$array[$j], $array[$i]];
+    }
+    return $array;
+}
+}

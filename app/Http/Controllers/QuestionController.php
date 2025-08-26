@@ -43,7 +43,7 @@ class QuestionController extends Controller
 
             $randomQestions = seeded_shuffle($questions, $token);
 
-            $selectQuestion = $randomQestions[$noSoal];
+            $selectQuestion = $randomQestions[$noSoal - 1];
 
             $answer = QuestionAnswer::where('question_id', $selectQuestion['id'])->get();
 

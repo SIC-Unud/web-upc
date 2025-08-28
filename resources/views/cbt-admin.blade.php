@@ -1,11 +1,11 @@
 @extends('layouts.side-bar')
 
 @section('content')
-     <div x-data="{ showConfirm = true }" class="font-jakarta" >
+     <div x-data="{ showConfirm: false }" class="font-jakarta" >
           
           <header class="flex justify-between lg:mb-4 mb-2">
                <h1 class="text-[#4C4C4C] font-bold lg:text-4xl text-2xl">Kompetisi</h1>
-               <button x-on:click="showConfirm = true" class="bg-[#00C482] rounded-md lg:px-6 px-3 lg:py-3 py-1.5 cursor-pointer flex items-center gap-2">
+               <button x-on:click="showConfirm = true" class="bg-[#00C482] hover:bg-[#009c68] rounded-md lg:px-6 px-3 lg:py-3 py-1.5 cursor-pointer flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4 lg:size-5" fill="white" viewBox="0 0 16 16">
                          <path d="M11 2H9v3h2z"/>
                          <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
@@ -83,34 +83,12 @@
                </div>
           </main>
 
-          {{-- popup --}}
-          <div
-               x-show="showConfirm"
-               x-transition.opacity
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
-               >
-                    <div
-                         class="bg-white p-6 rounded-lg shadow-xl w-80"
-                         x-on:click.outside="showConfirm = false"
-                    >
-                         <h2 class="text-lg font-semibold mb-4">Konfirmasi Log Out</h2>
-                         <p class="mb-2">Anda yakin ingin keluar dari akun? Pastikan semua perubahan telah disimpan.</p>
-                         <div class="flex justify-end gap-3">
-                              <button
-                                   x-on:click="showConfirm = false"
-                                   class="bg-gray-600 text-white px-4 py-1 rounded hover:bg-gray-800 cursor-pointer">
-                                   Batal
-                              </button>
-     
-                              <button 
-                                   class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded cursor-pointer">
-                                   Ya, Keluar
-                              </button>
-                         </div>
-                    </div>
-               </div>
-          </div>
+          <x-pop-up-kompetisi 
+               title="Keluar sebelum Menyimpan?"
+               message="Apakah anda yakin keluar sebelum menyimpan keseluruhan progres?"
+               color="green"
+               confirm-text="Ya, Keluar" 
+          />
 
      </div>
      

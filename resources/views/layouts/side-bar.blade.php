@@ -71,7 +71,7 @@
 </head>
 
 <body>
-   <div x-data="{ isOpen: false }" x-cloak class="flex font-jakarta">
+   <div x-data="{ isOpen: false, showConfirm: false, pendingUrl: '', isDirty: true }" x-cloak class="flex font-jakarta">
       {{-- Sidebar Tablet dan Laptop --}}
       <nav id="sidebar" x-bind:class="isOpen ? 'lg:w-60 w-50' : 'w-30'"
          class="bg-white transition-all duration-300 min-h-screen md:block hidden z-50 top-0 left-0 bottom-0 shadow-[0_0_30px_rgba(0,0,0,0.25)] fixed ">
@@ -183,6 +183,14 @@
             </div>
          </div>
       </main>
+
+      {{-- popup --}}
+          <x-pop-up-kompetisi 
+               title="Keluar sebelum Menyimpan?"
+               message="Apakah anda yakin keluar sebelum menyimpan keseluruhan progres?"
+               color="red"
+               confirmText="Ya, Keluar" 
+          />
    </div>
    {{-- Script --}}
    @yield('script')

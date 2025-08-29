@@ -1,6 +1,5 @@
 @props([ 
     'title', 
-    'message', 
     'confirmText',
     'color' => 'red' 
 ])
@@ -17,7 +16,8 @@
             x-on:click.outside="showConfirm = false"
         >
             <h2 class="text-lg font-semibold mb-2">{{ $title }}</h2>
-            <p class="mb-16">{{ $message }}</p>
+            <p class="mb-16">{{ $slot }}</p>
+
             <div class="flex justify-end gap-3">
                 <button
                     x-on:click="showConfirm = false"

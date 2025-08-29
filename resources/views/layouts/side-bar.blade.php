@@ -71,7 +71,7 @@
 </head>
 
 <body>
-   <div x-data="{ isOpen: false, showConfirm: false, pendingUrl: '', isDirty: true }" x-cloak class="flex font-jakarta">
+   <div x-data="{isOpen: false, open: false, banyakOpsi: 1, showNotif: false, isSaving: false, isDirty: false, pendingUrl: '', showConfirm: false, currentPage: 'cbt'}" x-cloak class="flex font-jakarta">
       {{-- Sidebar Tablet dan Laptop --}}
       <nav id="sidebar" x-bind:class="isOpen ? 'lg:w-60 w-50' : 'w-30'"
          class="bg-white transition-all duration-300 min-h-screen md:block hidden z-50 top-0 left-0 bottom-0 shadow-[0_0_30px_rgba(0,0,0,0.25)] fixed ">
@@ -96,7 +96,7 @@
                 @include('partials.navbar-peserta')
             @endif
         </nav>
-        <main x-bind:class="isOpen ? 'lg:ml-60 md:ml-50' : 'md:ml-30'" x-data="{ open: false }" id="main"
+        <main x-bind:class="isOpen ? 'lg:ml-60 md:ml-50' : 'md:ml-30'" id="main"
             class="relative w-full min-h-screen transition-all duration-300">
             {{-- Nav Bar --}}
             <header id="mainHeader" x-bind:class="isOpen ? 'lg:ml-60 md:ml-50' : 'md:ml-30'"
@@ -185,12 +185,9 @@
       </main>
 
       {{-- popup --}}
-          <x-pop-up-kompetisi 
-               title="Keluar sebelum Menyimpan?"
-               message="Apakah anda yakin keluar sebelum menyimpan keseluruhan progres?"
-               color="red"
-               confirmText="Ya, Keluar" 
-          />
+        <x-pop-up-kompetisi title="Keluar sebelum Menyimpan?" color="red" confirmText="Ya, Keluar">
+            Apakah anda yakin keluar sebelum menyimpan keseluruhan progres?"
+        </x-pop-up-kompetisi>
    </div>
    {{-- Script --}}
    @yield('script')

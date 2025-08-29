@@ -7,7 +7,7 @@
       href="/admin/" 
       :active="request()->is('admin')" 
       @click.prevent="
-         if (isDirty) {
+         if (currentPage === 'cbt' && isDirty) {
             pendingUrl = '/admin/';
             showConfirm = true;
          } else {
@@ -29,7 +29,7 @@
       href="/admin/manajemen-user" 
       :active="request()->is('admin/manajemen-user')" 
       @click.prevent="
-         if (isDirty) {
+         if (currentPage === 'cbt' && isDirty) {
             pendingUrl = '/admin/manajemen-user';
             showConfirm = true;
          } else {
@@ -50,7 +50,7 @@
       href="/admin/informasi" 
       :active="request()->is('admin/informasi')" 
       @click.prevent="
-         if (isDirty) {
+         if (currentPage === 'cbt' && isDirty) {
             pendingUrl = '/admin/informasi';
             showConfirm = true;
          } else {
@@ -71,7 +71,7 @@
       href="/admin/competitions" 
       :active="request()->is('admin/competitions')" 
       @click.prevent="
-         if (isDirty) {
+         if (currentPage === 'cbt' && isDirty) {
             pendingUrl = '/admin/competitions';
             showConfirm = true;
          } else {

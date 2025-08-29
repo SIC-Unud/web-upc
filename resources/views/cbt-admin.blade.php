@@ -1,7 +1,7 @@
 @extends('layouts.side-bar')
 
 @section('content')
-     <div class="font-jakarta" x-data="{banyakOpsi: 1, showNotif: false, isSaving: false, isDirty: false, pendingUrl: '', showConfirm: false}" @confirm-exit.window="pendingUrl = $event.detail.url; showConfirm = true">
+     <div class="font-jakarta"  @confirm-exit.window="pendingUrl = $event.detail.url; showConfirm = true">
           <header class="flex justify-between lg:mb-4 mb-2 relative">
                <h1 class="text-[#4C4C4C] font-bold lg:text-4xl text-2xl">Kompetisi</h1>
                <div class="flex items-center gap-3 relative">

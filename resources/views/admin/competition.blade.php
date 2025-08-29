@@ -22,7 +22,7 @@
 
     {{-- Popup --}}
     <x-pop-up-kompetisi title="Edit Kompetisi" color="green" confirmText="Ya">
-        Apakah anda ingin mengedit kompetisi <span x-text="selectedCompetition"></span>?
+        Apakah anda ingin mengedit <span x-text="selectedCompetition"></span>?
     </x-pop-up-kompetisi>
 </div>
 @endsection

@@ -67,4 +67,7 @@ Route::middleware('is-admin')->group(function () {
    });
 });
 
+Route::get("/admin/competitions/astronomi", function () {
+   return view("cbt-admin");
+});
 

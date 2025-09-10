@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminCompetitionController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -70,4 +71,14 @@ Route::middleware('is-admin')->group(function () {
 Route::get("/admin/competitions/astronomi", function () {
    return view("cbt-admin");
 });
+
+Route::get('/rekap-nilai-pdf', function () {
+    $data = [
+        'title' => 'Rekap Nilai',
+    ];
+    $pdf = Pdf::loadView('pdf.rekap-nilai', $data);
+
+    return $pdf->download('rekap-nilai.pdf');
+});
+
 

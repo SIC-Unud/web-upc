@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('competition_attempts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('participant_id');
-            $table->boolean('is_simulation')->default(0);
+            // $table->boolean('is_simulation')->default(0);
             $table->integer('correct_answer')->nullable();
             $table->integer('correct_hots_question')->nullable();
             $table->integer('wrong_answer')->nullable();

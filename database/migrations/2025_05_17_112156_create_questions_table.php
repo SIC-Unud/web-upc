@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('competition_id');
-            $table->boolean('is_simulation')->default(0);
-            $table->text('question');
+            $table->boolean('is_hot')->default(0);
+            $table->text('question')->nullable();
             $table->string('question_image')->nullable();
-            $table->foreignId('question_answer_key');
-            $table->integer('question_score');
+            $table->foreignId('question_answer_key')->nullable();
+            $table->integer('question_score')->default(1);
             $table->timestamps();
         });
     }

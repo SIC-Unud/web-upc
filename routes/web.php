@@ -11,7 +11,10 @@ use App\Http\Controllers\AdminCompetitionController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
+use App\Models\Competition;
+use App\Models\CompetitionAttempt;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)->group(function () {
@@ -68,16 +71,9 @@ Route::middleware('is-admin')->group(function () {
 
    Route::controller(AdminCompetitionController::class)->group(function () {
       Route::get("/admin/competition/{competition}/{questionNumber?}", 'manageQuiz')->name('admin.competition.question.edit');
+      Route::get("/admin/score-recap/{competition}", 'scoreRecap')->name('admin.competition.score-recap');
    });
 });
 
-Route::get('/rekap-nilai-pdf', function () {
-    $data = [
-        'title' => 'Rekap Nilai',
-    ];
-    $pdf = Pdf::loadView('pdf.rekap-nilai', $data);
-
-    return $pdf->download('rekap-nilai.pdf');
-});
 
 

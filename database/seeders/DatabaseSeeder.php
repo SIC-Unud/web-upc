@@ -145,5 +145,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('$2025uPc2o25#admn'),
             'role' => 1
         ]);
+
+        $this->call([
+            DummyCompetitionSeeder::class,
+        ]);
     }
 }

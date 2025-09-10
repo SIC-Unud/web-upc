@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\CompetitionAttempt;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
 class AdminCompetitionController extends Controller
@@ -56,5 +58,29 @@ class AdminCompetitionController extends Controller
         $competition->load('questions');
 
         return view('admin.competition-questions', compact('competition', 'questionNumber'));
+    }
+
+    public function scoreRecap(Competition $competition)
+    {
+        $attempts = CompetitionAttempt::with('participant')
+            ->whereHas('participant', function ($q) use ($competition) {
+                $q->where('competition_id', $competition->id);
+            })
+            ->orderByDesc('score')
+            ->orderByDesc('correct_hots_question')
+            ->orderBy('finish_at')
+            ->get();
+
+        $data = [
+            'title' => 'Rekap Nilai ' . $competition->name,
+            'competition' => $competition,
+            'year' => 2025,
+            'attempts' => $attempts
+        ];
+
+        $pdf = Pdf::loadView('pdf.score-recap', $data)
+                    ->setPaper('A4', 'portrait');
+
+        return $pdf->download('score-recap-' . $competition->slug . '.pdf');
     }
 }

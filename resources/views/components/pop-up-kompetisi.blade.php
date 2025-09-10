@@ -1,7 +1,8 @@
 @props([ 
     'title', 
     'confirmText',
-    'color' => 'red' 
+    'color' => 'red',
+    'pendingUrl' => '' 
 ])
 
 <div>
@@ -32,7 +33,7 @@
                         if(pendingUrl){
                             window.location.href = pendingUrl;
                         }
-                        open = false
+                        showConfirm = false
                     "
                 >
                     {{ $confirmText }}

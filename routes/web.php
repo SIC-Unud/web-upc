@@ -12,7 +12,6 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)->group(function () {
    Route::get('/login', 'index')->name('login');
@@ -65,9 +64,8 @@ Route::middleware('is-admin')->group(function () {
    Route::controller(AdminDashboardController::class)->group(function () {
       Route::get('/admin', 'index')->name('admin.dashboard');
    });
-});
 
-Route::get("/admin/competitions/astronomi", function () {
-   return view("cbt-admin");
+   Route::controller(AdminCompetitionController::class)->group(function () {
+      Route::get("/admin/competition/{competition}/{questionNumber?}", 'manageQuiz')->name('admin.competition.question.edit');
+   });
 });
-

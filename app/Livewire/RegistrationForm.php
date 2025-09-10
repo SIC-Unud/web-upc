@@ -78,7 +78,7 @@ class RegistrationForm extends Component
 
     public function mount()
     {
-        $this->competitions = Competition::all();
+        $this->competitions = Competition::where('slug', '!=', 'simulation')->get();
         if ( now()->lt(Carbon::parse(config('const.schedules.wave_1.start'))) ) {
             return redirect()->route('registration.not-found', 'not');
         } else if(now()->gt(Carbon::parse(config('const.schedules.wave_3.end')))) {

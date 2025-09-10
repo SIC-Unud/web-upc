@@ -24,7 +24,7 @@ class HomeController extends Controller
             ];
         })->values()->toArray();
 
-        $competitions = Competition::orderBy('created_at', 'desc')->get();
+        $competitions = Competition::orderBy('created_at', 'desc')->where('slug', '!=', 'simulation')->get();
 
         return view('landingpage', compact('timeline', 'competitions'));
     }

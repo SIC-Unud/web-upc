@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +17,21 @@ class DatabaseSeeder extends Seeder
     {
 
         $competitions = [
+            [
+                'name' => 'Simulasi Sistem UPC',
+                'slug' => 'simulation',
+                'code' => 'SMLS',
+                'icon_competition' => '/assets/competition/icon/SD.png',
+                'degree' => 'All',
+                'wave_1_price' => 0,
+                'wave_2_price' => 0,
+                'wave_3_price' => 0,
+                'is_team_competition' => false,
+                'is_cbt' => true,
+                'is_simulation' => true,
+                'start_competition' => Carbon::parse('2025-09-20 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-20 12:00:00'),
+            ],
             [
                 'name' => 'Kompetisi Sains SD',
                 'slug' => 'sains-sd',

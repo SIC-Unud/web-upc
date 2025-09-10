@@ -6,6 +6,7 @@
         isSaving: @entangle('isSaving'),
         showConfirm: @entangle('showConfirmDialog'),
         pendingUrl: @entangle('pendingUrl'),
+        isImageDeleted: @entangle('isImageDeleted'),
         init() {
             window.addEventListener('beforeunload', (e) => {
                 if (this.isDirty) {
@@ -109,15 +110,29 @@
                 <label class="border min-h-20 lg:min-h-30 w-full flex-col gap-3 flex relative justify-center items-center h-max rounded-md cursor-pointer hover:bg-gray-50" for="image_upload">
                     @if ($questionImage)
                         <img src="{{ $questionImage->temporaryUrl() }}" alt="Preview Image" class="max-w-full h-30 object-contain">
-                        <div wire:loading.remove wire:target="questionImage" class="absolute justify-center items-center gap-2 top-2 right-2 bg-yellow-400 hover:bg-yellow-500 transition-all flex py-2 px-2 sm:px-5 duration-300 rounded-md"> 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 640 640"><path d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"/></svg> 
-                            <p class="lg:text-sm md:text-xs hidden sm:block">Edit Gambar</p> 
+                        <div class="absolute flex items-center top-2 gap-2 right-2">
+                            <div wire:loading.remove wire:target="questionImage" class="justify-center items-center gap-2 bg-yellow-400 hover:bg-yellow-500 transition-all flex py-2 px-2 sm:px-5 duration-300 rounded-md"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 640 640"><path d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"/></svg> 
+                                <p class="lg:text-sm md:text-xs hidden sm:block">Edit</p> 
+                            </div>
+                            <button wire:click="deleteImage" class="justify-center items-center gap-2 bg-red-600 hover:bg-red-700 transition-all flex p-2 duration-300 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </button>
                         </div>
-                    @elseif($question && $question->question_image)
+                    @elseif($question && $question->question_image && !$isImageDeleted)
                         <img src="{{ Storage::url($question->question_image) }}" alt="Question Image" class="max-w-full h-30 object-contain">
-                        <div wire:loading.remove wire:target="questionImage" class="absolute justify-center items-center gap-2 top-2 right-2 bg-yellow-400 hover:bg-yellow-500 transition-all flex py-2 px-2 sm:px-5 duration-300 rounded-md"> 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 640 640"><path d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"/></svg> 
-                            <p class="lg:text-sm md:text-xs hidden sm:block">Edit Gambar</p> 
+                        <div class="absolute flex items-center top-2 gap-2 right-2">
+                            <div wire:loading.remove wire:target="questionImage" class="justify-center items-center gap-2 bg-yellow-400 hover:bg-yellow-500 transition-all flex py-2 px-2 sm:px-5 duration-300 rounded-md"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 640 640"><path d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"/></svg> 
+                                <p class="lg:text-sm md:text-xs hidden sm:block">Edit</p> 
+                            </div>
+                            <button wire:click="deleteImage" class="justify-center items-center gap-2 bg-red-600 hover:bg-red-700 transition-all flex p-2 duration-300 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </button>
                         </div>
                     @else
                         <div wire:loading.remove wire:target="questionImage" id="first_add_image" class="justify-center items-center gap-4 flex lg:py-10 py-8">

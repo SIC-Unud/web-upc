@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Competition;
 use App\Models\Question;
 use App\Models\QuestionAnswer;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +29,7 @@ class CompetitionQuestions extends Component
     
     public $isDirty = false;
     public $isSaving = false;
+    public $isImageDeleted = false;
     public $showNotification = false;
     public $showConfirmDialog = false;
     public $pendingUrl = '';
@@ -186,6 +186,12 @@ class CompetitionQuestions extends Component
         $this->isDirty = true;
     }
 
+    public function deleteImage()
+    {
+        $this->questionImage = null;
+        $this->isImageDeleted = true;
+    }
+
     public function save()
     {
         $this->isSaving = true;
@@ -210,6 +216,11 @@ class CompetitionQuestions extends Component
                     Storage::disk('public')->delete($this->question->question_image);
                 }
                 $questionData['question_image'] = fileUpload($this->questionImage, 'question-images');
+            } else if($this->isImageDeleted) {
+                if ($this->question && $this->question->question_image) {
+                    Storage::disk('public')->delete($this->question->question_image);
+                }
+                $questionData['question_image'] = null;
             }
 
             if ($this->question) {

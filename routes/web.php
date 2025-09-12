@@ -16,7 +16,6 @@ use App\Http\Controllers\ParticipantManagementController;
 
 
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)->group(function () {
    Route::get('/login', 'index')->name('login');
@@ -69,6 +68,8 @@ Route::middleware('is-admin')->group(function () {
    Route::controller(AdminDashboardController::class)->group(function () {
       Route::get('/admin', 'index')->name('admin.dashboard');
    });
+
+   Route::controller(AdminCompetitionController::class)->group(function () {
+      Route::get("/admin/competition/{competition}/{questionNumber?}", 'manageQuiz')->name('admin.competition.question.edit');
+   });
 });
-
-

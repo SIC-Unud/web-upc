@@ -8,7 +8,7 @@ class CompetitionAttempt extends Model
 {
     protected $fillable = [
         'participant_id',
-        'is_simulation',
+        // 'is_simulation',
         'correct_answer',
         'correct_hots_answer',
         'wrong_answer',

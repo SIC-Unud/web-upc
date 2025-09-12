@@ -10,7 +10,7 @@ class CompetitionAttempt extends Model
         'participant_id',
         // 'is_simulation',
         'correct_answer',
-        'correct_hots_answer',
+        'correct_hots_question',
         'wrong_answer',
         'score',
         'finish_at'

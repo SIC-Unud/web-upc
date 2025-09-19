@@ -76,4 +76,6 @@ Route::middleware('is-admin')->group(function () {
 });
 
 
-
+Route::get('/kompetisi', function () {
+   return view('cbt');
+});

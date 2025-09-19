@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DummyCompetitionSeeder extends Seeder
 {
@@ -50,10 +52,20 @@ class DummyCompetitionSeeder extends Seeder
             ]);
         }
 
-        // Buat 20 peserta
         for ($i = 1; $i <= 20; $i++) {
+            // Create user first
+            $userId = DB::table('users')->insertGetId([
+                'email' => "participant{$i}@example.com",
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'role' => 0,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             $participantId = DB::table('participants')->insertGetId([
-                'user_id' => $i,
+                'user_id' => $userId,
                 'no_registration' => 'REG' . str_pad($i, 3, '0', STR_PAD_LEFT),
                 'no_participant' => 'MSMP-' . str_pad($i, 3, '0', STR_PAD_LEFT),
                 'token' => rand(100000, 999999),
@@ -82,13 +94,11 @@ class DummyCompetitionSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            // Buat variasi skor (acak 50 - 100)
             $score = rand(50, 100);
-            $hotCorrect = rand(0, 2); // maksimal 2 HOT benar
+            $hotCorrect = rand(0, 2);
             $correctAnswer = intdiv($score, 10);
             $wrongAnswer = 10 - $correctAnswer;
 
-            // Waktu submit diacak agar ada tie-break
             $finishAt = now()->subMinutes(rand(1, 120));
 
             $attemptId = DB::table('competition_attempts')->insertGetId([
@@ -102,7 +112,6 @@ class DummyCompetitionSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            // Simpan jawaban dummy
             foreach ($questionIds as $qId) {
                 DB::table('competition_answers')->insert([
                     'competition_attempt_id' => $attemptId,

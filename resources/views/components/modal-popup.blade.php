@@ -8,7 +8,7 @@
     'cancelFunction'
 ])
 
-    <div id="{{ $id }}" class="fixed inset-0 flex items-center justify-center w-screen h-screen backdrop-blur-sm hidden z-50">
+    <div id="{{ $id }}" class="fixed inset-0 flex items-center justify-center w-screen h-screen backdrop-blur-sm z-50">
         <div class="bg-white p-6 rounded-lg shadow-xl w-90">
             <h2 class="text-lg font-semibold mb-4">{{ $title }}</h2>
             <p class="mb-4">{{ $message }}</p>

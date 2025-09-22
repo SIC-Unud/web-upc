@@ -149,5 +149,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DummyCompetitionSeeder::class,
         ]);
+
+        $this->call(ParticipantSeeder::class);
     }
 }

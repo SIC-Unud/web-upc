@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('is-participant-active')->group(function () {
    Route::controller(ParticipantDashboardController::class)->group(function () {
       Route::get('/competitions', 'competitions')->name('participants.index');
+      Route::get('/competitions/{slug}', 'cbt')->name('participants.competition');
       Route::get('/profil', 'profil')->name('participants.profil');
       Route::get('/informasi', 'informasi')->name('participants.informasi');
    });
@@ -77,5 +78,10 @@ Route::middleware('is-admin')->group(function () {
 
 
 Route::get('/kompetisi', function () {
-   return view('cbt');
+   $durasi = 90;
+   $start = Carbon::parse('2025-09-20 23:25:00');
+   $end = $start->addMinutes($durasi);
+
+   // $countdown = $end - $start;
+   return view('cbt', ['durasi' => $durasi, 'end' => $end]);
 });

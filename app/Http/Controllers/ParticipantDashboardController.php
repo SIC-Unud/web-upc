@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Broadcast;
+use App\Models\Competition;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class ParticipantDashboardController extends Controller
 {
@@ -80,5 +81,38 @@ class ParticipantDashboardController extends Controller
         $competitions = collect($competitions)->sortBy('date')->values();
 
         return view('competition', compact('competitions'));
+    }
+
+    public function cbt($slug, Request $request)
+    {
+        $competition = Competition::where('slug', $slug)->with('questions')->get()->first();
+        $participant = Auth::user()->participant;
+        $participant->load(['real_attempt.competition_answers' => function($query) {
+            $query->orderBy('question_id');
+        }]);
+        $start = now();
+        if ($participant->real_attempt->start_at == null) {
+            $participant->real_attempt->start_at = $start;
+            $participant->real_attempt->save();
+        } else {
+            $start = Carbon::parse($participant->real_attempt->start_at);
+        }
+        $est_end = $start->addMinutes($competition->duration);
+        $end = ($est_end > $competition->end_competition) ? $competition->end_competition : $est_end;
+
+        $questions = $competition->questions->all();
+        $answers = $participant->real_attempt->competition_answers->pluck('answer_key')->all();
+        $question_number = $request->get('question', 1);
+
+        mt_srand($participant->token);
+        $count = count($questions);
+        $question_number = $question_number > $count ? 1 : $question_number;
+        for ($i = $count - 1; $i > 0; $i--) {
+            $j = mt_rand(0, $i);
+            [$questions[$i], $questions[$j]] = [$questions[$j], $questions[$i]];
+            [$answers[$i], $answers[$j]] = [$answers[$j], $answers[$i]];
+        }
+        
+        return view('cbt', compact('competition', 'end', 'participant', 'questions', 'answers', 'question_number'));
     }
 }

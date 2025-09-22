@@ -16,6 +16,7 @@
     "dependencies": {
         "alpinejs": "^3.14.9",
         "chart.js": "^4.5.0",
+        "dayjs": "^1.11.18",
         "esbuild": "^0.25.5"
     }
 }

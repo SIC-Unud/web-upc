@@ -1,4 +1,4 @@
-@props(['isMissed' => false])
+@props(['is_cbt' => false])
 
 <div class="w-full flex flex-col pl-2">
    <img src="/assets/competition/kompetisi.png" class="max-w-full" alt="">
@@ -10,7 +10,7 @@
          <p class="text-[5px] md:text-[8px] lg:text-[10px]">{{ $date }}</p>
       </div>
       <h1
-         class="{{ $isMissed ? 'text-[#FF0606]' : 'text-[#029161]' }} text-end mx-4 lg:mx-7 text-[6px] md:text-[10px] lg:text-xs font-semibold py-2 lg:py-5">
+         class="{{ $status == 'Sudah Dikerjakan' ? 'text-[#4C4C4C]' : ($status == 'Terlewati' ? 'text-[#FF0606]' : 'text-[#029161]') }} text-end mx-4 lg:mx-7 text-[6px] md:text-[10px] lg:text-xs font-semibold py-2 lg:py-5">
          {{ $status }}</h1>
    </div>
 </div>

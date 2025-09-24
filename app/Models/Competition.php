@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Competition extends Model
 {
@@ -65,6 +67,31 @@ class Competition extends Model
             return 'ended';
         } else {
             return 'active';
+        }
+    }
+
+    public function getFormattedStatusAttribute()
+    {
+        $now   = now();
+        $start = $this->start_competition;
+        $end   = $this->end_competition;
+
+        $participant = Auth::user()->participant;
+        if($this->is_simulation) {
+            $hasWorked = $participant && $participant->simulation_attempt;
+        } else {
+            $hasWorked = $participant && $participant->real_attempt;
+        }
+
+        if ($hasWorked) {
+            return 'Sudah Dikerjakan';
+        }
+        if ($now->lt($start)) {
+            return diffInDaysHuman(Carbon::parse($start));
+        } elseif ($now->between($start, $end)) {
+            return 'Sedang Berlangsung';
+        } else {
+            return 'Terlewati';
         }
     }
 }

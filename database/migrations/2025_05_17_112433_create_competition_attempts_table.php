@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('participant_id');
             $table->dateTime('start_at')->nullable();
-            $table->boolean('is_simulation')->default(0);
             $table->integer('correct_answer')->nullable();
             $table->integer('correct_hots_question')->nullable();
             $table->integer('wrong_answer')->nullable();
             $table->double('score')->nullable();
-            $table->dateTime('start_at')->nullable();
             $table->dateTime('finish_at')->nullable();
             $table->boolean('is_simulation')->default(false);
             $table->timestamps();

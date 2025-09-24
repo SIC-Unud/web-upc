@@ -39,44 +39,28 @@ class ParticipantDashboardController extends Controller
         $endTimeFormatted = Carbon::parse($endTime)->translatedFormat('d F Y, H:i') . ' WITA';
         $dateRange = $startTimeFormatted . ' - ' . $endTimeFormatted;
 
-        if ($now->gt($endTime)) {
-            $status = 'Terlewati';
-        } elseif ($now->between($startTime, $endTime)) {
-            $status = 'Sedang Berlangsung';
-        } else {
-            $status = diffInDaysHuman($startTime);
-        }
-
         $competitions[] = [
             'title' => $competition->is_cbt ? $competition->name : "Penyisihan ".$competition->name,
             'date' => $dateRange,
-            'status' => $status,
-            'isMissed' => $now->gt($endTime),
+            'is_cbt' => $competition->is_cbt,
+            'countQuestion' => $competition->question_count,
+            'status' => $competition->formatted_status,
         ];
 
-        if($competition->is_cbt) {
-            $simulasiConfig = Config::get('const.simulation');
-            $simulasiStart = Carbon::parse($simulasiConfig['start_at']);
-            $simulasiEnd = Carbon::parse($simulasiConfig['end_at']);
-            $simulasiStartFormatted = $simulasiStart->translatedFormat('d F Y, H:i');
-            $simulasiEndFormatted = $simulasiEnd->translatedFormat('d F Y, H:i') . ' WITA';
-            $simulasiDateRange = $simulasiStartFormatted . ' - ' . $simulasiEndFormatted;
-    
-            if ($now->gt($simulasiEnd)) {
-                $simulasiStatus = 'Terlewati';
-            } elseif ($now->between($simulasiStart, $simulasiEnd)) {
-                $simulasiStatus = 'Sedang Berlangsung';
-            } else {
-                $simulasiStatus = diffInDaysHuman($simulasiStart);
-            }
-    
-            $competitions[] = [
-                'title' => 'Simulasi Kompetisi',
-                'date' => $simulasiDateRange,
-                'status' => $simulasiStatus,
-                'isMissed' => $now->gt($simulasiEnd),
-            ];
-        }
+        $competitionSimulation = Competition::where('is_simulation', true)->first();
+        $startTime = Carbon::parse($competitionSimulation->start_competition);
+        $endTime = Carbon::parse($competitionSimulation->end_competition);
+        $startTimeFormatted = Carbon::parse($startTime)->translatedFormat('d F Y, H:i');
+        $endTimeFormatted = Carbon::parse($endTime)->translatedFormat('d F Y, H:i') . ' WITA';
+        $dateRange = $startTimeFormatted . ' - ' . $endTimeFormatted;
+
+        $competitions[] = [
+            'title' => $competitionSimulation->name,
+            'date' => $dateRange,
+            'is_cbt' => $competitionSimulation->is_cbt,
+            'countQuestion' => $competitionSimulation->question_count,
+            'status' => $competitionSimulation->formatted_status,
+        ];
         
         $competitions = collect($competitions)->sortBy('date')->values();
 

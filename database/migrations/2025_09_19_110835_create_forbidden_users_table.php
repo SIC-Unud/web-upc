@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('competition_answers', function (Blueprint $table) {
+        Schema::create('forbidden_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('competition_attempt_id');
-            $table->foreignId('question_id');
-            $table->foreignId('answer_key')->nullable();
-            $table->integer('question_number');
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
-
-            $table->unique(['competition_attempt_id', 'question_id']);
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('competition_answers');
+        Schema::dropIfExists('forbidden_users');
     }
 };

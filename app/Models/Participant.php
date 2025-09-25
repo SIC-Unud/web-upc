@@ -48,6 +48,11 @@ class Participant extends Model
         return $this->hasMany(Member::class, 'participant_id', 'id');
     }
 
+    public function attempts()
+    {
+        return $this->hasMany(CompetitionAttempt::class, 'participant_id', 'id');
+    }
+
     public function simulation_attempt()
     {
         return $this->hasOne(CompetitionAttempt::class, 'participant_id', 'id')

@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Broadcast::class, 'created_by', 'id');
     }
+
+    public function forbidden()
+    {
+        return $this->hasOne(ForbiddenUser::class);
+    }
 }

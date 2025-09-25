@@ -23,14 +23,18 @@ class AdminCompetitionController extends Controller
                                             ->where('not_null_question', true)
                                             ->count();
 
-                $start = Carbon::parse($competition->start_competition)->translatedFormat('d F Y, H:i');
-                $end = Carbon::parse($competition->end_competition)->translatedFormat('d F Y, H:i') . ' WITA';
-                $dateRange = $start . ' - ' . $end;
+                $start = Carbon::parse($competition->start_competition);
+                $end   = Carbon::parse($competition->end_competition);
 
+                $dateRange = $start->translatedFormat('d F Y, H:i') . ' - ' 
+                        . $end->translatedFormat('d F Y, H:i') . ' WITA';
+
+                $hasStarted = now()->greaterThanOrEqualTo($start);
                 $competitions[] = [
                     'title' => $competition->name,
                     'slug' => $competition->slug,
                     'date' => $dateRange,
+                    'hasStarted' => $hasStarted,
                     'countQuestion' => $countNormalQuestions,
                     'countNotNullQuestion' => $countNotNullQuestions
                 ];
@@ -63,6 +67,23 @@ class AdminCompetitionController extends Controller
         $competition->load('questions');
 
         return view('admin.competition-questions', compact('competition', 'questionNumber'));
+    }
+    
+    public function recap(Competition $competition) 
+    {
+        $attempts = CompetitionAttempt::with('participant')
+            ->whereHas('participant', function ($q) use ($competition) {
+                $q->where('competition_id', $competition->id);
+            })
+            ->orderByDesc('score')
+            ->orderByDesc('correct_hots_question')
+            ->orderBy('finish_at')
+            ->paginate(15);
+        
+        $title = 'Rekap Nilai ' . $competition->name;
+        $year = 2025;
+        
+        return view('admin.competition-recap', compact('competition', 'attempts', 'title', 'year'));
     }
 
     public function scoreRecap(Competition $competition)

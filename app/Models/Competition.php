@@ -50,6 +50,31 @@ class Competition extends Model
         return $this->questions()->count();
     }
 
+    public function getParticipantCountAttribute()
+    {
+        return $this->participants()
+            ->where('is_accepted', true)
+            ->count();
+    }
+
+    public function getStartedRealParticipantsCountAttribute()
+    {
+        return $this->participants()
+            ->whereHas('real_attempt', function ($q) {
+                $q->whereNotNull('start_at');
+            })
+            ->count();
+    }
+
+    public function getFinishedRealParticipantsCountAttribute()
+    {
+        return $this->participants()
+            ->whereHas('real_attempt', function ($q) {
+                $q->whereNotNull('finish_at');
+            })
+            ->count();
+    }
+
     public function getIsCurrentlyActiveAttribute()
     {
         $now = now();

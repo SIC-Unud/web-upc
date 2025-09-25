@@ -71,6 +71,7 @@ Route::middleware('is-admin')->group(function () {
 
    Route::controller(AdminCompetitionController::class)->group(function () {
       Route::get("/admin/competition/{competition}/{questionNumber?}", 'manageQuiz')->name('admin.competition.question.edit');
+      Route::get("/admin/recap/{competition}", 'recap')->name('admin.competition.recap');
       Route::get("/admin/score-recap/{competition}", 'scoreRecap')->name('admin.competition.score-recap');
    });
 });

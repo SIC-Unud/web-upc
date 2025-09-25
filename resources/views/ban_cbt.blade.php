@@ -154,7 +154,7 @@
                                     </div>
                                     <p class="text-xs font-medium" :class="(minutes == 0 && seconds == 0 ) ? 'text-black' : 'text-red-500'">waktu pinalti</p>
                                 </div>
-                                <p class="text-justify text-sm md:text-base">Mohon maaf, anda tidak diperkenankan untuk keluar dari tab pada saat sesi ini berlangsung. Jika anda merasa ini kesalahan, anda dapat menghubungi pihak panitia!</p>
+                                <p class="text-justify text-sm md:text-base">Mohon maaf, anda tidak diperkenankan untuk keluar dari tab ataupun melakukan aktivitas kecurangan pada saat sesi ini berlangsung. Jika anda merasa ini kesalahan, anda dapat menghubungi pihak panitia!</p>
                             </div>
                         </div>
                         <div class="flex justify-center md:justify-end">

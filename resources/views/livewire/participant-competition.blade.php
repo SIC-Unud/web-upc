@@ -20,6 +20,14 @@
                 $wire.recordViolation();
             }
         });
+
+        let autosaveTimer;
+        window.addEventListener('start-autosave', (event) => {
+            clearTimeout(autosaveTimer);
+            autosaveTimer = setTimeout(() => {
+                $wire.saveAnswer();
+            }, 2000);
+        });
     "
 >
     <div class="flex flex-col font-jakarta gap-5 lg:gap-9 md:flex-row">
@@ -56,7 +64,7 @@
                         x-init="setTimeout(() => show = false, 1000)"
                         x-transition.opacity
                         class="font-semibold text-sm lg:text-base text-[#00C482]">
-                        Jawaban berhasil disimpan!
+                        Progress berhasil disimpan!
                     </p>
                 @endif
                 <button
@@ -122,7 +130,7 @@
                         x-init="setTimeout(() => show = false, 1000)"
                         x-transition.opacity
                         class="font-semibold text-sm lg:text-base text-[#00C482]">
-                        Jawaban berhasil disimpan!
+                        Progress berhasil disimpan!
                     </p>
                 @endif
                 <button

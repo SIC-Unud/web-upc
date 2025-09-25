@@ -40,6 +40,15 @@ class ParticipantCompetition extends Component
     public function selectOption($answerId)
     {
         $this->selectedOption = $answerId;
+        $this->dispatch('start-autosave');
+    }
+
+    public function saveAnswer()
+    {
+        if ($this->selectedOption) {
+            CompetitionAnswer::where('competition_attempt_id', $this->attempt->id)->where('question_id', $this->question->id)->update(['answer_key' => $this->selectedOption]);
+            session()->flash('showNotification', true);
+        }
     }
 
     public function recordViolation()

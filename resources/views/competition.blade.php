@@ -41,11 +41,14 @@
                      <div class="">
                         <div class="mb-10">
                            <h1 class="mb-3 font-bold text-xl" x-text="titleCompetition"></h1>
-                           <template x-if="statusCompetition == 'Sedang Berlangsung'">
+                           <template x-if="statusCompetition == 'Sedang Berlangsung' || statusCompetition == 'Sedang Dikerjakan'">
                               <p class="text-justify">
                                  Kompetisi ini terdiri atas 
-                                 <span x-text="countQuestionCompetition"></span> 
-                                 butir soal pilihan ganda
+                                 <span class="font-bold">
+                                    <span x-text="countQuestionCompetition"></span> 
+                                    butir soal
+                                 </span>
+                                 pilihan ganda
                               </p>
                            </template>
                            <template x-if="statusCompetition == 'Sudah Dikerjakan'">
@@ -54,7 +57,7 @@
                            <template x-if="statusCompetition == 'Terlewati'">
                               <p class="text-danger">Waktu kompetisi sudah berakhir.</p>
                            </template>
-                           <template x-if="statusCompetition != 'Sedang Berlangsung' && statusCompetition != 'Sudah Dikerjakan' && statusCompetition != 'Terlewati'">
+                           <template x-if="statusCompetition != 'Sedang Berlangsung' && statusCompetition != 'Sudah Dikerjakan' && statusCompetition != 'Terlewati' && statusCompetition != 'Sedang Dikerjakan'">
                               <p class="text-warning">Kompetisi belum dimulai. Harap menunggu.</p>
                            </template>
                         </div>
@@ -65,9 +68,14 @@
                                  <template x-if="statusCompetition != 'Sedang Berlangsung' && statusCompetition != 'Sedang Dikerjakan'">
                                     <button class="bg-[#4C4C4C] text-white py-2 px-6 text-lg md:text-base cursor-not-allowed">Mulai</button>
                                  </template>
-                                 <template x-if="statusCompetition == 'Sedang Berlangsung' || statusCompetition == 'Sedang Dikerjakan'">
+                                 <template x-if="statusCompetition == 'Sedang Berlangsung'">
                                     <a :href="'{{ url('competitions') }}/' + slugCompetition">
                                        <button class="bg-[#029161] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Mulai</button>
+                                    </a>
+                                 </template>
+                                 <template x-if="statusCompetition == 'Sedang Dikerjakan'">
+                                    <a :href="'{{ url('competitions') }}/' + slugCompetition">
+                                       <button class="bg-[#029161] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Lanjutkan</button>
                                     </a>
                                  </template>
                            </div>

@@ -1,4 +1,27 @@
-<div x-data="countdown">
+<div x-data="countdown"
+    x-init="
+        let isReloading = false;
+        window.addEventListener('beforeunload', () => { isReloading = true });
+
+        window.addEventListener('pagehide', () => {
+            if (!isReloading) {
+                $wire.recordViolation();
+            }
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (!isReloading && document.visibilityState === 'hidden') {
+                $wire.recordViolation();
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            if (!isReloading){
+                $wire.recordViolation();
+            }
+        });
+    "
+>
     <div class="flex flex-col font-jakarta gap-5 lg:gap-9 md:flex-row">
 
         {{-- Tombol SideBar di Mobile & Tablet --}}

@@ -51,36 +51,36 @@
    </div>
 
    <div class="bg-[url(../../public/assets/bg-2.png)] bg-black bg-cover z-0">
-      <div class="px-4 overflow-x-auto md:px-18 md:pt-[10px]">
+      <div class="px-4 overflow-x-auto md:px-18 pt-14">
          <div class="flex gap-2 w-fit snap-x md:w-auto md:gap-[29px]">
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/1.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/1.png') }}"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/2.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/2.png') }}"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/3.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/3.png') }}"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/4.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/4.png') }}"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/5.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/5.png') }}"
                   alt="">
             </div>
             <div
                class="drop-shadow-white/25 drop-shadow-[10px_9px_9px] py-6 snap-center w-[84px] md:w-[269px] shrink-0 lg:shrink">
-               <img class="object-contain md:object-cover transition hover:scale-105" src="/assets/landing/docomentation/6.png"
+               <img class="object-contain md:object-cover transition hover:scale-105" src="{{ asset('assets/landing/documentation/6.png') }}"
                   alt="">
             </div>
          </div>

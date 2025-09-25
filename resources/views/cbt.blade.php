@@ -1,10 +1,15 @@
 @extends('layouts.cbt-peserta')
 
-@section('title', 'Soal')
+@section('title', 'Pengerjaan Soal')
 
 @section('content')
-    <livewire:participant-competition :competition="$competition" :questions="$questions" :answers="$answers" :question_number="$question_number"
-        :participant="$participant" />
+    <livewire:participant-competition 
+        :competition="$competition" 
+        :questions="$questions" 
+        :answers="$answers" 
+        :question_number="$question_number"
+        :participant="$participant" 
+    />
 @endsection
 
 @push('scripts')
@@ -38,10 +43,5 @@
             }))
         })
 
-        document.addEventListener("visibilitychange", (event) => {
-            if (document.visibilityState != "visible") {
-                console.log("pindah tab");
-            }
-        });
     </script>
 @endpush

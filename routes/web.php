@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('is-participant-active')->group(function () {
-   Route::get('/ban-quiz', [ForbiddenUserController::class, 'showCountdownPage'])->name('forbidden.countdown');
+   Route::get('/ban-quiz/{competitionType}/{number?}', [ForbiddenUserController::class, 'showCountdownPage'])->where('competitionType', 'real|simulation')->name('forbidden.countdown');
    Route::controller(ParticipantDashboardController::class)->group(function () {
       Route::get('/competitions', 'competitions')->name('participants.index');
       Route::get('/competitions/{competition}', 'cbt')->name('participants.competition')->middleware('forbidden.check');

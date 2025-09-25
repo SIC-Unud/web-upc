@@ -23,7 +23,11 @@ class ParticipantCompetition extends Component
         $this->question = $questions[$question_number-1]; 
         $this->pilihan = $questions[$question_number-1]->answers;
         $this->count = count($questions);
-        $this->attempt = $participant->real_attempt;
+        if($competition->is_simulation) {
+            $this->attempt = $participant->simulation_attempt;
+        } else {
+            $this->attempt = $participant->real_attempt;
+        }
         $this->confirmFinish = false;
     }
 
@@ -41,10 +45,18 @@ class ParticipantCompetition extends Component
     {
         ForbiddenUser::updateOrCreate(
             ['user_id' => Auth::user()->id],
-            ['expired_at' => now()->addMinutes(3)]
+            ['expired_at' => now()->addMinutes(1)]
         );
 
-        return redirect()->route('forbidden.countdown');
+        if($this->competition->is_simulation) {
+            $type = 'simulation';
+        } else {
+            $type = 'real';
+        }
+        return redirect()->route('forbidden.countdown', [
+            'competitionType' => $type,
+            'number' => $this->question_number
+        ]);
     }
 
     public function moveQuestion($number)

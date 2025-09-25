@@ -18,7 +18,19 @@ class CheckForbiddenStatus
 
             if ($forbidden && now()->lessThan($forbidden->expired_at)) {
                 if (!$request->routeIs('forbidden.countdown')) {
-                    return redirect()->route('forbidden.countdown');
+                    $participant = Auth::user()->participant;
+                    if($request->route('competition')->is_simulation) {
+                        if($participant->simulation_attempt) {
+                            $type = 'simulation';
+                        }
+                    } else if(!$request->route('competition')->is_simulation) {
+                        if($participant->real_attempt) {
+                            $type = 'real';
+                        }
+                    }
+                    return redirect()->route('forbidden.countdown', [
+                        'competitionType' => $type
+                    ]);
                 }
             }
         }

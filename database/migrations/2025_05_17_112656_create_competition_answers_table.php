@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('answer_key')->nullable();
             $table->integer('question_number');
             $table->timestamps();
+
+            $table->unique(['competition_attempt_id', 'question_id']);
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -26,8 +27,8 @@ class DummyCompetitionSeeder extends Seeder
             'is_cbt' => 1,
             'is_simulation' => 0,
             'duration' => 90,
-            'start_competition' => Carbon::now()->subDays(1),
-            'end_competition' => Carbon::now(),
+            'start_competition' => now(),
+            'end_competition' => now()->addHours(2),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -44,12 +45,23 @@ class DummyCompetitionSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            DB::table('question_answers')->insert([
-                'question_id' => $questionIds[$i],
-                'answer_value' => "Jawaban benar soal $i",
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $options = [];
+            for ($j = 1; $j <= 4; $j++) { 
+                $options[] = [
+                    'question_id' => $questionIds[$i],
+                    'answer_value' => "Pilihan $j",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+            DB::table('question_answers')->insert($options);
+
+            $firstOptionId = DB::table('question_answers')
+                ->where('question_id', $questionIds[$i])
+                ->orderBy('id', 'asc')
+                ->value('id');
+            Question::where('id', $questionIds[$i])
+                ->update(['question_answer_key' => $firstOptionId]);
         }
 
         for ($i = 1; $i <= 20; $i++) {

@@ -23,9 +23,9 @@ class CompetitionQuestions extends Component
     public $correctAnswerIndex = null;
     public $questionScore = 1;
     public $isHot = false;
-    public $optionCount = 3;
+    public $optionCount = 5;
     
-    public $duration;
+    public $duration = 90;
     
     public $isDirty = false;
     public $isSaving = false;
@@ -46,9 +46,9 @@ class CompetitionQuestions extends Component
         'options' => 'required|array|min:3',
         'options.*' => 'required|string|max:100',
         'correctAnswerIndex' => 'required|integer|min:0',
-        'questionScore' => 'required|integer|min:1|max:10',
+        'questionScore' => 'required|integer|min:1',
         'isHot' => 'boolean',
-        'duration' => 'required|integer|min:30|max:180'
+        'duration' => 'required|integer|min:1'
     ];
 
     protected $messages = [
@@ -74,14 +74,12 @@ class CompetitionQuestions extends Component
         'questionScore.required' => 'Skor soal wajib diisi.',
         'questionScore.integer' => 'Skor soal harus berupa angka.',
         'questionScore.min' => 'Skor soal minimal 1.',
-        'questionScore.max' => 'Skor soal maksimal 10.',
 
         'isHot.boolean' => 'Format soal hot harus berupa true/false.',
 
         'duration.required' => 'Durasi wajib diisi.',
         'duration.integer' => 'Durasi harus berupa angka (menit).',
-        'duration.min' => 'Durasi minimal 30 menit.',
-        'duration.max' => 'Durasi maksimal 180 menit.'
+        'duration.min' => 'Durasi minimal 1 menit.',
     ];
 
     public function mount($competition, $questionNumber = 1)
@@ -91,7 +89,11 @@ class CompetitionQuestions extends Component
         $this->duration = $this->competition->duration ?? 90;
         
         $this->options = array_fill(0, $this->optionCount, '');
-        
+
+        if($competition->slug == 'sains-sd') {
+            $this->optionCount = 4;
+        }
+
         $this->loadQuestion();
     }
 
@@ -111,7 +113,7 @@ class CompetitionQuestions extends Component
                 ->orderBy('id')
                 ->get();
             
-            $this->optionCount = max(3, $questionAnswers->count());
+            $this->optionCount = max($this->optionCount, $questionAnswers->count());
             $this->options = array_pad($questionAnswers->pluck('answer_value')->toArray(), $this->optionCount, '');
             
             if ($this->question->question_answer_key) {
@@ -141,7 +143,7 @@ class CompetitionQuestions extends Component
     public function updatedOptionCount($value)
     {
         $this->isDirty = true;
-        $value = max(3, min(6, (int) $value));
+        $value = max($this->optionCount, min(6, (int) $value));
         
         $oldOptions = $this->options;
         $this->options = array_pad(array_slice($oldOptions, 0, $value), $value, '');

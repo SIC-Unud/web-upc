@@ -83,7 +83,7 @@
                         </p>
                     </button>
                 </div>
-                <button 
+                {{-- <button 
                     @click="if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) { $wire.deleteQuestion() }" 
                     :disabled="isSaving"
                     :class="isSaving ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'" 
@@ -96,7 +96,7 @@
                         <span x-show="!isSaving">Hapus</span>
                         <span x-show="isSaving">Menghapus...</span>
                     </p>
-                </button>
+                </button> --}}
             </div>
         </header>
 
@@ -172,35 +172,33 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-[repeat(6,1fr)_auto] gap-x-2 gap-y-4 justify-center mt-2">
                     {{-- Option Count --}}
-                    <div class="flex col-span-1 sm:col-span-2 gap-2 items-center">
+                    {{-- <div class="flex col-span-1 sm:col-span-2 gap-2 items-center">
                         <label class="text-xs lg:text-base">Banyak Opsi</label>
                         <select wire:model.live="optionCount" class="bg-[#D9D9D9] text-center cursor-pointer">
                             @for($i = 3; $i <= 5; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
-                    </div>
+                    </div> --}}
                     
                     {{-- Question Score --}}
-                    <div class="col-span-1 sm:col-span-2 flex gap-2 items-center">
+                    <div class="col-span-1 sm:col-span-3 flex gap-2 items-center">
                         <label class="text-xs lg:text-base">Poin Soal</label>
-                        <select wire:model.live="questionScore" class="bg-[#D9D9D9] text-center cursor-pointer">
-                            @for($i = 1; $i <= 10; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
+                        <input type="number" min="1" wire:model.live="questionScore" class="bg-gray-100 border-1 border-gray-400 rounded-sm py-1 px-3 text-sm md:text-base w-32">
                     </div>
                     
                     {{-- HOT Question --}}
-                    <div class="col-span-1 sm:col-span-2 flex gap-2 items-center">
+                    <div class="col-span-1 sm:col-span-3 flex gap-2 items-center">
                         <label class="text-xs lg:text-base">Soal HOTS</label>
                         <input wire:model.live="isHot" class="lg:size-4 size-3" type="checkbox">
                     </div>
                     
-                    <p class="flex place-self-end text-xs lg:text-base">Kunci</p>
+                    <p class="flex place-self-end text-xs lg:text-base font-semibold">Kunci</p>
                     
                     {{-- Answer Options --}}
                     <div class="cols-span-1 sm:col-span-7 flex flex-col gap-2">
+                        @error('questionScore') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
+                        @error('isHot') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
                         @for($i = 0; $i < $optionCount; $i++)
                             <div class="grid grid-cols-[1fr_auto] gap-2 items-center" wire:key="option-{{ $i }}">
                                 <input 
@@ -239,13 +237,13 @@
                                     {{ $i+1 }}
                                 </button>
                             @endforeach
-                            <button 
+                            {{-- <button 
                                 wire:click="addQuestion({{ $totalQuestions + 1 }})"
                                 class="bg-white min-w-9 min-h-9 max-w-max max-h-max p-1.5 flex justify-center items-center rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] cursor-pointer text-[10px] lg:text-[14px] hover:bg-gray-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -254,14 +252,7 @@
                 <div class="bg-white px-4 md:px-6 py-3 my-3 rounded-lg w-full shadow-lg order-1 md:order-2">
                     <h2 class="lg:text-lg sm:text-base font-bold lg:mb-2 sm:mb-1">Waktu</h2>
                     <div class="flex justify-start items-center gap-2">
-                        <select wire:model.live="duration" class="bg-[#D9D9D9] text-center w-max cursor-pointer">
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                            <option value="60">60</option>
-                            <option value="90">90</option>
-                            <option value="120">120</option>
-                            <option value="180">180</option>
-                        </select>                                   
+                        <input type="number" min="1" wire:model.live="duration" class="bg-gray-100 border-1 border-gray-400 rounded-sm py-1 px-3 w-24">
                         <label class="lg:text-base sm:text-xs">Menit</label>
                     </div>
                     @error('duration') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror

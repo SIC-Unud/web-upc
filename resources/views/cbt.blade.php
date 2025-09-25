@@ -33,7 +33,7 @@
                     if (diff <= 0) {
                         this.minutes = 0
                         this.seconds = 0
-                        console.log('waktu habis')
+                        window.location.reload();
                         return
                     }
 

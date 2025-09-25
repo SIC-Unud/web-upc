@@ -13,6 +13,7 @@ class ForbiddenUserController extends Controller
         $forbiddenUser = ForbiddenUser::where('user_id', Auth::id())->first();
 
         $participant = Auth::user()->participant;
+        $participant->load('simulation_attempt', 'real_attempt');
         if($competitionType == 'simulation') {
             if($participant->simulation_attempt) {
                 $slugCompetition = 'simulation';

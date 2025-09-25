@@ -7,6 +7,7 @@ use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\CompetitionAnswer;
 use App\Models\ForbiddenUser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ParticipantCompetition extends Component
@@ -57,6 +58,35 @@ class ParticipantCompetition extends Component
             'competitionType' => $type,
             'number' => $this->question_number
         ]);
+    }
+
+    public function finishAttempt()
+    {
+        $correct = 0;
+        $score = 0;
+        $correctHots = 0;
+
+        $this->attempt->load('competition_answers', 'competition_answers.question');
+        foreach ($this->attempt->competition_answers as $compAnswer) {
+            $question = $compAnswer->question;
+            if (!empty($compAnswer->answer_key) && $compAnswer->answer_key == $question->question_answer_key) {
+                $correct += 1;
+                $score += $question->question_score;
+                if ($question->is_hot) {
+                    $correctHots += 1;
+                }
+            }
+        }
+
+        $this->attempt->update([
+            "correct_answer" => $correct,
+            "wrong_answer" => $this->count - $correct,
+            "score" => $score,
+            "correct_hots_question" => $correctHots,
+            "finish_at" => Carbon::now()
+        ]);
+
+        return redirect()->route('participant.index');
     }
 
     public function moveQuestion($number)

@@ -12,10 +12,6 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
 use App\Http\Controllers\ForbiddenUserController;
-use App\Models\Competition;
-use App\Models\CompetitionAttempt;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)->group(function () {
@@ -42,7 +38,8 @@ Route::middleware('is-participant-active')->group(function () {
    Route::get('/ban-quiz/{competitionType}/{number?}', [ForbiddenUserController::class, 'showCountdownPage'])->where('competitionType', 'real|simulation')->name('forbidden.countdown');
    Route::controller(ParticipantDashboardController::class)->group(function () {
       Route::get('/competitions', 'competitions')->name('participants.index');
-      Route::get('/competitions/{competition}', 'cbt')->name('participants.competition')->middleware('forbidden.check');
+      Route::get('/competitions/{competition}', 'cbt')->name('participants.competition')->middleware('secure-quiz');
+      Route::get('/finish-attempt/{competitionType}', 'autoFinishAttempt')->where('competitionType', 'real|simulation')->name('finish-attempt');
       Route::get('/profil', 'profil')->name('participants.profil');
       Route::get('/informasi', 'informasi')->name('participants.informasi');
    });

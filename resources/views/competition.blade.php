@@ -52,7 +52,7 @@
                               </p>
                            </template>
                            <template x-if="statusCompetition == 'Sudah Dikerjakan'">
-                              <p class="text-success">Anda sudah menyelesaikan kompetisi ini.</p>
+                              <p class="text-success">Anda sudah mengerjakan kompetisi ini.</p>
                            </template>
                            <template x-if="statusCompetition == 'Terlewati'">
                               <p class="text-danger">Waktu kompetisi sudah berakhir.</p>

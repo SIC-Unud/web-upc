@@ -94,8 +94,12 @@ class ParticipantDashboardController extends Controller
                     ]);
                 }
             } else {
-                abort(403);
+                abort(404);
             }
+        }
+
+        if($attempt->finish_at != null) {
+            return redirect()->route('participants.index');
         }
 
         $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
@@ -146,5 +150,64 @@ class ParticipantDashboardController extends Controller
             'answers',
             'question_number'
         ));
+    }
+
+    public function autoFinishAttempt($competitionType) {
+        $participant = Auth::user()->participant;
+        $participant->load('simulation_attempt', 'real_attempt');
+
+        $attempt = null;
+        if($competitionType == 'simulation') {
+            if($participant->simulation_attempt && $participant->simulation_attempt->finish_at == null) {
+                $attempt = $participant->simulation_attempt;
+                $competition = Competition::where('slug', 'simulation')->first();
+            }
+        } else if($competitionType == 'real') {
+            if($participant->real_attempt && $participant->real_attempt->finish_at == null) {
+                $attempt = $participant->real_attempt;
+                $competition = Competition::find($participant->competition_id);
+            }
+        }
+
+        if($attempt != null) {
+            $now = now();
+            $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
+            if (!$attempt->start_at) {
+                $attempt->update(['start_at' => $start]);
+            }
+            $est_end = (clone $start)->addMinutes($competition->duration);
+            $end = min($est_end, Carbon::parse($competition->end_competition));
+
+            if(!$now->between($start, $end)) {
+                $correct = 0;
+                $score = 0;
+                $correctHots = 0;
+    
+                $attempt->load('competition_answers', 'competition_answers.question');
+                foreach ($attempt->competition_answers as $compAnswer) {
+                    $question = $compAnswer->question;
+                    if (!empty($compAnswer->answer_key) && $compAnswer->answer_key == $question->question_answer_key) {
+                        $correct += 1;
+                        $score += $question->question_score;
+                        if ($question->is_hot) {
+                            $correctHots += 1;
+                        }
+                    }
+                }
+    
+                $attempt->update([
+                    "correct_answer" => $correct,
+                    "wrong_answer" => $competition->question_count - $correct,
+                    "score" => $score,
+                    "correct_hots_question" => $correctHots,
+                    "finish_at" => Carbon::now()
+                ]);
+            } else {
+                abort(404);
+            }
+
+            return redirect()->route('participants.index');
+        }
+        abort(404);
     }
 }

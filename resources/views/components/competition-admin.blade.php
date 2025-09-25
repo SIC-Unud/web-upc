@@ -8,8 +8,8 @@
             <p class="text-[5px] md:text-[8px] lg:text-[10px]">{{ $date }}</p>
          </div>
          <h1
-            class="{{ $count < 50 ? 'text-[#FF0606]' : 'text-[#029161]' }} text-end mx-4 lg:mx-7 text-[6px] md:text-[10px] lg:text-xs font-semibold py-2 lg:py-5">
-            {{ $count }}/50 soal</h1>
+            class="{{ $countNotNull < $count ? 'text-[#FF0606]' : 'text-[#029161]' }} text-end mx-4 lg:mx-7 text-[6px] md:text-[10px] lg:text-xs font-semibold py-2 lg:py-5">
+            {{ $countNotNull }}/{{ $count }} soal</h1>
       </div>
 </div>
 

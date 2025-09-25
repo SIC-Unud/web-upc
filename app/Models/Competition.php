@@ -78,14 +78,19 @@ class Competition extends Model
 
         $participant = Auth::user()->participant;
         if($this->is_simulation) {
-            $hasWorked = $participant && $participant->simulation_attempt;
+            $hasWorked = $participant && $participant->simulation_attempt && $participant->simulation_attempt->finish_at != null;
+            $hasWorking = $participant && $participant->simulation_attempt;
         } else {
-            $hasWorked = $participant && $participant->real_attempt;
+            $hasWorked = $participant && $participant->real_attempt && $participant->real_attempt->finish_at != null;
+            $hasWorking = $participant && $participant->real_attempt;
         }
 
         if ($hasWorked) {
             return 'Sudah Dikerjakan';
+        } else if($hasWorking) {
+            return 'Sedang Dikerjakan';
         }
+
         if ($now->lt($start)) {
             return diffInDaysHuman(Carbon::parse($start));
         } elseif ($now->between($start, $end)) {

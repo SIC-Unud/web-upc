@@ -23,7 +23,8 @@
                     "
                 >
                     <x-competition-admin 
-                        :count="$competition['countQestion']" 
+                        :count="$competition['countQuestion']"
+                        :countNotNull="$competition['countNotNullQuestion']" 
                         :title="$competition['title']" 
                         :date="$competition['date']"
                     />

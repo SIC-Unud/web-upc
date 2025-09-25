@@ -18,6 +18,10 @@ class AdminCompetitionController extends Controller
         foreach ($all as $competition) {
             if ($competition->is_cbt) {
                 $countNormalQuestions = $competition->questions->count();
+                $countNotNullQuestions = $competition
+                                            ->questions
+                                            ->where('not_null_question', true)
+                                            ->count();
 
                 $start = Carbon::parse($competition->start_competition)->translatedFormat('d F Y, H:i');
                 $end = Carbon::parse($competition->end_competition)->translatedFormat('d F Y, H:i') . ' WITA';
@@ -27,7 +31,8 @@ class AdminCompetitionController extends Controller
                     'title' => $competition->name,
                     'slug' => $competition->slug,
                     'date' => $dateRange,
-                    'countQestion' => $countNormalQuestions
+                    'countQuestion' => $countNormalQuestions,
+                    'countNotNullQuestion' => $countNotNullQuestions
                 ];
 
                 // $countSimulationQuestions = $competition->questions->where('is_simulation', true)->count();

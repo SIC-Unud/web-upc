@@ -62,10 +62,10 @@
                            <div class="flex gap-5 text-sm">
                                  <button class="bg-[#FF0000] text-white py-2 px-6 text-lg md:text-base cursor-pointer"
                                     x-on:click="showConfirm = false">Batal</button>
-                                 <template x-if="statusCompetition != 'Sedang Berlangsung'">
+                                 <template x-if="statusCompetition != 'Sedang Berlangsung' && statusCompetition != 'Sedang Dikerjakan'">
                                     <button class="bg-[#4C4C4C] text-white py-2 px-6 text-lg md:text-base cursor-not-allowed">Mulai</button>
                                  </template>
-                                 <template x-if="statusCompetition == 'Sedang Berlangsung'">
+                                 <template x-if="statusCompetition == 'Sedang Berlangsung' || statusCompetition == 'Sedang Dikerjakan'">
                                     <a :href="'{{ url('competitions') }}/' + slugCompetition">
                                        <button class="bg-[#029161] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Mulai</button>
                                     </a>

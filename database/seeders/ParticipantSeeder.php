@@ -25,7 +25,7 @@ class ParticipantSeeder extends Seeder
             'user_id' => $user->id,
             'is_accepted' => 1,
             'no_registration' => 'UPC-TEST-001',
-            'competition_id' => 2,
+            'competition_id' => 9,
             'source_of_information' => 'Media Sosial',
             'reason' => 'Ingin menguji kemampuan',
             'leader_name' => 'Peserta Uji Coba',

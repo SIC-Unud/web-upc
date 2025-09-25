@@ -36,20 +36,13 @@ Route::get('/update-participant', [ParticipantController::class, 'update'])->nam
 
 Route::middleware('auth')->group(function () {
    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-   Route::get('/forbidden', [ForbiddenUserController::class, 'showCountdownPage'])->name('forbidden.countdown');
-   Route::post('/api/record-violation', [ForbiddenUserController::class, 'recordViolation'])->name('api.record.violation');
-   Route::get('/test-cheat', function() {
-    $controller = new App\Http\Controllers\ForbiddenUserController();
-    $controller->recordViolation();
-    return "Pelanggaran dicatat! Coba akses halaman CBT sekarang.";
-   })->name('test.cheat');
 });
 
 Route::middleware('is-participant-active')->group(function () {
+   Route::get('/ban-quiz', [ForbiddenUserController::class, 'showCountdownPage'])->name('forbidden.countdown');
    Route::controller(ParticipantDashboardController::class)->group(function () {
       Route::get('/competitions', 'competitions')->name('participants.index');
-      Route::get('/competitions/{slug}', 'cbt')->name('participants.competition')->middleware('forbidden.check');
+      Route::get('/competitions/{competition}', 'cbt')->name('participants.competition')->middleware('forbidden.check');
       Route::get('/profil', 'profil')->name('participants.profil');
       Route::get('/informasi', 'informasi')->name('participants.informasi');
    });
@@ -86,11 +79,11 @@ Route::middleware('is-admin')->group(function () {
 });
 
 
-Route::get('/kompetisi', function () {
-   $durasi = 90;
-   $start = Carbon::parse('2025-09-20 23:25:00');
-   $end = $start->addMinutes($durasi);
+// Route::get('/kompetisi', function () {
+//    $durasi = 90;
+//    $start = Carbon::parse('2025-09-20 23:25:00');
+//    $end = $start->addMinutes($durasi);
 
-   // $countdown = $end - $start;
-   return view('cbt', ['durasi' => $durasi, 'end' => $end]);
-});
+//    // $countdown = $end - $start;
+//    return view('cbt', ['durasi' => $durasi, 'end' => $end]);
+// });

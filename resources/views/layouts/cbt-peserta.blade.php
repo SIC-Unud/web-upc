@@ -43,7 +43,7 @@
             <div class="grid grid-cols-4 gap-2">
                 @for ($i = 1; $i <= $competition->questions->count(); $i++)
                     <button type="button"
-                        class="drop-shadow-lg size-7 items-center text-[10px] md:text-sm rounded-sm cursor-pointer hover:bg-[#007BFF] hover:text-white {{ $answers[$i - 1] != null || $i == $question_number ? 'bg-[#007BFF] text-white' : 'bg-white' }}"
+                        class="drop-shadow-lg size-7 items-center text-[10px] md:text-sm rounded-sm cursor-pointer hover:bg-[#007BFF] hover:text-white {{ $answers[$i] != null || $i == $question_number ? 'bg-[#007BFF] text-white' : 'bg-white' }}"
                         onclick="Livewire.dispatch('moveQuestion', { number: {{ $i }} })">{{ $i }}</button>
                 @endfor
             </div>

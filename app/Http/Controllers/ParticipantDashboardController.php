@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class ParticipantDashboardController extends Controller
 {
@@ -42,6 +43,7 @@ class ParticipantDashboardController extends Controller
         $competitions[] = [
             'title' => $competition->is_cbt ? $competition->name : "Penyisihan ".$competition->name,
             'date' => $dateRange,
+            'slug' => $competition->slug,
             'is_cbt' => $competition->is_cbt,
             'countQuestion' => $competition->question_count,
             'status' => $competition->formatted_status,
@@ -57,6 +59,7 @@ class ParticipantDashboardController extends Controller
         $competitions[] = [
             'title' => $competitionSimulation->name,
             'date' => $dateRange,
+            'slug' => $competitionSimulation->slug,
             'is_cbt' => $competitionSimulation->is_cbt,
             'countQuestion' => $competitionSimulation->question_count,
             'status' => $competitionSimulation->formatted_status,
@@ -67,36 +70,81 @@ class ParticipantDashboardController extends Controller
         return view('competition', compact('competitions'));
     }
 
-    public function cbt($slug, Request $request)
+    public function cbt(Competition $competition, Request $request)
     {
-        $competition = Competition::where('slug', $slug)->with('questions')->get()->first();
+        $competition->load('questions');
         $participant = Auth::user()->participant;
-        $participant->load(['real_attempt.competition_answers' => function($query) {
-            $query->orderBy('question_id');
-        }]);
-        $start = now();
-        if ($participant->real_attempt->start_at == null) {
-            $participant->real_attempt->start_at = $start;
-            $participant->real_attempt->save();
+        $participant->load('real_attempt.competition_answers');
+
+        if($competition->is_simulation) {
+            $attempt = $participant->simulation_attempt;
+            if (!$attempt) {
+                $attempt = $participant->simulation_attempt()->create([
+                    'is_simulation' => true,
+                    'start_at' => null,
+                ]);
+            }
         } else {
-            $start = Carbon::parse($participant->real_attempt->start_at);
+            if($competition->id == $participant->competition_id) {
+                $attempt = $participant->real_attempt;
+                if (!$attempt) {
+                    $attempt = $participant->real_attempt()->create([
+                        'is_simulation' => false,
+                        'start_at' => null,
+                    ]);
+                }
+            } else {
+                abort(403);
+            }
         }
-        $est_end = $start->addMinutes($competition->duration);
-        $end = ($est_end > $competition->end_competition) ? $competition->end_competition : $est_end;
 
-        $questions = $competition->questions->all();
-        $answers = $participant->real_attempt->competition_answers->pluck('answer_key')->all();
-        $question_number = $request->get('question', 1);
-
-        mt_srand($participant->token);
-        $count = count($questions);
-        $question_number = $question_number > $count ? 1 : $question_number;
-        for ($i = $count - 1; $i > 0; $i--) {
-            $j = mt_rand(0, $i);
-            [$questions[$i], $questions[$j]] = [$questions[$j], $questions[$i]];
-            [$answers[$i], $answers[$j]] = [$answers[$j], $answers[$i]];
+        $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
+        if (!$attempt->start_at) {
+            $attempt->update(['start_at' => $start]);
         }
-        
-        return view('cbt', compact('competition', 'end', 'participant', 'questions', 'answers', 'question_number'));
+        $est_end = (clone $start)->addMinutes($competition->duration);
+
+        $end = min($est_end, Carbon::parse($competition->end_competition));
+        $end = $end->setTimezone('Asia/Makassar')->toIso8601String();
+
+        if ($attempt->competition_answers()->count() === 0) {
+            DB::transaction(function () use ($attempt, $competition, $participant) {
+                $questions = $competition->questions;
+
+                mt_srand($participant->token);
+                $shuffled = $questions->shuffle();
+
+                foreach ($shuffled as $index => $q) {
+                    $attempt->competition_answers()->create([
+                        'competition_attempt_id' => $attempt->id,
+                        'question_id'     => $q->id,
+                        'question_number' => $index + 1,
+                        'answer_key'      => null,
+                    ]);
+                }
+            });
+            $attempt->load('competition_answers');
+        }
+
+        $answers = $attempt->competition_answers->pluck('answer_key', 'question_number');
+        $questions = $attempt->competition_answers
+                    ->sortBy('question_number')
+                    ->map(function ($answer) {
+                        return $answer->question;
+                    })
+                    ->values();
+        // dd($questions, $answers);
+
+        $count = $questions->count();
+        $question_number = max(1, min($request->get('question', 1), $count));
+
+        return view('cbt', compact(
+            'competition',
+            'end',
+            'participant',
+            'questions',
+            'answers',
+            'question_number'
+        ));
     }
 }

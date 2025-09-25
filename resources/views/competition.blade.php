@@ -10,7 +10,8 @@
                showConfirm: false,
                selectedCompetition: null,
                countQuestionCompetition: null,
-               statusCompetition: null
+               statusCompetition: null,
+               slugCompetition: null
             }" 
             class="grid w-fit gap-3 grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 lg:gap-5"
       > 
@@ -19,6 +20,7 @@
                class="cursor-pointer" 
                @click="
                   titleCompetition = '{{ $competition['title'] }}',
+                  slugCompetition = '{{ $competition['slug'] }}',
                   countQuestionCompetition = '{{ $competition['countQuestion'] }}'
                   statusCompetition = '{{ $competition['status'] }}'
                   showConfirm = '{{ $competition['is_cbt'] }}'
@@ -61,10 +63,12 @@
                                  <button class="bg-[#FF0000] text-white py-2 px-6 text-lg md:text-base cursor-pointer"
                                     x-on:click="showConfirm = false">Batal</button>
                                  <template x-if="statusCompetition != 'Sedang Berlangsung'">
-                                    <button class="bg-[#4C4C4C] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Mulai</button>
+                                    <button class="bg-[#4C4C4C] text-white py-2 px-6 text-lg md:text-base cursor-not-allowed">Mulai</button>
                                  </template>
                                  <template x-if="statusCompetition == 'Sedang Berlangsung'">
-                                    <button class="bg-[#029161] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Mulai</button>
+                                    <a :href="'{{ url('competitions') }}/' + slugCompetition">
+                                       <button class="bg-[#029161] text-white py-2 px-6 text-lg md:text-base cursor-pointer">Mulai</button>
+                                    </a>
                                  </template>
                            </div>
                         </div>

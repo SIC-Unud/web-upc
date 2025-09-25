@@ -8,21 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ForbiddenUserController extends Controller
 {
-    public function recordViolation()
-    {
-        $user = Auth::user();
-
-        ForbiddenUser::updateOrCreate(
-            ['user_id' => $user->id],
-            ['expired_at' => now()->addMinutes(3)]
-        );
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User violation recorded.'
-        ]);
-    }
-
     public function showCountdownPage()
     {
         $forbiddenUser = ForbiddenUser::where('user_id', Auth::id())->first();
@@ -31,7 +16,7 @@ class ForbiddenUserController extends Controller
             return redirect()->route('participants.competition');
         }
 
-        return view('ban_cbt', [ // view countdown
+        return view('ban_cbt', [
             'expired_at' => $forbiddenUser->expired_at
         ]);
     }

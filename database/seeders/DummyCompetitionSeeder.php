@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -45,7 +46,7 @@ class DummyCompetitionSeeder extends Seeder
             ]);
 
             $options = [];
-            for ($j=1; $j <= 4; $j++) { 
+            for ($j = 1; $j <= 4; $j++) { 
                 $options[] = [
                     'question_id' => $questionIds[$i],
                     'answer_value' => "Pilihan $j",
@@ -54,6 +55,13 @@ class DummyCompetitionSeeder extends Seeder
                 ];
             }
             DB::table('question_answers')->insert($options);
+
+            $firstOptionId = DB::table('question_answers')
+                ->where('question_id', $questionIds[$i])
+                ->orderBy('id', 'asc')
+                ->value('id');
+            Question::where('id', $questionIds[$i])
+                ->update(['question_answer_key' => $firstOptionId]);
         }
 
         for ($i = 1; $i <= 20; $i++) {

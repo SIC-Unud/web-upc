@@ -2,8 +2,8 @@
 
 return [
     'simulation'=> [
-        'start_at' => '2025-09-20 10:00:00',
-        'end_at' => '2025-09-20 12:00:00'
+        'start_at' => '2025-09-27 10:00:00',
+        'end_at' => '2025-09-27 23:59:59'
     ],
 
     'promo_codes' => [
@@ -81,7 +81,7 @@ return [
             'end' => '2025-08-24 23:59:59'
         ],
         'wave_3' => [
-            'name' => 'Pendaftaran Gelombang II',
+            'name' => 'Pendaftaran Gelombang III',
             'start' => '2025-08-25 00:00:00',
             'end' => '2025-09-19 23:59:59'
         ],
@@ -92,8 +92,8 @@ return [
         ],
         'preliminary_round' => [
             'name' => 'Babak Penyisihan',
-            'start' => '2025-09-27 00:00:00',
-            'end' => '2025-09-27 23:59:59'
+            'start' => '2025-09-28 00:00:00',
+            'end' => '2025-09-28 23:59:59'
         ],
         'main_event' => [
             'name' => 'Puncak Acara (Semi Final & Final)',

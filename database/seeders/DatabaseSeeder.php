@@ -18,21 +18,6 @@ class DatabaseSeeder extends Seeder
 
         $competitions = [
             [
-                'name' => 'Simulasi Sistem UPC',
-                'slug' => 'simulation',
-                'code' => 'SMLS',
-                'icon_competition' => '/assets/competition/icon/SD.png',
-                'degree' => 'All',
-                'wave_1_price' => 0,
-                'wave_2_price' => 0,
-                'wave_3_price' => 0,
-                'is_team_competition' => false,
-                'is_cbt' => true,
-                'is_simulation' => true,
-                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 23:59:59'),
-            ],
-            [
                 'name' => 'Kompetisi Sains SD',
                 'slug' => 'sains-sd',
                 'code' => 'FSD',
@@ -130,6 +115,21 @@ class DatabaseSeeder extends Seeder
                 'start_competition' => Carbon::parse('2025-09-20 00:00:00'),
                 'end_competition' => Carbon::parse('2025-09-28 23:59:00'),
             ],
+            [
+                'name' => 'Simulasi Sistem UPC',
+                'slug' => 'simulation',
+                'code' => 'SMLS',
+                'icon_competition' => '/assets/competition/icon/SD.png',
+                'degree' => 'All',
+                'wave_1_price' => 0,
+                'wave_2_price' => 0,
+                'wave_3_price' => 0,
+                'is_team_competition' => false,
+                'is_cbt' => true,
+                'is_simulation' => true,
+                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-27 23:59:59'),
+            ]
         ];
 
         foreach ($competitions as $competition) {
@@ -157,17 +157,17 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-        DB::table('users')->insert([
-            'email' => 'udayanaphysicschampionship@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('$2025uPc2o25#admn'),
-            'role' => 1
-        ]);
+        // DB::table('users')->insert([
+        //     'email' => 'udayanaphysicschampionship@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('$2025uPc2o25#admn'),
+        //     'role' => 1
+        // ]);
 
-        $this->call([
-            DummyCompetitionSeeder::class,
-        ]);
+        // $this->call([
+        //     DummyCompetitionSeeder::class,
+        // ]);
 
-        $this->call(ParticipantSeeder::class);
+        // $this->call(ParticipantSeeder::class);
     }
 }

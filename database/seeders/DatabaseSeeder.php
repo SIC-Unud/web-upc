@@ -18,21 +18,6 @@ class DatabaseSeeder extends Seeder
 
         $competitions = [
             [
-                'name' => 'Simulasi Sistem UPC',
-                'slug' => 'simulation',
-                'code' => 'SMLS',
-                'icon_competition' => '/assets/competition/icon/SD.png',
-                'degree' => 'All',
-                'wave_1_price' => 0,
-                'wave_2_price' => 0,
-                'wave_3_price' => 0,
-                'is_team_competition' => false,
-                'is_cbt' => true,
-                'is_simulation' => true,
-                'start_competition' => Carbon::parse('2025-09-20 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-20 12:00:00'),
-            ],
-            [
                 'name' => 'Kompetisi Sains SD',
                 'slug' => 'sains-sd',
                 'code' => 'FSD',
@@ -43,8 +28,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 85000,
                 'is_team_competition' => false,
                 'is_cbt' => true,
-                'start_competition' => Carbon::parse('2025-09-26 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-26 12:00:00'),
+                'start_competition' => Carbon::parse('2025-09-28 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 12:00:00'),
             ],
             [
                 'name' => 'Kompetisi Fisika SMP',
@@ -57,8 +42,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 85000,
                 'is_team_competition' => false,
                 'is_cbt' => true,
-                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 12:00:00'),
+                'start_competition' => Carbon::parse('2025-09-28 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 12:00:00'),
             ],
             [
                 'name' => 'Kompetisi Fisika SMA',
@@ -71,8 +56,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 85000,
                 'is_team_competition' => false,
                 'is_cbt' => true,
-                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 12:00:00'),
+                'start_competition' => Carbon::parse('2025-09-28 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 12:00:00'),
             ],
             [
                 'name' => 'Kompetisi Kebumian',
@@ -85,8 +70,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 85000,
                 'is_team_competition' => false,
                 'is_cbt' => true,
-                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 12:00:00'),
+                'start_competition' => Carbon::parse('2025-09-28 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 12:00:00'),
             ],
             [
                 'name' => 'Kompetisi Astronomi',
@@ -99,8 +84,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 85000,
                 'is_team_competition' => false,
                 'is_cbt' => true,
-                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 12:00:00'),
+                'start_competition' => Carbon::parse('2025-09-28 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 12:00:00'),
             ],
             [
                 'name' => 'Kompetisi Essai',
@@ -113,8 +98,8 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 95000,
                 'is_team_competition' => true,
                 'is_cbt' => false,
-                'start_competition' => Carbon::parse('2025-09-20 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 23:59:00'),
+                'start_competition' => Carbon::parse('2025-09-20 00:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 23:59:00'),
             ],
             [
                 'name' => 'Kompetisi Poster Ilmiah',
@@ -127,23 +112,62 @@ class DatabaseSeeder extends Seeder
                 'wave_3_price' => 95000,
                 'is_team_competition' => true,
                 'is_cbt' => false,
-                'start_competition' => Carbon::parse('2025-09-20 10:00:00'),
-                'end_competition' => Carbon::parse('2025-09-27 23:59:00'),
+                'start_competition' => Carbon::parse('2025-09-20 00:00:00'),
+                'end_competition' => Carbon::parse('2025-09-28 23:59:00'),
             ],
+            [
+                'name' => 'Simulasi Sistem UPC',
+                'slug' => 'simulation',
+                'code' => 'SMLS',
+                'icon_competition' => '/assets/competition/icon/SD.png',
+                'degree' => 'All',
+                'wave_1_price' => 0,
+                'wave_2_price' => 0,
+                'wave_3_price' => 0,
+                'is_team_competition' => false,
+                'is_cbt' => true,
+                'is_simulation' => true,
+                'start_competition' => Carbon::parse('2025-09-27 10:00:00'),
+                'end_competition' => Carbon::parse('2025-09-27 23:59:59'),
+            ]
         ];
 
         foreach ($competitions as $competition) {
-            DB::table('competitions')->insert([
+            $compId = DB::table('competitions')->insertGetId([
                 ...$competition,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            if($competition['is_cbt']) {
+                if($competition['slug'] == 'simulation' || $competition['slug'] == 'kompetisi-fisika-smp' || $competition['slug'] == 'kompetisi-kebumian') {
+                    $count = 30;
+                } else if($competition['slug'] == 'kompetisi-fisika-sma' || $competition['slug'] == 'kompetisi-astronomi') {
+                    $count = 20;
+                } else {
+                    $count = 40;
+                }
+
+                for ($i = 1; $i <= $count; $i++) {
+                    DB::table('questions')->insert([
+                        'competition_id' => $compId,
+                        'created_at'     => now(),
+                        'updated_at'     => now(),
+                    ]);
+                }
+            }
         }
-        DB::table('users')->insert([
-            'email' => 'udayanaphysicschampionship@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('$2025uPc2o25#admn'),
-            'role' => 1
-        ]);
+        // DB::table('users')->insert([
+        //     'email' => 'udayanaphysicschampionship@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('$2025uPc2o25#admn'),
+        //     'role' => 1
+        // ]);
+
+        // $this->call([
+        //     DummyCompetitionSeeder::class,
+        // ]);
+
+        // $this->call(ParticipantSeeder::class);
     }
 }

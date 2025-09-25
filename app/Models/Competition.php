@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Competition extends Model
 {
@@ -48,6 +50,31 @@ class Competition extends Model
         return $this->questions()->count();
     }
 
+    public function getParticipantCountAttribute()
+    {
+        return $this->participants()
+            ->where('is_accepted', true)
+            ->count();
+    }
+
+    public function getStartedRealParticipantsCountAttribute()
+    {
+        return $this->participants()
+            ->whereHas('real_attempt', function ($q) {
+                $q->whereNotNull('start_at');
+            })
+            ->count();
+    }
+
+    public function getFinishedRealParticipantsCountAttribute()
+    {
+        return $this->participants()
+            ->whereHas('real_attempt', function ($q) {
+                $q->whereNotNull('finish_at');
+            })
+            ->count();
+    }
+
     public function getIsCurrentlyActiveAttribute()
     {
         $now = now();
@@ -65,6 +92,36 @@ class Competition extends Model
             return 'ended';
         } else {
             return 'active';
+        }
+    }
+
+    public function getFormattedStatusAttribute()
+    {
+        $now   = now();
+        $start = $this->start_competition;
+        $end   = $this->end_competition;
+
+        $participant = Auth::user()->participant;
+        if($this->is_simulation) {
+            $hasWorked = $participant && $participant->simulation_attempt && $participant->simulation_attempt->finish_at != null;
+            $hasWorking = $participant && $participant->simulation_attempt;
+        } else {
+            $hasWorked = $participant && $participant->real_attempt && $participant->real_attempt->finish_at != null;
+            $hasWorking = $participant && $participant->real_attempt;
+        }
+
+        if ($hasWorked) {
+            return 'Sudah Dikerjakan';
+        } else if($hasWorking) {
+            return 'Sedang Dikerjakan';
+        }
+
+        if ($now->lt($start)) {
+            return diffInDaysHuman(Carbon::parse($start));
+        } elseif ($now->between($start, $end)) {
+            return 'Sedang Berlangsung';
+        } else {
+            return 'Terlewati';
         }
     }
 }

@@ -97,6 +97,7 @@ class ParticipantManagementController extends Controller
                         ->where('is_rejected', false);
                 }
             })
+            ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
 

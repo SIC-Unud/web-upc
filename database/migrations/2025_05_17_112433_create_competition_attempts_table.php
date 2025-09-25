@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('competition_attempts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('participant_id');
-            // $table->boolean('is_simulation')->default(0);
+            $table->dateTime('start_at')->nullable();
             $table->integer('correct_answer')->nullable();
             $table->integer('correct_hots_question')->nullable();
             $table->integer('wrong_answer')->nullable();
             $table->double('score')->nullable();
             $table->dateTime('finish_at')->nullable();
+            $table->boolean('is_simulation')->default(false);
             $table->timestamps();
         });
     }

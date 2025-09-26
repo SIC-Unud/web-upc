@@ -204,7 +204,7 @@ class ParticipantDashboardController extends Controller
                     "finish_at" => Carbon::now()
                 ]);
             } else {
-                abort(404);
+                return redirect()->route('participants.index');
             }
 
             return redirect()->route('participants.index');

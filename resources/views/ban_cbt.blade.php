@@ -158,7 +158,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center md:justify-end">
-                            <template x-if="minutes >= 0 && seconds > 0">
+                            <template x-if="(minutes * 60 + seconds) > 0">
                                 <button class="bg-gray-600 text-gray-100 py-2 px-5 rounded-md cursor-not-allowed">Mengerti</button>
                             </template>
                             <template x-if="minutes == 0 && seconds == 0">
@@ -197,10 +197,12 @@
                     const diff = this.time.diff(now)
 
                     if (diff <= 0) {
-                        this.minutes = 0
-                        this.seconds = 0
+                        clearInterval(this.timer);
+                        this.minutes = 0;
+                        this.seconds = 0;
                         window.location.reload();
-                        return
+                        
+                        return;
                     }
 
                     this.minutes = this.time.diff(now, 'minute')

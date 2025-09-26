@@ -74,7 +74,7 @@ class ParticipantDashboardController extends Controller
     {
         $competition->load('questions');
         $participant = Auth::user()->participant;
-        $participant->load('real_attempt.competition_answers');
+        $participant->load('real_attempt.competition_answers', 'simulation_attempt.competition_answers');
 
         if($competition->is_simulation) {
             $attempt = $participant->simulation_attempt;
@@ -106,7 +106,7 @@ class ParticipantDashboardController extends Controller
         if (!$attempt->start_at) {
             $attempt->update(['start_at' => $start]);
         }
-        $est_end = (clone $start)->addMinutes($competition->duration);
+        $est_end = (clone $start)->addMinutes((int) $competition->duration);
 
         $end = min($est_end, Carbon::parse($competition->end_competition));
         $end = $end->setTimezone('Asia/Makassar')->toIso8601String();
@@ -175,7 +175,7 @@ class ParticipantDashboardController extends Controller
             if (!$attempt->start_at) {
                 $attempt->update(['start_at' => $start]);
             }
-            $est_end = (clone $start)->addMinutes($competition->duration);
+            $est_end = (clone $start)->addMinutes((int) $competition->duration);
             $end = min($est_end, Carbon::parse($competition->end_competition));
 
             if(!$now->between($start, $end)) {

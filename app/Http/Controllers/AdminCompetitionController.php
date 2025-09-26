@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Competition;
 use App\Models\CompetitionAttempt;
+use App\Models\Participant;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AdminCompetitionController extends Controller
 {
@@ -71,31 +73,66 @@ class AdminCompetitionController extends Controller
     
     public function recap(Competition $competition) 
     {
-        $attempts = CompetitionAttempt::with('participant')
-            ->whereHas('participant', function ($q) use ($competition) {
-                $q->where('competition_id', $competition->id);
-            })
-            ->orderByDesc('score')
-            ->orderByDesc('correct_hots_question')
-            ->orderBy('finish_at')
-            ->paginate(15);
+        $started_simulation_participants_count = 0;
+        $finished_simulation_participants_count = 0;
         
+        if($competition->is_simulation) {
+            $attempts = CompetitionAttempt::with('participant')
+                ->where('is_simulation', true)
+                ->orderByDesc('score')
+                ->orderByDesc('correct_hots_question')
+                ->orderBy('finish_at')
+                ->paginate(15);
+
+           $summary = CompetitionAttempt::selectRaw("
+                    COUNT(*) as total,
+                    COUNT(CASE WHEN start_at IS NOT NULL THEN 1 END) as started_count,
+                    COUNT(CASE WHEN finish_at IS NOT NULL THEN 1 END) as finished_count
+                ")
+                ->where('is_simulation', true)
+                ->first();
+
+            $started_simulation_participants_count  = $summary->started_count;
+            $finished_simulation_participants_count = $summary->finished_count;
+        } else {
+            $attempts = CompetitionAttempt::with('participant')
+                ->whereHas('participant', function ($q) use ($competition) {
+                    $q->where('competition_id', $competition->id);
+                })
+                ->where('is_simulation', false)
+                ->orderByDesc('score')
+                ->orderByDesc('correct_hots_question')
+                ->orderBy('finish_at')
+                ->paginate(15);
+        }
+
+        $countAllParticipantAccept = Participant::where('is_accepted', true)->count();
         $title = 'Rekap Nilai ' . $competition->name;
         $year = 2025;
         
-        return view('admin.competition-recap', compact('competition', 'attempts', 'title', 'year'));
+        return view('admin.competition-recap', compact('competition', 'attempts', 'title', 'year', 'countAllParticipantAccept', 'started_simulation_participants_count', 'finished_simulation_participants_count'));
     }
 
     public function scoreRecap(Competition $competition)
     {
-        $attempts = CompetitionAttempt::with('participant')
-            ->whereHas('participant', function ($q) use ($competition) {
-                $q->where('competition_id', $competition->id);
-            })
-            ->orderByDesc('score')
-            ->orderByDesc('correct_hots_question')
-            ->orderBy('finish_at')
-            ->get();
+         if($competition->is_simulation) {
+            $attempts = CompetitionAttempt::with('participant')
+                ->where('is_simulation', true)
+                ->orderByDesc('score')
+                ->orderByDesc('correct_hots_question')
+                ->orderBy('finish_at')
+                ->paginate(15);
+        } else {
+            $attempts = CompetitionAttempt::with('participant')
+                ->whereHas('participant', function ($q) use ($competition) {
+                    $q->where('competition_id', $competition->id);
+                })
+                ->where('is_simulation', false)
+                ->orderByDesc('score')
+                ->orderByDesc('correct_hots_question')
+                ->orderBy('finish_at')
+                ->paginate(15);
+        }
 
         $data = [
             'title' => 'Rekap Nilai ' . $competition->name,

@@ -66,10 +66,10 @@ if (!function_exists('rupiah')) {
 
 if (!function_exists('diffInDaysHuman')) {
     function diffInDaysHuman($targetDate) {
-        $now = Carbon::now();
-        $target = Carbon::parse($targetDate);
+        $nowDate    = Carbon::now()->copy()->startOfDay();
+        $targetDate = Carbon::parse($targetDate)->copy()->startOfDay();
 
-        $diff = intval($now->diffInDays($target, false));
+        $diff = $nowDate->diffInDays($targetDate, false);
 
         if ($diff < 0) {
             return abs($diff) . ' hari yang lalu';

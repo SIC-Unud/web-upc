@@ -209,18 +209,26 @@
     @push('scripts-mathjax')
         <script>
             document.addEventListener('livewire:init', () => {
-                const renderMathInQuiz = () => {
-                    const elements = document.querySelectorAll('.math-content');
-                    if (elements.length > 0 && window.MathJax) {
-                        MathJax.typesetPromise(elements).catch((err) => console.log('MathJax typesetting error:', err));
+                let debounceTimer;
+
+                const renderAllPreviews = () => {
+                    const allPreviewElements = document.querySelectorAll('.math-content');
+
+                    if (allPreviewElements.length > 0 && window.MathJax && window.MathJax.typesetPromise) {
+                        MathJax.typesetPromise(allPreviewElements).catch((err) => console.log('MathJax typesetting error:', err));
                     }
                 };
 
-                renderMathInQuiz();
+                const processWithDebounce = () => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(renderAllPreviews, 50);
+                };
+
+                renderAllPreviews();
 
                 Livewire.hook('commit', ({ component, respond }) => {
                     respond(() => {
-                        setTimeout(() => renderMathInQuiz(), 10);
+                        processWithDebounce();
                     });
                 });
             });

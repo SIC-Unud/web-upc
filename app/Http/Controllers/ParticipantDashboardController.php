@@ -74,8 +74,8 @@ class ParticipantDashboardController extends Controller
     {
         $competition->load('questions');
         $participant = Auth::user()->participant;
-        $participant->load('real_attempt.competition_answers', 'simulation_attempt.competition_answers');
-
+        $participant->load('real_attempt', 'simulation_attempt', 'real_attempt.competition_answers', 'simulation_attempt.competition_answers');
+        
         if($competition->is_simulation) {
             $attempt = $participant->simulation_attempt;
             if (!$attempt) {
@@ -97,27 +97,27 @@ class ParticipantDashboardController extends Controller
                 abort(404);
             }
         }
-
+        
         if($attempt->finish_at != null) {
             return redirect()->route('participants.index');
         }
-
+        
         $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
         if (!$attempt->start_at) {
             $attempt->update(['start_at' => $start]);
         }
         $est_end = (clone $start)->addMinutes((int) $competition->duration);
-
+        
         $end = min($est_end, Carbon::parse($competition->end_competition));
         $end = $end->setTimezone('Asia/Makassar')->toIso8601String();
-
+        
         if ($attempt->competition_answers()->count() === 0) {
             DB::transaction(function () use ($attempt, $competition, $participant) {
                 $questions = $competition->questions;
-
+                
                 mt_srand($participant->token);
                 $shuffled = $questions->shuffle();
-
+                
                 foreach ($shuffled as $index => $q) {
                     $attempt->competition_answers()->create([
                         'competition_attempt_id' => $attempt->id,
@@ -129,7 +129,7 @@ class ParticipantDashboardController extends Controller
             });
             $attempt->load('competition_answers');
         }
-
+        
         $answers = $attempt->competition_answers->pluck('answer_key', 'question_number');
         $questions = $attempt->competition_answers
                     ->sortBy('question_number')
@@ -137,11 +137,12 @@ class ParticipantDashboardController extends Controller
                         return $answer->question;
                     })
                     ->values();
-        // dd($questions, $answers);
-
+                    // dd($questions, $answers);
+        
         $count = $questions->count();
         $question_number = max(1, min($request->get('question', 1), $count));
-
+        $participant->load('real_attempt', 'simulation_attempt', 'real_attempt.competition_answers', 'simulation_attempt.competition_answers');
+        
         return view('cbt', compact(
             'competition',
             'end',

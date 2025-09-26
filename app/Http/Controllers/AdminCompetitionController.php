@@ -106,7 +106,10 @@ class AdminCompetitionController extends Controller
                 ->paginate(15);
         }
 
-        $countAllParticipantAccept = Participant::where('is_accepted', true)->count();
+        $countAllParticipantAccept = Participant::where('is_accepted', true)
+                                    ->whereHas('competition', function ($q) {
+                                        $q->where('is_cbt', true);
+                                    })->count();
         $title = 'Rekap Nilai ' . $competition->name;
         $year = 2025;
         

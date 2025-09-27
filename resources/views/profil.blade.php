@@ -26,9 +26,9 @@
                     <span class="font-bold">NISN/NIM</span>
                     <span>: {{ $user->participant->leader_student_id }}</span>
                     <span class="font-bold">Tanggal Lahir</span>
-                    <span>: {{ \Carbon\Carbon::parse($user->participant->date_of_birth)->format('d-m-Y') }}</span>
+                    <span>: {{ \Carbon\Carbon::parse($user->participant->leader_date_of_birth)->format('d-m-Y') }}</span>
                     <span class="font-bold">Jenis Kelamin</span>
-                    <span>: {{ $user->participant->gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</span>
+                    <span>: {{ $user->participant->leader_gender == 'l' ? 'Laki-laki' : 'Perempuan' }}</span>
                     <span class="font-bold">No Handphone</span>
                     <span>: {{ $user->participant->leader_no_wa }}</span>
                     <span class="font-bold">Email</span>

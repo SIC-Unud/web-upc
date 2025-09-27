@@ -73,7 +73,7 @@ if (!function_exists('diffInDaysHuman')) {
 
         if ($diff < 0) {
             return abs($diff) . ' hari yang lalu';
-        } elseif ($diff === 0) {
+        } elseif ($diff == 0) {
             return 'Hari ini';
         } else {
             return $diff . ' hari lagi';

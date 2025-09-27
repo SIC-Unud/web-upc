@@ -124,13 +124,32 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $count = 1;
+                    $finalis = 1;
+                @endphp
                 @foreach($attempts as $i => $attempt)
-                    <tr class="{{ $i < 10 ? 'finalis' : 'not-finalis' }}">
+                    <tr class="{{ $i < 25 ? 'finalis' : 'not-finalis' }}">
                         <td>{{ $i + 1 }}.</td>
                         <td>{{ $attempt->participant->no_participant }}</td>
                         <td>{{ $attempt->participant->leader_name }}</td>
-                        <td>{{ $attempt->score }}</td>
+                        <td>{{ $attempt->score ?? 0 }}</td>
                         <td>{{ $i + 1 }}</td>
+                    </tr>
+                    @php
+                        $count++;
+                        if($finalis < 25) {
+                            $finalis++;
+                        }
+                    @endphp
+                @endforeach
+                @foreach($userNotAttempts as $user)
+                    <tr class="{{ $finalis < 25 && $count <= 25 ? 'finalis' : 'not-finalis' }}">
+                        <td>{{ $count }}.</td>
+                        <td>{{ $user->no_participant }}</td>
+                        <td>{{ $user->leader_name }}</td>
+                        <td>{{ 0 }}</td>
+                        <td>{{ $count++ }}</td>
                     </tr>
                 @endforeach
             </tbody>

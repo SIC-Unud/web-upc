@@ -164,13 +164,17 @@
 
                 {{-- Question Text --}}
                 <textarea 
-                    wire:model.live="questionText"
-                    class="border rounded-md lg:p-3 mt-4 p-1.5 w-full lg:mb-4 h-auto min-h-15 lg:min-h-0 resize-y lg:text-base text-xs" 
+                    wire:model.live.debounce.300ms="questionText"
+                    class="border rounded-md lg:p-3 mt-4 p-1.5 w-full h-auto min-h-15 lg:min-h-0 resize-y lg:text-base text-xs" 
                     rows="4" 
                     placeholder="Ketik soal..."></textarea>
+                <div id="question-preview" class="mt-2 mb-4 p-2 border rounded-md bg-gray-50 min-h-[80px]">
+                    <span class="text-gray-500 text-sm">Preview Soal:</span>
+                    <div>{!! nl2br(e($questionText)) ?? '' !!}</div>
+                </div>
                 @error('questionText') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
 
-                <div class="grid grid-cols-1 sm:grid-cols-[repeat(6,1fr)_auto] gap-x-2 gap-y-4 justify-center mt-2">
+                <div class="grid grid-cols-1 sm:grid-cols-[repeat(6,1fr)_auto] gap-x-2 gap-y-4 justify-center mt-4">
                     {{-- Option Count --}}
                     {{-- <div class="flex col-span-1 sm:col-span-2 gap-2 items-center">
                         <label class="text-xs lg:text-base">Banyak Opsi</label>
@@ -285,9 +289,11 @@
 
                 const renderAllPreviews = () => {
                     const allPreviewElements = document.querySelectorAll('[id^="preview-"]');
+                    const questionPreview = document.querySelectorAll('[id^="question-preview"]');
 
                     if (allPreviewElements.length > 0 && window.MathJax && window.MathJax.typesetPromise) {
                         MathJax.typesetPromise(allPreviewElements).catch((err) => console.log('MathJax typesetting error:', err));
+                        MathJax.typesetPromise(questionPreview).catch((err) => console.log('MathJax typesetting error:', err));
                     }
                 };
 

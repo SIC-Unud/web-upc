@@ -7,6 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UPC | @yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     @livewireStyles
 </head>
 
@@ -72,7 +85,7 @@
     @livewireScripts
 
     @stack('scripts')
-    <script></script>
+    @stack('scripts-mathjax')
 </body>
 
 </html>

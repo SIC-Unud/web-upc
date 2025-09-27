@@ -36,11 +36,11 @@
          <template x-if="showConfirm" transition.opacity>
             <div
                   class="fixed inset-0 flex bg-black/50 items-center justify-center w-screen h-screen backdrop-blur-sm z-50 font-jakarta">
-                  <div class="bg-white p-6 rounded-lg shadow-xl w-120 max-w-full font-jakarta flex items-start gap-4">
+                  <div class="bg-white p-6 rounded-lg shadow-xl w-120 max-w-full font-jakarta flex flex-col items-center md:flex-row md:items-start gap-4">
                      <img src="{{ asset('/assets/competition/kompetisi.png') }}" class="max-w-32 w-full aspect-square object-cover" alt="Image Competition">
                      <div class="">
                         <div class="mb-10">
-                           <h1 class="mb-3 font-bold text-xl" x-text="titleCompetition"></h1>
+                           <h1 class="mb-3 font-bold text-xl text-center md:text-start" x-text="titleCompetition"></h1>
                            <template x-if="statusCompetition == 'Sedang Berlangsung' || statusCompetition == 'Sedang Dikerjakan'">
                               <p class="text-justify">
                                  Kompetisi ini terdiri atas 
@@ -61,7 +61,7 @@
                               <p class="text-warning">Kompetisi belum dimulai. Harap menunggu.</p>
                            </template>
                         </div>
-                        <div class="flex justify-end">
+                        <div class="flex justify-center md:justify-end">
                            <div class="flex gap-5 text-sm">
                                  <button class="bg-[#FF0000] text-white py-2 px-6 text-lg md:text-base cursor-pointer"
                                     x-on:click="showConfirm = false">Batal</button>

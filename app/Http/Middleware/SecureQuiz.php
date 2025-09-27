@@ -18,7 +18,7 @@ class SecureQuiz
         $competition = $request->route('competition');
 
         if(!$competition->is_simulation) {
-            if ($competition->id !== $participant->competition_id) {
+            if ($competition->id != $participant->competition_id) {
                 abort(404);
             }
         }

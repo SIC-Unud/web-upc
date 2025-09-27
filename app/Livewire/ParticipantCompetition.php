@@ -95,7 +95,7 @@ class ParticipantCompetition extends Component
             "finish_at" => Carbon::now()
         ]);
 
-        return redirect()->route('participant.index');
+        return redirect()->route('participants.index');
     }
 
     public function moveQuestion($number)

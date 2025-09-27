@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Question;
 use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -148,26 +149,57 @@ class DatabaseSeeder extends Seeder
                     $count = 40;
                 }
 
-                for ($i = 1; $i <= $count; $i++) {
-                    DB::table('questions')->insert([
-                        'competition_id' => $compId,
-                        'created_at'     => now(),
-                        'updated_at'     => now(),
-                    ]);
+                // for ($i = 1; $i <= $count; $i++) {
+                //     DB::table('questions')->insert([
+                //         'competition_id' => $compId,
+                //         'created_at'     => now(),
+                //         'updated_at'     => now(),
+                //     ]);
+                // }
+            }
+
+
+            $questionIds = [];
+            for ($i = 1; $i <= $count; $i++) {
+                $questionIds[$i] = DB::table('questions')->insertGetId([
+                    'competition_id' => $compId,
+                    'is_hot' => $i <= 8 ? 1 : 0,
+                    'question' => "INI Soal ke-$i (KEACAK GA?) Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, labore.",
+                    'question_score' => 10,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                $options = [];
+                for ($j = 1; $j <= 5; $j++) { 
+                    $options[] = [
+                        'question_id' => $questionIds[$i],
+                        'answer_value' => "Pilihan $j",
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
                 }
+                DB::table('question_answers')->insert($options);
+
+                $firstOptionId = DB::table('question_answers')
+                    ->where('question_id', $questionIds[$i])
+                    ->orderBy('id', 'asc')
+                    ->value('id');
+                Question::where('id', $questionIds[$i])
+                    ->update(['question_answer_key' => $firstOptionId]);
             }
         }
-        // DB::table('users')->insert([
-        //     'email' => 'udayanaphysicschampionship@gmail.com',
-        //     'email_verified_at' => now(),
-        //     'password' => Hash::make('$2025uPc2o25#admn'),
-        //     'role' => 1
-        // ]);
+        DB::table('users')->insert([
+            'email' => 'udayanaphysicschampionship@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('$2025uPc2o25#admn'),
+            'role' => 1
+        ]);
 
         // $this->call([
         //     DummyCompetitionSeeder::class,
         // ]);
 
-        // $this->call(ParticipantSeeder::class);
+        $this->call(ParticipantSeeder::class);
     }
 }

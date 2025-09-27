@@ -112,10 +112,10 @@
                         $activeOption = $selectedOption ?? $answers[$question_number] ?? null;
                     @endphp
 
-                    <div class="drop-shadow-sm text-wrap rounded-lg cursor-pointer hover:text-white text-[12px] py-2 px-3 md:text-sm lg:py-4 lg:px-5 
+                    <div class="math-content drop-shadow-sm text-wrap rounded-lg cursor-pointer hover:text-white text-[12px] py-2 px-3 md:text-sm lg:py-4 lg:px-5 
                                 {{ $pil->id == $activeOption ? 'bg-[#007BFF] text-white' : 'bg-white hover:bg-[#68b1ff]' }}"
                         wire:click="selectOption({{ $pil->id }})">
-                        {{ chr(65 + $i) }}. {{ $pil->answer_value }}
+                        {{ chr(65 + $i) }}. {!! $pil->answer_value !!}
                     </div>
                 @endforeach
             </div>
@@ -165,7 +165,7 @@
             {{-- Countdown di Desktop --}}
         </div>
 
-        <div class="flex gap-2 justify-between items-center lg:hidden">
+        <div class="flex gap-2 justify-between items-center md:hidden">
            <button
                 class="px-4 py-2 rounded-md text-sm {{ $question_number == 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#00C482] text-white cursor-pointer' }}"
                 wire:click="{{ $question_number == 1 ? '' : "moveQuestion($question_number - 1)" }}"
@@ -205,4 +205,33 @@
             </div>
         </div>
     </template>
+
+    @push('scripts-mathjax')
+        <script>
+            document.addEventListener('livewire:init', () => {
+                let debounceTimer;
+
+                const renderAllPreviews = () => {
+                    const allPreviewElements = document.querySelectorAll('.math-content');
+
+                    if (allPreviewElements.length > 0 && window.MathJax && window.MathJax.typesetPromise) {
+                        MathJax.typesetPromise(allPreviewElements).catch((err) => console.log('MathJax typesetting error:', err));
+                    }
+                };
+
+                const processWithDebounce = () => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(renderAllPreviews, 50);
+                };
+
+                renderAllPreviews();
+
+                Livewire.hook('commit', ({ component, respond }) => {
+                    respond(() => {
+                        processWithDebounce();
+                    });
+                });
+            });
+        </script>
+    @endpush
 </div>

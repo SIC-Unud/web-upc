@@ -18,6 +18,7 @@ class AdminDashboardController extends Controller
         $competitionStats = DB::table('competitions')
             ->leftJoin('participants', 'competitions.id', '=', 'participants.competition_id')
             ->select('competitions.name', DB::raw('COUNT(participants.id) as total'))
+            ->where('is_simulation', false)
             ->groupBy('competitions.name')
             ->orderBy('competitions.name')
             ->get();

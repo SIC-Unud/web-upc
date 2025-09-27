@@ -31,8 +31,9 @@
                     const diff = this.time.diff(now)
 
                     if (diff <= 0) {
-                        this.minutes = 0
-                        this.seconds = 0
+                        clearInterval(this.timer);
+                        this.minutes = 0;
+                        this.seconds = 0;
                         window.location.reload();
                         return
                     }

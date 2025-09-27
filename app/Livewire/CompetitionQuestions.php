@@ -158,9 +158,10 @@ class CompetitionQuestions extends Component
         $this->isDirty = true;
     }
 
-    public function updatedOptions()
+    public function updatedOptions($value, $key)
     {
         $this->isDirty = true;
+        $this->dispatch('math-updated');
     }
 
     public function updatedCorrectAnswerIndex()

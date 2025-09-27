@@ -199,22 +199,33 @@
                     <div class="cols-span-1 sm:col-span-7 flex flex-col gap-2">
                         @error('questionScore') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
                         @error('isHot') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
-                        @for($i = 0; $i < $optionCount; $i++)
-                            <div class="grid grid-cols-[1fr_auto] gap-2 items-center" wire:key="option-{{ $i }}">
-                                <input 
-                                    wire:model.live="options.{{ $i }}"
-                                    type="text"
-                                    class="p-2 lg:text-base text-xs border rounded-md resize-y" 
-                                    placeholder="Ketik Opsi {{ $i + 1 }}">
-                                <input 
-                                    wire:model.live="correctAnswerIndex" 
-                                    name="answer_key" 
-                                    value="{{ $i }}" 
-                                    class="lg:size-6 size-4" 
-                                    type="radio">
-                            </div>
-                            @error("options.$i") <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
-                        @endfor
+                        <div class="space-y-4">
+                            @for($i = 0; $i < $optionCount; $i++)
+                                <div wire:key="option-group-{{ $i }}">
+                                    <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+                                        <input 
+                                            wire:model.live.debounce.300ms="options.{{ $i }}"
+                                            type="text"
+                                            class="p-2 lg:text-base text-xs border rounded-md" 
+                                            placeholder="Ketik Opsi {{ $i + 1 }}. Contoh: Rumus adalah $x^2 + y^2 = r^2$">
+                                        
+                                        <input 
+                                            wire:model.live="correctAnswerIndex" 
+                                            name="answer_key" 
+                                            value="{{ $i }}" 
+                                            class="lg:size-6 size-4" 
+                                            type="radio">
+                                    </div>
+                                    
+                                    <div id="preview-{{ $i }}" class="mt-2 p-2 border rounded-md bg-gray-50 min-h-[40px]">
+                                        <span class="text-gray-500 text-sm">Preview:</span>
+                                        <div>{!! $options[$i] ?? '' !!}</div>
+                                    </div>
+
+                                    @error("options.$i") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+                            @endfor
+                        </div>
                         @error('options') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
                         @error('correctAnswerIndex') <span class="text-red-500 text-sm mb-3">{{ $message }}</span> @enderror
                     </div>
@@ -266,4 +277,33 @@
             </div>
         @endif
     @endif
+
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:init', () => {
+                let debounceTimer;
+
+                const renderAllPreviews = () => {
+                    const allPreviewElements = document.querySelectorAll('[id^="preview-"]');
+
+                    if (allPreviewElements.length > 0 && window.MathJax && window.MathJax.typesetPromise) {
+                        MathJax.typesetPromise(allPreviewElements).catch((err) => console.log('MathJax typesetting error:', err));
+                    }
+                };
+
+                const processWithDebounce = () => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(renderAllPreviews, 50);
+                };
+
+                renderAllPreviews();
+
+                Livewire.hook('commit', ({ component, respond }) => {
+                    respond(() => {
+                        processWithDebounce();
+                    });
+                });
+            });
+        </script>
+    @endpush
 </div>

@@ -17,8 +17,10 @@ class SecureQuiz
         $participant = $user->participant->load('simulation_attempt', 'real_attempt');
         $competition = $request->route('competition');
 
-        if ($competition->id !== $participant->competition_id) {
-            abort(404);
+        if(!$competition->is_simulation) {
+            if ($competition->id != $participant->competition_id) {
+                abort(404);
+            }
         }
 
         $now = now();
@@ -28,16 +30,18 @@ class SecureQuiz
             ? $participant->simulation_attempt 
             : $participant->real_attempt;
         
-        $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
-        if (!$attempt->start_at) {
-            $attempt->update(['start_at' => $start]);
-        }
-        $est_end = (clone $start)->addMinutes($competition->duration);
-        $end = min($est_end, Carbon::parse($competition->end_competition));
-
-        if(!$now->between($start, $end)) {
-            if ($attempt && is_null($attempt->finish_at)) {
-                return redirect()->route('finish-attempt', ['competitionType' => $type]);
+        if($attempt != null) {
+            $start = $attempt->start_at ? Carbon::parse($attempt->start_at) : now();
+            if (!$attempt->start_at) {
+                $attempt->update(['start_at' => $start]);
+            }
+            $est_end = (clone $start)->addMinutes((int) $competition->duration);
+            $end = min($est_end, Carbon::parse($competition->end_competition));
+    
+            if(!$now->between($start, $end)) {
+                if ($attempt && is_null($attempt->finish_at)) {
+                    return redirect()->route('finish-attempt', ['competitionType' => $type]);
+                }
             }
         }
 

@@ -96,8 +96,8 @@
                             class="mb-3 items-center w-85 md:w-90 lg:w-auto lg:mb-6">
                     @endif
                 </div>
-                <p class="text-[12px] md:text-sm text-justify">
-                    {{ $question->question }}
+                <p class="text-[12px] md:text-sm text-justify" id="question-preview">
+                    {!! nl2br(e($question->question)) !!}
                 </p>
             </div>
         </div>
@@ -213,9 +213,11 @@
 
                 const renderAllPreviews = () => {
                     const allPreviewElements = document.querySelectorAll('.math-content');
+                    const questionPreview = document.querySelectorAll('[id^="question-preview"]');
 
                     if (allPreviewElements.length > 0 && window.MathJax && window.MathJax.typesetPromise) {
                         MathJax.typesetPromise(allPreviewElements).catch((err) => console.log('MathJax typesetting error:', err));
+                        MathJax.typesetPromise(questionPreview).catch((err) => console.log('MathJax typesetting error:', err));
                     }
                 };
 

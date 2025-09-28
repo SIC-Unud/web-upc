@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\CompetitionAnswer;
 use App\Models\CompetitionAttempt;
 use App\Models\Participant;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -118,13 +119,15 @@ class AdminCompetitionController extends Controller
 
     public function scoreRecap(Competition $competition)
     {
-         if($competition->is_simulation) {
+        if($competition->is_simulation) {
             $attempts = CompetitionAttempt::with('participant')
                 ->where('is_simulation', true)
                 ->orderByDesc('score')
                 ->orderByDesc('correct_hots_question')
                 ->orderBy('finish_at')
-                ->paginate(15);
+                ->get();
+
+            $userNotAttempts = Participant::whereDoesntHave('simulation_attempt')->where('is_accepted', true)->get();
         } else {
             $attempts = CompetitionAttempt::with('participant')
                 ->whereHas('participant', function ($q) use ($competition) {
@@ -134,14 +137,17 @@ class AdminCompetitionController extends Controller
                 ->orderByDesc('score')
                 ->orderByDesc('correct_hots_question')
                 ->orderBy('finish_at')
-                ->paginate(15);
+                ->get();
+            
+            $userNotAttempts = Participant::whereDoesntHave('real_attempt')->where('is_accepted', true)->where('competition_id', $competition->id)->get();
         }
 
         $data = [
             'title' => 'Rekap Nilai ' . $competition->name,
             'competition' => $competition,
             'year' => 2025,
-            'attempts' => $attempts
+            'attempts' => $attempts,
+            'userNotAttempts' => $userNotAttempts
         ];
 
         $pdf = Pdf::loadView('pdf.score-recap', $data)

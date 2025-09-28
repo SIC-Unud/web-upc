@@ -41,7 +41,7 @@ class CompetitionQuestions extends Component
     ];
 
     protected $rules = [
-        'questionText' => 'required|string|max:5000',
+        'questionText' => 'required|string',
         'questionImage' => 'nullable|image|mimes:jpg,png|max:1024',
         'options' => 'required|array|min:3',
         'options.*' => 'required|string|max:100',
@@ -54,7 +54,6 @@ class CompetitionQuestions extends Component
     protected $messages = [
         'questionText.required' => 'Teks pertanyaan wajib diisi.',
         'questionText.string' => 'Teks pertanyaan harus berupa teks.',
-        'questionText.max' => 'Teks pertanyaan maksimal 5000 karakter.',
 
         'questionImage.image' => 'File harus berupa gambar.',
         'questionImage.max' => 'Ukuran gambar maksimal 1MB.',
@@ -90,7 +89,7 @@ class CompetitionQuestions extends Component
         
         $this->options = array_fill(0, $this->optionCount, '');
 
-        if($competition->slug == 'sains-sd') {
+        if($competition->slug == 'sains-sd' || $competition->slug == 'kompetisi-fisika-smp') {
             $this->optionCount = 4;
         }
 

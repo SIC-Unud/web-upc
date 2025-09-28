@@ -61,17 +61,17 @@
                         </thead>
                         <tbody>
                             @foreach ($attempts as $key => $attempt)
-                                <tr class="{{ ($attempts->firstItem() + $key) <= 10 ? 'bg-emerald-200' : 'bg-white' }}">
+                                <tr class="{{ ($attempts->firstItem() + $key) <= 25 ? 'bg-emerald-200' : 'bg-white' }}">
                                     <td class="border border-gray-200 px-4 py-2">
                                         {{ $attempts->firstItem() + $key }}
                                     </td>
                                     <td class="border border-gray-200 px-4 py-2">{{ $attempt->participant->leader_name }}</td>
                                     <td class="border border-gray-200 px-4 py-2">{{ $attempt->participant->no_participant }}</td>
-                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->correct_answer }}</td>
-                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->wrong_answer }}</td>
-                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->correct_hots_question }}</td>
-                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->finish_at }}</td>
-                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->score }}</td>
+                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->correct_answer ?? '-' }}</td>
+                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->wrong_answer ?? '-'  }}</td>
+                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->correct_hots_question ?? '-' }}</td>
+                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->finish_at ?? "Belum Submit"  }}</td>
+                                    <td class="border border-gray-200 px-4 py-2">{{ $attempt->score ?? 0  }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

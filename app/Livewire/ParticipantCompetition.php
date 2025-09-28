@@ -55,7 +55,7 @@ class ParticipantCompetition extends Component
     {
         ForbiddenUser::updateOrCreate(
             ['user_id' => Auth::user()->id],
-            ['expired_at' => now()->addMinutes(3)]
+            ['expired_at' => now()->addMinutes(1)]
         );
 
         if($this->competition->is_simulation) {

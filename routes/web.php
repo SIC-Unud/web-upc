@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminCompetitionController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AttemptExportController;
 use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantExportController;
 use App\Http\Controllers\ForbiddenUserController;
@@ -47,6 +48,7 @@ Route::middleware('is-participant-active')->group(function () {
 
 Route::middleware('is-admin')->group(function () {
    Route::get('/participants/export', [ParticipantExportController::class, 'export'])->name('participants.export');
+   Route::get('/attempts/export/{competition}', [AttemptExportController::class, 'export'])->name('attempts.export');
 
    Route::controller(ParticipantManagementController::class)->group(function () {
       Route::get('/admin/manajemen-user', 'show')->name('admin.manajemen-user.index');

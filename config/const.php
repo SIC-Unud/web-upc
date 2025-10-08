@@ -87,8 +87,8 @@ return [
         ],
         'technical_meeting' => [
             'name' => 'Technical Meeting',
-            'start' => '2025-09-26 00:00:00',
-            'end' => '2025-09-26 23:59:59'
+            'start' => '2025-09-20 00:00:00',
+            'end' => '2025-09-20 23:59:59'
         ],
         'preliminary_round' => [
             'name' => 'Babak Penyisihan',
@@ -97,8 +97,8 @@ return [
         ],
         'main_event' => [
             'name' => 'Puncak Acara (Semi Final & Final)',
-            'start' => '2025-10-18 00:00:00',
-            'end' => '2025-10-18 23:59:59'
+            'start' => '2025-10-19 00:00:00',
+            'end' => '2025-10-19 23:59:59'
         ]
     ],
 
